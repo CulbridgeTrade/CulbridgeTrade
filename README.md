@@ -256,6 +256,103 @@ docker-compose up
 }
 ```
 
+Culbridge MVP — Engineering & Deployment Checklist
+1. Core Principle
+Build one deterministic validation engine with two entry points:
+/validate → pre-shipment
+/emergency-check → crisis entry
+Nothing else. No workflows, no post-shipment, no document generation, no tracking.
+2. Ground Truth (Non-Negotiable)
+Single source of truth: One pipeline, one ruleset, one decision model
+Deterministic output: OK / WARNING / BLOCK + reason + actions + confidence
+Emergency entry = just another trigger into the same engine, not a new system
+3. System Architecture
+Copy code
+
+INPUT → OCR/PARSE → NORMALIZE → VALIDATE → DECISION → OUTPUT
+OCR/PARSE: extract text, return {text, confidence}
+NORMALIZE: standardize commodity names, chemical names, units (mg/kg, ppm)
+VALIDATE: rules: lab/MRL checks, document presence, exporter validity, risk flags
+DECISION: map violations → OK/WARNING/BLOCK, generate precise actions
+4. API Endpoints
+Pre-shipment
+Copy code
+
+POST /api/v1/validate
+{
+  "commodity": "sesame",
+  "destination": "EU",
+  "documents": [...],
+  "lab_results": {...}
+}
+Emergency Entry
+Copy code
+
+POST /api/v1/emergency-check
+{
+  "file": "image/pdf",
+  "commodity": "optional",
+  "destination": "optional"
+}
+Both call the same shared logic.
+5. Frontend
+Button: Shipment Issue? Check Now
+Modal: upload file, optional commodity/destination
+Reuse existing validation dashboard for result:
+Copy code
+
+❌ BLOCKED
+Reason: Chlorpyrifos above EU limit
+Action:
+- Do NOT proceed with shipment
+- Re-test at accredited lab
+Confidence: HIGH
+6. Testing (Mandatory)
+20+ real/messy samples (blurry, partial, incomplete)
+Validate:
+OCR confidence behavior
+Correct normalization
+Decision correctness
+Clarity of reason/action
+7. Observability & Deployment
+MVP Minimum:
+Minimal logging for /validate & /emergency-check
+Manual error monitoring
+Docker ready
+Manual deployment instructions
+Deferred / Optional (Open Source Only)
+Prometheus + Grafana metrics
+ELK log aggregation
+Full CI/CD, rollback strategy
+Kubernetes manifests
+8. Security & Dependencies
+MVP Minimum:
+SECURITY.md → “Report vulnerabilities via email”
+Open-source dependency audit (npm audit, pip-audit)
+Sanitize all inputs
+Deferred: OWASP full compliance, advanced scanning
+9. Code Quality
+MVP Minimum:
+ESLint + Prettier
+Manual code review
+Pre-commit hooks optional
+Deferred: SonarQube, CodeClimate, automated checks
+10. Definition of DONE
+/validate functional end-to-end
+/emergency-check triggers same pipeline
+Output is consistent, actionable, and safe
+Handles messy inputs
+Deployed & tested with ≥1 real case
+11. Anti-Patterns (Do Not Do)
+Separate emergency logic
+“Smart” recommendations / ML predictions
+Over-structured input
+Expanding scope beyond pre-shipment + emergency entry
+12. Final Rule
+If unsure about a feature:
+“Does this improve accuracy or clarity of the decision?”
+Yes → build | No → out of scope
+
 ## External Integrations
 
 - **RASFF**: Real-time alert monitoring
