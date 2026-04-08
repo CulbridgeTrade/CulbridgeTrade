@@ -1,5 +1,104 @@
 [
   {
+    "audit_id": "AUDIT-1775687847347",
+    "shipment_id": "TEST-003",
+    "timestamp": "2026-04-08T22:37:27.346Z",
+    "eudr_status": "NOT_APPLICABLE",
+    "eudr_risk_score": 0,
+    "eudr_certificate": null,
+    "a2m_compliant": false,
+    "a2m_violations": [],
+    "traces_status": "INVALID",
+    "traces_cert_id": null,
+    "nvwa_decision": "UNKNOWN",
+    "nvwa_blocks": [],
+    "decision": "BLOCKED",
+    "blocked": true,
+    "block_reasons": [
+      {
+        "stage": "EUDR",
+        "type": "EUDR_NON_COMPLIANT",
+        "status": "NOT_APPLICABLE",
+        "riskScore": 0,
+        "reason": "Deforestation risk too high",
+        "severity": "HARD"
+      }
+    ],
+    "warnings": 0,
+    "rasff_rejection_rate": 0,
+    "threshold_version": null,
+    "risk_score": 0,
+    "compliance_flags": {
+      "eudr": "NOT_APPLICABLE"
+    }
+  },
+  {
+    "audit_id": "AUDIT-1775687847342",
+    "shipment_id": "TEST-002",
+    "timestamp": "2026-04-08T22:37:27.341Z",
+    "eudr_status": "NOT_APPLICABLE",
+    "eudr_risk_score": 0,
+    "eudr_certificate": null,
+    "a2m_compliant": false,
+    "a2m_violations": [],
+    "traces_status": "INVALID",
+    "traces_cert_id": null,
+    "nvwa_decision": "UNKNOWN",
+    "nvwa_blocks": [],
+    "decision": "BLOCKED",
+    "blocked": true,
+    "block_reasons": [
+      {
+        "stage": "EUDR",
+        "type": "EUDR_NON_COMPLIANT",
+        "status": "NOT_APPLICABLE",
+        "riskScore": 0,
+        "reason": "Deforestation risk too high",
+        "severity": "HARD"
+      }
+    ],
+    "warnings": 0,
+    "rasff_rejection_rate": 0,
+    "threshold_version": null,
+    "risk_score": 0,
+    "compliance_flags": {
+      "eudr": "NOT_APPLICABLE"
+    }
+  },
+  {
+    "audit_id": "AUDIT-1775687847333",
+    "shipment_id": "TEST-001",
+    "timestamp": "2026-04-08T22:37:27.332Z",
+    "eudr_status": "NOT_APPLICABLE",
+    "eudr_risk_score": 0,
+    "eudr_certificate": null,
+    "a2m_compliant": false,
+    "a2m_violations": [],
+    "traces_status": "INVALID",
+    "traces_cert_id": null,
+    "nvwa_decision": "UNKNOWN",
+    "nvwa_blocks": [],
+    "decision": "BLOCKED",
+    "blocked": true,
+    "block_reasons": [
+      {
+        "stage": "EUDR",
+        "type": "EUDR_NON_COMPLIANT",
+        "status": "NOT_APPLICABLE",
+        "riskScore": 0,
+        "reason": "Deforestation risk too high",
+        "severity": "HARD"
+      }
+    ],
+    "warnings": 0,
+    "rasff_rejection_rate": 0,
+    "threshold_version": null,
+    "risk_score": 0,
+    "compliance_flags": {
+      "eudr": "NOT_APPLICABLE"
+    }
+  },
+  {
     "audit_id": "AUDIT-1774984100441",
     "shipment_id": "TEST-003",
     "timestamp": "2026-03-31T19:08:20.437Z",

@@ -104,17 +104,14 @@ app.post('/auth/verify-tin', async (req, res) => {
       });
     }
     
-    // Mock CAC/NEPC lookup (in production, integrate with real APIs)
-    // Simulate lookup
-    const mockCompanyData = {
-      '01234567': { name: 'Acme Export Limited', address: '1 Industrial Avenue, Lagos' },
-      '01234568': { name: 'Global Trading Co', address: '42 Commerce Street, Lagos' }
-    };
+    // Real DB lookup for CAC/NEPC stub (seed data in db)
+    const company = await db.get(
+      'SELECT name, address FROM Companies WHERE tin = ?',
+      [cleanedTIN]
+    );
     
-    const companyData = mockCompanyData[cleanedTIN.substring(0, 8)];
-    
-    if (!companyData) {
-      // Simulate CAC offline occasionally
+    if (!company) {
+      // Simulate external lookup delay/error
       if (Math.random() < 0.1) {
         return res.status(503).json({
           code: 'CAC_OFFLINE',
@@ -130,8 +127,8 @@ app.post('/auth/verify-tin', async (req, res) => {
     }
     
     res.json({
-      companyName: companyData.name,
-      address: companyData.address,
+      companyName: company.name,
+      address: company.address,
       tin: cleanedTIN,
       status: 'VERIFIED'
     });

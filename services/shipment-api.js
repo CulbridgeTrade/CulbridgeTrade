@@ -135,17 +135,29 @@ app.post('/shipments/:id/submit', async (req, res) => {
  */
 app.post('/documents/upload', async (req, res) => {
   try {
-    // In real implementation, handle file upload via multer/streaming
-    const mockFile = {
-      buffer: JSON.stringify(req.body),
-      type: req.body?.type || 'OTHER'
-    };
+// Real multer upload (install multer if needed)
+    const multer = require('multer');
+    const upload = multer({ dest: 'uploads/' });
     
-    // Get shipment ID from body if provided
-    const shipmentId = req.body?.shipmentId;
-    
-    const result = await uploadDocument(mockFile, shipmentId);
-    res.json(result);
+    upload.single('file')(req, res, async (err) => {
+      if (err) return res.status(400).json({ error: 'Upload failed' });
+      
+      const file = req.file;
+      if (!file) return res.status(400).json({ error: 'No file uploaded' });
+      
+      const realFile = {
+        buffer: require('fs').readFileSync(file.path),
+        filename: file.originalname,
+        mimetype: file.mimetype
+      };
+      
+      const shipmentId = req.body.shipmentId;
+      const result = await uploadDocument(realFile, shipmentId);
+      res.json(result);
+      
+      // Cleanup temp file
+      require('fs').unlinkSync(file.path);
+    });
   } catch (error) {
     console.error('Upload error:', error);
     res.status(500).json({ error: error.message });

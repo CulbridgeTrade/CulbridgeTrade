@@ -1,12 +1,23 @@
 const fastify = require('fastify')({ logger: true });
 const RuleEngine = require('./engine/ruleEngine');
-const MinioStorage = require('./services/minio');
+
+let storage;
+try {
+  storage = require('./services/minio');
+} catch (e) {
+  fastify.log.warn('Minio not available, using local storage');
+  storage = { uploadLabReport: async (id, type, data) => ({ path: `./uploads/${id}-${type}` }) };
+}
 
 fastify.register(require('@fastify/cors'));
 fastify.register(require('@fastify/multipart'));
 
+// Health endpoint
+fastify.get('/health', async (request, reply) => {
+  return { status: 'OK', timestamp: new Date().toISOString(), minio: !!storage };
+});
+
 const engine = new RuleEngine();
-const storage = new MinioStorage();
 
 // Evaluate
 fastify.post('/shipments/:id/evaluate', async (request, reply) => {

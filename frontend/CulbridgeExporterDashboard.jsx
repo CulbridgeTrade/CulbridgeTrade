@@ -11,7 +11,7 @@ const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000/
 const WS_BASE = process.env.NEXT_PUBLIC_WS_BASE_URL || 'ws://localhost:3000/v1';
 
 // Replace with your auth
-const getToken = () => localStorage.getItem('jwt_token') || 'demo-token';
+localStorage.getItem('jwt_token');
 
 const getShipments = async (filters) => {
   const params = new URLSearchParams(filters).toString();
