@@ -1,0 +1,165 @@
+{
+  "version": "1.2",
+  "description": "EU Sesame Enforcement Matrix v1.2 - NL/DE Hard Blockers + Penalties",
+  "rules": [
+    {
+      "id": "HARD_BLOCK_SES_001",
+      "type": "HARD_GATE",
+      "conditions": {
+        "salmonella_test": "null"
+      },
+      "action": "BLOCK",
+      "reason": "Missing Salmonella test - EU food safety mandate",
+      "source": "EFSA",
+      "applies_to": {
+        "products": ["sesame"],
+        "destinations": ["NL", "DE"]
+      }
+    },
+    {
+      "id": "HARD_BLOCK_SES_002",
+      "type": "HARD_GATE",
+      "conditions": {
+        "salmonella_result": "positive"
+      },
+      "action": "BLOCK",
+      "reason": "Salmonella detected - EU prohibits pathogens",
+      "source": "EFSA",
+      "applies_to": {
+        "products": ["sesame"]
+      }
+    },
+    {
+      "id": "HARD_BLOCK_SES_003",
+      "type": "HARD_GATE",
+      "conditions": {
+        "aflatoxin_test": "null"
+      },
+      "action": "BLOCK",
+      "reason": "Missing aflatoxin testing - EU contaminants regulation",
+      "source": "EUR-Lex 2023/915",
+      "applies_to": {
+        "products": ["sesame"]
+      }
+    },
+    {
+      "id": "HARD_BLOCK_SES_004",
+      "type": "HARD_GATE",
+      "conditions": {
+        "aflatoxin_b1_gt": 4.0
+      },
+      "action": "BLOCK",
+      "reason": "Aflatoxin B1 exceeds EU limit",
+      "source": "EUR-Lex 2023/915",
+      "applies_to": {
+        "products": ["sesame"]
+      }
+    },
+    {
+      "id": "HARD_BLOCK_SES_005",
+      "type": "HARD_GATE",
+      "conditions": {
+        "lab_iso_17025": false
+      },
+      "action": "BLOCK",
+      "reason": "Unapproved lab (no ISO 17025)",
+      "source": "EU official controls",
+      "applies_to": {
+        "products": ["sesame"]
+      }
+    },
+    {
+      "id": "HARD_BLOCK_SES_006",
+      "type": "HARD_GATE",
+      "conditions": {
+        "batch_mismatch": true
+      },
+      "action": "BLOCK",
+      "reason": "Batch mismatch lab vs shipment",
+      "source": "EU traceability",
+      "applies_to": {
+        "products": ["sesame"]
+      }
+    },
+    {
+      "id": "HARD_BLOCK_SES_007",
+      "type": "HARD_GATE",
+      "conditions": {
+        "certificate_of_origin": "null"
+      },
+      "action": "BLOCK",
+      "reason": "Missing Certificate of Origin",
+      "source": "EU customs",
+      "applies_to": {
+        "products": ["sesame"]
+      }
+    },
+    {
+      "id": "PENALTY_CRIT_SES_001",
+      "type": "PENALTY",
+      "severity": "critical",
+      "conditions": {
+        "pesticides_over_mrl": true
+      },
+      "score_adjustment": -30,
+      "reason": "Pesticides exceed EU MRLs",
+      "source": "CBI",
+      "applies_to": {
+        "products": ["sesame"]
+      }
+    },
+    {
+      "id": "PENALTY_CRIT_SES_002",
+      "type": "PENALTY",
+      "severity": "critical",
+      "conditions": {
+        "ethylene_oxide_detected": true
+      },
+      "score_adjustment": -30,
+      "reason": "Ethylene oxide residue detected",
+      "source": "EU Parliament",
+      "applies_to": {
+        "products": ["sesame"]
+      }
+    },
+    {
+      "id": "PENALTY_MOD_SES_001",
+      "type": "PENALTY",
+      "severity": "moderate",
+      "conditions": {
+        "moisture_above_target": true
+      },
+      "score_adjustment": -15,
+      "reason": "Moisture above safe limit",
+      "applies_to": {
+        "products": ["sesame"]
+      }
+    },
+    {
+      "id": "TRUST_SES_001",
+      "type": "TRUST_SIGNAL",
+      "conditions": {
+        "lab_tier": 1
+      },
+      "score_adjustment": +10,
+      "reason": "Tier 1 lab verified",
+      "applies_to": {
+        "products": ["sesame"]
+      }
+    },
+    {
+      "id": "TRUST_SES_002",
+      "type": "TRUST_SIGNAL",
+      "conditions": {
+        "full_traceability": true
+      },
+      "score_adjustment": +10,
+      "reason": "Complete traceability chain",
+      "source": "CBI",
+      "applies_to": {
+        "products": ["sesame"]
+      }
+    }
+  ]
+}
+

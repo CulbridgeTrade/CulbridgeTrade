@@ -1,0 +1,18 @@
+{
+  "workflow": "EU SESAME – GERMANY",
+  "priority": "Very High (Salmonella & ethylene oxide focus)",
+  "rules": [
+    {"id": "DE-SES-HARD-001", "type": "HARD_GATE", "conditions": {"salmonella_present": true}, "action": "BLOCK", "reason": "Salmonella detected"},
+    {"id": "DE-SES-HARD-002", "type": "HARD_GATE", "conditions": {"ethylene_oxide_detected": true}, "action": "BLOCK", "reason": "Ethylene oxide"},
+    {"id": "DE-SES-HARD-003", "type": "HARD_GATE", "conditions": {"lab_is_accredited": false}, "action": "BLOCK", "reason": "Lab not accredited"},
+    {"id": "DE-SES-HARD-004", "type": "HARD_GATE", "conditions": {"batch_mismatch": true}, "action": "BLOCK", "reason": "Batch mismatch"},
+    {"id": "DE-SES-HARD-005", "type": "HARD_GATE", "conditions": {"traceability_chain": "null"}, "action": "BLOCK", "reason": "Missing traceability"},
+    {"id": "DE-SES-CRIT-001", "type": "PENALTY", "conditions": {"pesticide_residues": {"any": {"value": {"gt": "mrl"}}}}, "score_adjustment": -30, "reason": "Pesticides above MRL"},
+    {"id": "DE-SES-CRIT-002", "type": "PENALTY", "conditions": {"botanical_name": {"neq": "Sesamum indicum"}}, "score_adjustment": -25, "reason": "Botanical mismatch"},
+    {"id": "DE-SES-MOD-001", "type": "PENALTY", "conditions": {"moisture_percent": {"gt": 7}}, "score_adjustment": -15, "reason": "Moisture high"},
+    {"id": "DE-SES-MOD-002", "type": "PENALTY", "conditions": {"packing_list_complete": false}, "score_adjustment": -10, "reason": "Packing list incomplete"},
+    {"id": "DE-SES-TRUST-001", "type": "TRUST_SIGNAL", "conditions": {"lab_tier": 1}, "score_adjustment": 10, "reason": "Tier 1 lab"},
+    {"id": "DE-SES-TRUST-002", "type": "TRUST_SIGNAL", "conditions": {"repeat_exporter_success_rate": {"gte": 80}}, "score_adjustment": 10, "reason": "Proven exporter"}
+  ]
+}
+

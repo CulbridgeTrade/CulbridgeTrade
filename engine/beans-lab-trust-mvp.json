@@ -1,0 +1,56 @@
+{
+  "lab_trust_layer": "beans-mvp-nl-de",
+  "version": "1.0",
+  "objective": "Deterministic lab confidence for Phaseolus vulgaris (brown/white beans)",
+  "tier_rules": {
+    "tier_1": {
+      "criteria": "ISO17025 + 2yr history + RASFF_fail_rate <5%",
+      "confidence_bonus": 0.2
+    },
+    "tier_2": {
+      "criteria": "ISO17025 OR local_auth + moderate history + RASFF 5-15%",
+      "confidence_bonus": 0.1
+    },
+    "tier_3": {
+      "criteria": "non-accredited OR high_failure >15%",
+      "confidence_penalty": -0.1
+    }
+  },
+  "batch_verification": {
+    "rule": "lab_batch_number == shipment_batch_number",
+    "mismatch": {"status": "BLOCKED", "impact": "HARD_BLOCKER"},
+    "confidence_adjust": 0.3
+  },
+  "historical_reliability": {
+    "formula": "1 - (failed_shipments/total_shipments)",
+    "clamp": [0,1],
+    "score_ranges": {
+      "high": {"min": 0.9, "effect": "normal"},
+      "medium": {"min": 0.7, "risk_increase": 5},
+      "low": {"max": 0.7, "penalty_weight": 10-15}
+    }
+  },
+  "confidence_formula": {
+    "base": 0.5,
+    "adjustments": [
+      "tier_bonus",
+      "batch_verified ? +0.3 : -0.3", 
+      "historical_score - 0.5"
+    ],
+    "clamp": [0,1]
+  },
+  "example_output": {
+    "lab_id": "LAB12345",
+    "tier": "Tier 1",
+    "batch_verified": true,
+    "historical_failure_rate": 0.04,
+    "confidence": 0.85,
+    "notes": "ISO accredited, batch match, high reliability"
+  },
+  "integration": {
+    "input_sources": ["ISO_registry", "RASFF_history", "batch_records"],
+    "output_feeds": ["scoring_status_engine"],
+    "audit_log": "rule_logs w/ lab_id, confidence, penalties"
+  }
+}
+

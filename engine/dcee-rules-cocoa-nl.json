@@ -1,0 +1,331 @@
+{
+  "required_rule_groups": ["core_documents", "food_safety_constraints", "export_clearance_steps"],
+  "version": "1.0",
+  "effective_from": "2025-01-01",
+  "rules": [
+    {
+      "id": "PHYTO_CERT_COCOA_NL",
+      "type": "document",
+      "applies_if": {
+        "product": ["cocoa_beans"],
+        "destination_country": ["NL"],
+        "entry_port": ["rotterdam"],
+        "use_case": "food_import"
+      },
+      "priority": 1,
+      "payload": {
+        "id": "PHYTO_CERT",
+        "name": "Phytosanitary Certificate",
+        "issuer": "NAQS Nigeria",
+        "required": true,
+        "validity_days": 14,
+        "fields_required": ["product_name", "batch_id", "origin", "pest_status"],
+        "blocking": true
+      },
+      "source": "EU 2019/2072",
+      "confidence": "high",
+      "last_verified": "2025-01-15",
+      "versioning": {
+        "current_version": "v1.0",
+        "effective_from": "2025-01-01",
+        "deprecated": false,
+        "deprecated_on": null,
+        "deprecated_reason": null,
+        "superseded_by": null
+      }
+    },
+    {
+      "id": "CCI_COCOA_NL",
+      "type": "document",
+      "applies_if": {
+        "origin_country": "NG",
+        "product": ["cocoa_beans"]
+      },
+      "priority": 2,
+      "payload": {
+        "id": "CCI",
+        "name": "Clean Certificate of Inspection",
+        "issuer": "Nigeria Customs Service",
+        "required": true,
+        "fields_required": ["trms_id", "inspection_date", "quantity", "quality"],
+        "blocking": true
+      },
+      "source": "Nigeria Customs Service",
+      "confidence": "high",
+      "last_verified": "2025-01-15",
+      "versioning": {
+        "current_version": "v1.0",
+        "effective_from": "2025-01-01",
+        "deprecated": false,
+        "deprecated_on": null,
+        "deprecated_reason": null,
+        "superseded_by": null
+      }
+    },
+    {
+      "id": "AFLATOXIN_B1_COCOA",
+      "type": "constraint",
+      "applies_if": {
+        "product": ["cocoa_beans"],
+        "destination_country": ["NL", "DE"]
+      },
+      "priority": 3,
+      "payload": {
+        "id": "AFLATOXIN_B1_LIMIT",
+        "type": "contaminant",
+        "substance": "Aflatoxin B1",
+        "max_value": 2,
+        "unit": "µg/kg",
+        "sampling_method": "EU_REG_401_2006",
+        "lab_requirement": "ISO_17025"
+      },
+      "source": "EU Regulation 2023/915",
+      "confidence": "high",
+      "last_verified": "2025-01-15",
+      "versioning": {
+        "current_version": "v1.0",
+        "effective_from": "2025-01-01",
+        "deprecated": false,
+        "deprecated_on": null,
+        "deprecated_reason": null,
+        "superseded_by": null
+      }
+    },
+    {
+      "id": "OCHRATOXIN_A_COCOA",
+      "type": "constraint",
+      "applies_if": {
+        "product": ["cocoa_beans"],
+        "destination_country": ["NL", "DE"]
+      },
+      "priority": 4,
+      "payload": {
+        "id": "OCHRATOXIN_A_LIMIT",
+        "type": "contaminant",
+        "substance": "Ochratoxin A",
+        "max_value": 2,
+        "unit": "µg/kg",
+        "sampling_method": "EU_REG_401_2006",
+        "lab_requirement": "ISO_17025"
+      },
+      "source": "EU Regulation 2023/915",
+      "confidence": "high",
+      "last_verified": "2025-01-15",
+      "versioning": {
+        "current_version": "v1.0",
+        "effective_from": "2025-01-01",
+        "deprecated": false,
+        "deprecated_on": null,
+        "deprecated_reason": null,
+        "superseded_by": null
+      }
+    },
+    {
+      "id": "CADMIUM_COCOA",
+      "type": "constraint",
+      "applies_if": {
+        "product": ["cocoa_beans"],
+        "destination_country": ["NL", "DE"]
+      },
+      "priority": 5,
+      "payload": {
+        "id": "CADMIUM_LIMIT",
+        "type": "contaminant",
+        "substance": "Cadmium",
+        "max_value": 0.3,
+        "unit": "mg/kg",
+        "sampling_method": "EU_REG_401_2006",
+        "lab_requirement": "ISO_17025"
+      },
+      "source": "EU Regulation 2023/915",
+      "confidence": "high",
+      "last_verified": "2025-01-15",
+      "versioning": {
+        "current_version": "v1.0",
+        "effective_from": "2025-01-01",
+        "deprecated": false,
+        "deprecated_on": null,
+        "deprecated_reason": null,
+        "superseded_by": null
+      }
+    },
+    {
+      "id": "MOISTURE_COCOA",
+      "type": "constraint",
+      "applies_if": {
+        "product": ["cocoa_beans"]
+      },
+      "priority": 6,
+      "payload": {
+        "id": "MOISTURE_LIMIT",
+        "type": "quality",
+        "substance": "moisture_content",
+        "max_value": 7.5,
+        "unit": "%"
+      },
+      "source": "EU Regulation 2023/915",
+      "confidence": "high",
+      "last_verified": "2025-01-15",
+      "versioning": {
+        "current_version": "v1.0",
+        "effective_from": "2025-01-01",
+        "deprecated": false,
+        "deprecated_on": null,
+        "deprecated_reason": null,
+        "superseded_by": null
+      }
+    },
+    {
+      "id": "SALMONELLA_COCOA",
+      "type": "constraint",
+      "applies_if": {
+        "product": ["cocoa_beans"],
+        "destination_country": ["NL", "DE"]
+      },
+      "priority": 7,
+      "payload": {
+        "id": "SALMONELLA_REQUIREMENT",
+        "type": "microbiological",
+        "substance": "salmonella",
+        "max_value": 0,
+        "unit": "cfu/25g",
+        "requirement": "absent"
+      },
+      "source": "EU Regulation 2019/2072",
+      "confidence": "high",
+      "last_verified": "2025-01-15",
+      "versioning": {
+        "current_version": "v1.0",
+        "effective_from": "2025-01-01",
+        "deprecated": false,
+        "deprecated_on": null,
+        "deprecated_reason": null,
+        "superseded_by": null
+      }
+    },
+    {
+      "id": "TRMS_REGISTRATION",
+      "type": "action",
+      "applies_if": {
+        "origin_country": "NG"
+      },
+      "priority": 1,
+      "payload": {
+        "step": 1,
+        "action": "Register shipment on TRMS system",
+        "blocking": true
+      },
+      "source": "Nigeria Customs Service",
+      "confidence": "high",
+      "last_verified": "2025-01-15",
+      "versioning": {
+        "current_version": "v1.0",
+        "effective_from": "2025-01-01",
+        "deprecated": false,
+        "deprecated_on": null,
+        "deprecated_reason": null,
+        "superseded_by": null
+      }
+    },
+    {
+      "id": "NAQS_BOOKING",
+      "type": "action",
+      "applies_if": {
+        "product": ["cocoa_beans", "ginger"]
+      },
+      "priority": 2,
+      "payload": {
+        "step": 2,
+        "action": "Book NAQS inspection appointment",
+        "blocking": true
+      },
+      "source": "NAQS Nigeria",
+      "confidence": "high",
+      "last_verified": "2025-01-15",
+      "versioning": {
+        "current_version": "v1.0",
+        "effective_from": "2025-01-01",
+        "deprecated": false,
+        "deprecated_on": null,
+        "deprecated_reason": null,
+        "superseded_by": null
+      }
+    },
+    {
+      "id": "ROTTERDAM_PRENOTIFICATION",
+      "type": "action",
+      "applies_if": {
+        "entry_port": "rotterdam"
+      },
+      "priority": 10,
+      "payload": {
+        "step": 10,
+        "action": "Submit pre-notification in Rotterdam port system"
+      },
+      "source": "Rotterdam Port Authority",
+      "confidence": "high",
+      "last_verified": "2025-01-15",
+      "versioning": {
+        "current_version": "v1.0",
+        "effective_from": "2025-01-01",
+        "deprecated": false,
+        "deprecated_on": null,
+        "deprecated_reason": null,
+        "superseded_by": null
+      }
+    },
+    {
+      "id": "EU_LAB_TEST",
+      "type": "action",
+      "applies_if": {
+        "destination_country": ["NL", "DE"]
+      },
+      "priority": 4,
+      "payload": {
+        "step": 4,
+        "action": "Send representative sample to EU-approved lab (ISO 17025)",
+        "blocking": true
+      },
+      "source": "EU Regulation 2023/915",
+      "confidence": "high",
+      "last_verified": "2025-01-15",
+      "versioning": {
+        "current_version": "v1.0",
+        "effective_from": "2025-01-01",
+        "deprecated": false,
+        "deprecated_on": null,
+        "deprecated_reason": null,
+        "superseded_by": null
+      }
+    },
+    {
+      "id": "CERTIFICATE_OF_ORIGIN_COCOA",
+      "type": "document",
+      "applies_if": {
+        "product": ["cocoa_beans"],
+        "destination_country": ["NL", "DE", "BE"]
+      },
+      "priority": 1,
+      "payload": {
+        "id": "COO",
+        "name": "Certificate of Origin",
+        "issuer": "NEPC/Chambers of Commerce",
+        "required": true,
+        "validity_days": 90,
+        "fields_required": ["exporter_name", "producer_name", "hs_code", "quantity"],
+        "blocking": true
+      },
+      "source": "EU 2017/625",
+      "confidence": "high",
+      "last_verified": "2025-01-15",
+      "versioning": {
+        "current_version": "v1.0",
+        "effective_from": "2025-01-01",
+        "deprecated": false,
+        "deprecated_on": null,
+        "deprecated_reason": null,
+        "superseded_by": null
+      }
+    }
+  ]
+}

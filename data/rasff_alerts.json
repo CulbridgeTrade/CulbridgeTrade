@@ -1,0 +1,302 @@
+{
+  "lastSynced": "2026-03-27T00:16:07.359Z",
+  "alerts": [
+    {
+      "id": "RASFF-0001",
+      "product": "sesame seeds",
+      "hazard": "salmonella",
+      "origin_country": "Nigeria",
+      "action": "rejected",
+      "port": "Rotterdam",
+      "date": "2026-03-15",
+      "alert_date": "2026-03-15T00:00:00.000Z",
+      "created_at": "2026-03-27T00:16:07.359Z"
+    },
+    {
+      "id": "RASFF-0002",
+      "product": "sesame seeds",
+      "hazard": "salmonella",
+      "origin_country": "Nigeria",
+      "action": "rejected",
+      "port": "Hamburg",
+      "date": "2026-03-12",
+      "alert_date": "2026-03-12T00:00:00.000Z",
+      "created_at": "2026-03-27T00:16:07.359Z"
+    },
+    {
+      "id": "RASFF-0003",
+      "product": "sesame seeds",
+      "hazard": "salmonella",
+      "origin_country": "Nigeria",
+      "action": "rejected",
+      "port": "Antwerp",
+      "date": "2026-03-10",
+      "alert_date": "2026-03-10T00:00:00.000Z",
+      "created_at": "2026-03-27T00:16:07.359Z"
+    },
+    {
+      "id": "RASFF-0004",
+      "product": "sesame seeds",
+      "hazard": "salmonella",
+      "origin_country": "Nigeria",
+      "action": "rejected",
+      "port": "Rotterdam",
+      "date": "2026-03-08",
+      "alert_date": "2026-03-08T00:00:00.000Z",
+      "created_at": "2026-03-27T00:16:07.359Z"
+    },
+    {
+      "id": "RASFF-0005",
+      "product": "sesame seeds",
+      "hazard": "pesticide",
+      "origin_country": "Nigeria",
+      "action": "rejected",
+      "port": "Hamburg",
+      "date": "2026-03-05",
+      "alert_date": "2026-03-05T00:00:00.000Z",
+      "created_at": "2026-03-27T00:16:07.359Z"
+    },
+    {
+      "id": "RASFF-0006",
+      "product": "sesame seeds",
+      "hazard": "pesticide",
+      "origin_country": "Nigeria",
+      "action": "border_rejected",
+      "port": "Rotterdam",
+      "date": "2026-03-01",
+      "alert_date": "2026-03-01T00:00:00.000Z",
+      "created_at": "2026-03-27T00:16:07.359Z"
+    },
+    {
+      "id": "RASFF-0007",
+      "product": "sesame seeds",
+      "hazard": "salmonella",
+      "origin_country": "Nigeria",
+      "action": "rejected",
+      "port": "Antwerp",
+      "date": "2026-02-25",
+      "alert_date": "2026-02-25T00:00:00.000Z",
+      "created_at": "2026-03-27T00:16:07.359Z"
+    },
+    {
+      "id": "RASFF-0008",
+      "product": "sesame seeds",
+      "hazard": "aflatoxin",
+      "origin_country": "Nigeria",
+      "action": "rejected",
+      "port": "Rotterdam",
+      "date": "2026-02-20",
+      "alert_date": "2026-02-20T00:00:00.000Z",
+      "created_at": "2026-03-27T00:16:07.359Z"
+    },
+    {
+      "id": "RASFF-0009",
+      "product": "sesame seeds",
+      "hazard": "salmonella",
+      "origin_country": "Nigeria",
+      "action": "rejected",
+      "port": "Hamburg",
+      "date": "2026-02-15",
+      "alert_date": "2026-02-15T00:00:00.000Z",
+      "created_at": "2026-03-27T00:16:07.359Z"
+    },
+    {
+      "id": "RASFF-0010",
+      "product": "sesame seeds",
+      "hazard": "salmonella",
+      "origin_country": "Nigeria",
+      "action": "destroyed",
+      "port": "Rotterdam",
+      "date": "2026-02-10",
+      "alert_date": "2026-02-10T00:00:00.000Z",
+      "created_at": "2026-03-27T00:16:07.359Z"
+    },
+    {
+      "id": "RASFF-0011",
+      "product": "groundnuts",
+      "hazard": "aflatoxin",
+      "origin_country": "Nigeria",
+      "action": "rejected",
+      "port": "Rotterdam",
+      "date": "2026-03-14",
+      "alert_date": "2026-03-14T00:00:00.000Z",
+      "created_at": "2026-03-27T00:16:07.359Z"
+    },
+    {
+      "id": "RASFF-0012",
+      "product": "groundnuts",
+      "hazard": "aflatoxin",
+      "origin_country": "Nigeria",
+      "action": "rejected",
+      "port": "Hamburg",
+      "date": "2026-03-09",
+      "alert_date": "2026-03-09T00:00:00.000Z",
+      "created_at": "2026-03-27T00:16:07.359Z"
+    },
+    {
+      "id": "RASFF-0013",
+      "product": "groundnuts",
+      "hazard": "aflatoxin",
+      "origin_country": "Nigeria",
+      "action": "destroyed",
+      "port": "Antwerp",
+      "date": "2026-03-04",
+      "alert_date": "2026-03-04T00:00:00.000Z",
+      "created_at": "2026-03-27T00:16:07.359Z"
+    },
+    {
+      "id": "RASFF-0014",
+      "product": "peanuts",
+      "hazard": "aflatoxin",
+      "origin_country": "Nigeria",
+      "action": "rejected",
+      "port": "Rotterdam",
+      "date": "2026-02-28",
+      "alert_date": "2026-02-28T00:00:00.000Z",
+      "created_at": "2026-03-27T00:16:07.359Z"
+    },
+    {
+      "id": "RASFF-0015",
+      "product": "peanuts",
+      "hazard": "pesticide",
+      "origin_country": "Nigeria",
+      "action": "rejected",
+      "port": "Hamburg",
+      "date": "2026-02-22",
+      "alert_date": "2026-02-22T00:00:00.000Z",
+      "created_at": "2026-03-27T00:16:07.359Z"
+    },
+    {
+      "id": "RASFF-0016",
+      "product": "groundnuts",
+      "hazard": "aflatoxin",
+      "origin_country": "Nigeria",
+      "action": "rejected",
+      "port": "Antwerp",
+      "date": "2026-02-18",
+      "alert_date": "2026-02-18T00:00:00.000Z",
+      "created_at": "2026-03-27T00:16:07.359Z"
+    },
+    {
+      "id": "RASFF-0017",
+      "product": "cocoa beans",
+      "hazard": "heavy metals",
+      "origin_country": "Nigeria",
+      "action": "border_rejected",
+      "port": "Rotterdam",
+      "date": "2026-03-11",
+      "alert_date": "2026-03-11T00:00:00.000Z",
+      "created_at": "2026-03-27T00:16:07.359Z"
+    },
+    {
+      "id": "RASFF-0018",
+      "product": "cocoa beans",
+      "hazard": "pesticide",
+      "origin_country": "Nigeria",
+      "action": "rejected",
+      "port": "Hamburg",
+      "date": "2026-02-26",
+      "alert_date": "2026-02-26T00:00:00.000Z",
+      "created_at": "2026-03-27T00:16:07.359Z"
+    },
+    {
+      "id": "RASFF-0019",
+      "product": "cocoa beans",
+      "hazard": "cadmium",
+      "origin_country": "Nigeria",
+      "action": "border_rejected",
+      "port": "Antwerp",
+      "date": "2026-02-12",
+      "alert_date": "2026-02-12T00:00:00.000Z",
+      "created_at": "2026-03-27T00:16:07.359Z"
+    },
+    {
+      "id": "RASFF-0020",
+      "product": "cashew nuts",
+      "hazard": "pesticide",
+      "origin_country": "Nigeria",
+      "action": "rejected",
+      "port": "Rotterdam",
+      "date": "2026-03-07",
+      "alert_date": "2026-03-07T00:00:00.000Z",
+      "created_at": "2026-03-27T00:16:07.359Z"
+    },
+    {
+      "id": "RASFF-0021",
+      "product": "cashew nuts",
+      "hazard": "salmonella",
+      "origin_country": "Nigeria",
+      "action": "rejected",
+      "port": "Hamburg",
+      "date": "2026-02-23",
+      "alert_date": "2026-02-23T00:00:00.000Z",
+      "created_at": "2026-03-27T00:16:07.359Z"
+    },
+    {
+      "id": "RASFF-0022",
+      "product": "cashew nuts",
+      "hazard": "pesticide",
+      "origin_country": "Nigeria",
+      "action": "border_rejected",
+      "port": "Antwerp",
+      "date": "2026-02-08",
+      "alert_date": "2026-02-08T00:00:00.000Z",
+      "created_at": "2026-03-27T00:16:07.359Z"
+    },
+    {
+      "id": "RASFF-0023",
+      "product": "ginger",
+      "hazard": "pesticide",
+      "origin_country": "Nigeria",
+      "action": "rejected",
+      "port": "Rotterdam",
+      "date": "2026-03-13",
+      "alert_date": "2026-03-13T00:00:00.000Z",
+      "created_at": "2026-03-27T00:16:07.359Z"
+    },
+    {
+      "id": "RASFF-0024",
+      "product": "ginger",
+      "hazard": "pesticide",
+      "origin_country": "Nigeria",
+      "action": "border_rejected",
+      "port": "Hamburg",
+      "date": "2026-03-06",
+      "alert_date": "2026-03-06T00:00:00.000Z",
+      "created_at": "2026-03-27T00:16:07.359Z"
+    },
+    {
+      "id": "RASFF-0025",
+      "product": "ginger",
+      "hazard": "salmonella",
+      "origin_country": "Nigeria",
+      "action": "rejected",
+      "port": "Antwerp",
+      "date": "2026-02-19",
+      "alert_date": "2026-02-19T00:00:00.000Z",
+      "created_at": "2026-03-27T00:16:07.359Z"
+    },
+    {
+      "id": "RASFF-0026",
+      "product": "sesame seeds",
+      "hazard": "salmonella",
+      "origin_country": "Ethiopia",
+      "action": "rejected",
+      "port": "Rotterdam",
+      "date": "2026-02-14",
+      "alert_date": "2026-02-14T00:00:00.000Z",
+      "created_at": "2026-03-27T00:16:07.359Z"
+    },
+    {
+      "id": "RASFF-0027",
+      "product": "groundnuts",
+      "hazard": "aflatoxin",
+      "origin_country": "Ghana",
+      "action": "rejected",
+      "port": "Hamburg",
+      "date": "2026-02-11",
+      "alert_date": "2026-02-11T00:00:00.000Z",
+      "created_at": "2026-03-27T00:16:07.359Z"
+    }
+  ]
+}

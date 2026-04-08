@@ -1,0 +1,19 @@
+{
+  "workflow": "EU SESAME – NETHERLANDS",
+  "priority": "High (salmonella risk history)",
+  "rules": [
+    {"id": "NL-SES-HARD-001", "type": "HARD_GATE", "conditions": {"salmonella_present": true}, "action": "BLOCK", "reason": "Salmonella detected"},
+    {"id": "NL-SES-HARD-002", "type": "HARD_GATE", "conditions": {"lab_is_accredited": false}, "action": "BLOCK", "reason": "Lab not accredited"},
+    {"id": "NL-SES-HARD-003", "type": "HARD_GATE", "conditions": {"batch_mismatch": true}, "action": "BLOCK", "reason": "Batch mismatch"},
+    {"id": "NL-SES-HARD-004", "type": "HARD_GATE", "conditions": {"certificate_of_origin": "null"}, "action": "BLOCK", "reason": "Missing COO"},
+    {"id": "NL-SES-HARD-005", "type": "HARD_GATE", "conditions": {"traceability_chain": "null"}, "action": "BLOCK", "reason": "Missing traceability"},
+    {"id": "NL-SES-CRIT-001", "type": "PENALTY", "conditions": {"pesticide_residues": {"any": {"value": {"gt": "mrl"}}}}, "score_adjustment": -30, "reason": "Pesticides above MRL"},
+    {"id": "NL-SES-CRIT-002", "type": "PENALTY", "conditions": {"ethylene_oxide_detected": true}, "score_adjustment": -30, "reason": "Ethylene oxide"},
+    {"id": "NL-SES-CRIT-003", "type": "PENALTY", "conditions": {"botanical_name": {"neq": "Sesamum indicum"}}, "score_adjustment": -25, "reason": "Botanical mismatch"},
+    {"id": "NL-SES-MOD-001", "type": "PENALTY", "conditions": {"moisture_percent": {"gt": 7}}, "score_adjustment": -15, "reason": "Moisture high"},
+    {"id": "NL-SES-MOD-002", "type": "PENALTY", "conditions": {"packing_list_complete": false}, "score_adjustment": -10, "reason": "Packing list incomplete"},
+    {"id": "NL-SES-TRUST-001", "type": "TRUST_SIGNAL", "conditions": {"lab_tier": 1}, "score_adjustment": 10, "reason": "Tier 1 lab"},
+    {"id": "NL-SES-TRUST-002", "type": "TRUST_SIGNAL", "conditions": {"repeat_exporter_success_rate": {"gte": 80}}, "score_adjustment": 10, "reason": "Proven exporter"}
+  ]
+}
+

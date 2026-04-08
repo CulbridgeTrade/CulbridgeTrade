@@ -1,0 +1,20 @@
+{
+  "shipment_id": "G12345",
+  "steps": [
+    {"step": "certificate_validation", "result": "PASS"},
+    {"step": "traceability_check", "result": "PASS"},
+    {"step": "batch_linkage", "result": "PASS"},
+    {"step": "aflatoxin_check", "result": "PASS"},
+    {"step": "salmonella_check", "result": "PASS"},
+    {"step": "moisture_check", "result": "PASS"},
+    {"step": "botanical_verification", "result": "PASS"}
+  ],
+  "rule_logs": [
+    {"rule_id": "AFB1_HARD_BLOCK", "result": "PASS"},
+    {"rule_id": "SALMONELLA_HARD_BLOCK", "result": "PASS"},
+    {"rule_id": "MOISTURE_HARD_BLOCK", "result": "PASS"}
+  ],
+  "health_score": 100,
+  "status": "SAFE"
+}
+

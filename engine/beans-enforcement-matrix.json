@@ -1,0 +1,200 @@
+{
+  "product": "brown_and_white_beans",
+  "corridor": ["NL", "DE"],
+  "enforcement_matrix": {
+    "mycotoxins": {
+      "hard_blockers": {
+        "aflatoxin_total": {
+          "threshold_ppb": 2,
+          "action": "BLOCK",
+          "reason": "Aflatoxin above EU legal limit"
+        }
+      },
+      "critical_penalties": {
+        "aflatoxin_b1": {
+          "near_threshold_ppb": 1.8,
+          "action": "CRITICAL",
+          "reason": "Aflatoxin B1 near limit"
+        }
+      },
+      "moderate_penalties": {
+        "ochratoxin_a": {
+          "present": true,
+          "action": "MODERATE",
+          "reason": "Ochratoxin A detected"
+        }
+      },
+      "trust_boosters": {
+        "historical_compliance": true,
+        "action": "TRUST",
+        "reason": "Consistent historical lab compliance"
+      }
+    },
+    "pesticides": {
+      "hard_blockers": {
+        "any_above_mrl": {
+          "action": "BLOCK",
+          "reason": "Pesticide exceeds EU MRL or banned substance"
+        }
+      },
+      "critical_penalties": {
+        "near_mrl": {
+          "action": "CRITICAL",
+          "reason": "Pesticide residue near MRL"
+        }
+      },
+      "moderate_penalties": {
+        "unit_mismatch": {
+          "action": "MODERATE",
+          "reason": "Metadata/unit mismatch"
+        }
+      },
+      "trust_boosters": {
+        "historical_low_incidence": true,
+        "action": "TRUST",
+        "reason": "Historically low pesticide contamination"
+      }
+    },
+    "microbiological_hazards": {
+      "hard_blockers": {
+        "salmonella_present": {
+          "value": true,
+          "action": "BLOCK",
+          "reason": "Salmonella positive"
+        }
+      },
+      "critical_penalties": {
+        "e_coli": {
+          "threshold_cfu_g": 100,
+          "action": "CRITICAL",
+          "reason": "E. coli exceeds limit"
+        }
+      },
+      "moderate_penalties": {
+        "non_accredited_lab": {
+          "action": "MODERATE",
+          "reason": "Lab not ISO/IEC 17025 accredited"
+        }
+      },
+      "trust_boosters": {
+        "tier_1_lab": true,
+        "action": "TRUST",
+        "reason": "Tier-1 lab validated"
+      }
+    },
+    "traceability_and_batch": {
+      "hard_blockers": {
+        "batch_mismatch": {
+          "action": "BLOCK",
+          "reason": "Batch mismatch or invalid traceability chain"
+        }
+      },
+      "critical_penalties": {
+        "labeling_error": {
+          "action": "CRITICAL",
+          "reason": "Minor labeling or packaging error"
+        }
+      },
+      "moderate_penalties": {
+        "metadata_missing": {
+          "action": "MODERATE",
+          "reason": "Missing shipment metadata"
+        }
+      },
+      "trust_boosters": {
+        "historical_batch_consistency": true,
+        "action": "TRUST",
+        "reason": "Consistently verified batch history"
+      }
+    },
+    "certificates_and_docs": {
+      "hard_blockers": {
+        "missing_or_invalid": {
+          "action": "BLOCK",
+          "reason": "COA, phytosanitary, or health certificate missing/invalid"
+        }
+      },
+      "critical_penalties": {
+        "expired": {
+          "action": "CRITICAL",
+          "reason": "Certificate expired"
+        }
+      },
+      "moderate_penalties": {
+        "metadata_mismatch": {
+          "action": "MODERATE",
+          "reason": "Minor metadata mismatch in docs"
+        }
+      },
+      "trust_boosters": {
+        "documented_correct_filings": true,
+        "action": "TRUST",
+        "reason": "Historically correct documentation"
+      }
+    },
+    "botanical_verification": {
+      "hard_blockers": {
+        "botanical_name_mismatch": {
+          "expected": "Phaseolus vulgaris",
+          "action": "BLOCK",
+          "reason": "Incorrect botanical name"
+        }
+      },
+      "critical_penalties": {
+        "minor_spelling_mismatch": {
+          "action": "CRITICAL",
+          "reason": "Minor spelling/variety mismatch"
+        }
+      },
+      "trust_boosters": {
+        "correct_historical_identification": true,
+        "action": "TRUST",
+        "reason": "Correct botanical verification historically"
+      }
+    },
+    "moisture_content": {
+      "hard_blockers": {
+        "max_percent": 14,
+        "action": "BLOCK",
+        "reason": "Moisture above storage limit"
+      },
+      "critical_penalties": {
+        "slightly_above_threshold": {
+          "action": "CRITICAL",
+          "reason": "Moisture slightly above threshold"
+        }
+      },
+      "moderate_penalties": {
+        "measurement_inconsistency": {
+          "action": "MODERATE",
+          "reason": "Minor moisture measurement inconsistencies"
+        }
+      },
+      "trust_boosters": {
+        "stable_historical_moisture": true,
+        "action": "TRUST",
+        "reason": "Consistently stable moisture content historically"
+      }
+    },
+    "packaging_and_labelling": {
+      "hard_blockers": {
+        "non_compliant": {
+          "action": "BLOCK",
+          "reason": "Non-compliant packaging or labeling"
+        }
+      },
+      "critical_penalties": {
+        "minor_deviation": {
+          "action": "CRITICAL",
+          "reason": "Minor labeling deviation"
+        }
+      },
+      "trust_boosters": {
+        "historical_correct_labeling": true,
+        "action": "TRUST",
+        "reason": "Correct labeling historically"
+      }
+    }
+  }
+}
+

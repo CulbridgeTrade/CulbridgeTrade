@@ -1,0 +1,27 @@
+{
+  "labs": [
+    {
+      "lab_id": "LAB001",
+      "tier": "Tier 1",
+      "accreditation": "ISO/IEC 17025",
+      "batch_link_verified": true,
+      "historical_rasff_clean": true,
+      "confidence_score": 95
+    },
+    {
+      "lab_id": "LAB002",
+      "tier": "Tier 2",
+      "accreditation": "None",
+      "batch_link_verified": false,
+      "historical_rasff_clean": false,
+      "confidence_score": 50
+    }
+  ],
+  "rules": {
+    "tier_1": "accredited AND historical RASFF clean",
+    "tier_2": "non-accredited OR limited historical data",
+    "batch_verification": "lab_batch_number == shipment_batch_number",
+    "confidence_score": "weighted(tier, batch_link, historical_rasff)"
+  }
+}
+

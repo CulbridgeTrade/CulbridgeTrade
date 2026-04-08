@@ -1,0 +1,61 @@
+{
+  "patterns": [
+    {
+      "actor_id": "LAB-NG-001",
+      "actor_type": "lab",
+      "pattern_type": "lab_switch_count",
+      "frequency": 2,
+      "risk_score": 0.15
+    },
+    {
+      "actor_id": "LAB-NG-002",
+      "actor_type": "lab",
+      "pattern_type": "lab_switch_count",
+      "frequency": 5,
+      "risk_score": 0.45
+    },
+    {
+      "actor_id": "EXP-NG-001",
+      "actor_type": "exporter",
+      "pattern_type": "port_switch_count",
+      "frequency": 3,
+      "risk_score": 0.2
+    },
+    {
+      "actor_id": "EXP-BR-001",
+      "actor_type": "exporter",
+      "pattern_type": "near_threshold_submissions",
+      "frequency": 8,
+      "risk_score": 0.35
+    },
+    {
+      "actor_id": "BROKER-001",
+      "actor_type": "broker",
+      "pattern_type": "batch_reuse_count",
+      "frequency": 4,
+      "risk_score": 0.3
+    },
+    {
+      "actor_id": "LAB-GH-001",
+      "actor_type": "lab",
+      "pattern_type": "result_reversal_count",
+      "frequency": 3,
+      "risk_score": 0.4
+    }
+  ],
+  "suspicious": [
+    {
+      "shipment_id": "TEST-002",
+      "actor_id": "EXP-BR-001",
+      "detected_patterns": [
+        {
+          "type": "batch_splitting",
+          "risk_multiplier": 1.25
+        }
+      ],
+      "penalty_applied": true,
+      "risk_multiplier": 1.25,
+      "timestamp": "2026-03-27T01:27:39.881Z"
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "product": "groundnuts/peanuts",
+  "corridor": ["NL", "DE"],
+  "input_sources": ["lab_reports PDF/CSV", "COA", "phytosanitary/health certs", "shipping docs/bill_of_lading"],
+  "fields": [
+    {"field": "aflatoxin_b1", "type": "float", "unit": "ppb", "hard_block": ">8ppb"},
+    {"field": "aflatoxin_total", "type": "float", "unit": "ppb", "hard_block": ">20ppb"},
+    {"field": "pesticides", "type": "array[{name:string,value:float,limit:float}]", "hard_block": false, "critical": "any> MRL"},
+    {"field": "Salmonella_present", "type": "boolean", "hard_block": "true→BLOCK"},
+    {"field": "moisture", "type": "float", "unit": "%", "hard_block": ">thresh→BLOCK/HIGH"},
+    {"field": "botanical_name", "type": "string", "expected": "Arachis hypogaea"},
+    {"field": "traceability_chain", "type": "array", "hard_block": "missing→BLOCK"},
+    {"field": "certificate_of_origin", "type": "string/file", "validate": "batch/expiry"},
+    {"field": "phytosanitary_certificate", "type": "string/file", "validate": "batch/expiry"},
+    {"field": "lab_batch_number", "type": "string", "match": "shipment_batch_number"},
+    {"field": "shipment_batch_number", "type": "string"}
+  ],
+  "output_example": {
+    "shipment_id": "SH12345",
+    "lab_results": {
+      "aflatoxin_b1": 7.5,
+      "aflatoxin_total": 18.2,
+      "pesticides": [{"name": "imidacloprid", "value": 0.015, "limit": 0.02}],
+      "Salmonella_present": false,
+      "moisture": 9.8,
+      "botanical_name": "Arachis hypogaea",
+      "traceability_chain": [{"step": "exporter", "id": "EXP001"}]
+    },
+    "certificates": {"coa": "COA_20260326.pdf", "phytosanitary": "PHYTO20260326.pdf"},
+    "batch_info": {"lab": "LAB123", "shipment": "SHIP123"}
+  },
+  "dev_notes": [
+    "1:1 deterministic map source→engine",
+    "inline hard_block validation",
+    "CSV/JSON preferred, PDF OCR fallback",
+    "log all fields immutable rule_logs",
+    "extensible new contaminants/ports"
+  ]
+}
+

@@ -1,0 +1,88 @@
+{
+  "fixRules": [
+    {
+      "id": 1,
+      "condition": "aflatoxin_high",
+      "action": "retest",
+      "cost": 120,
+      "risk_reduction": 0.4
+    },
+    {
+      "id": 2,
+      "condition": "lab_untrusted",
+      "action": "switch_lab",
+      "cost": 200,
+      "risk_reduction": 0.3
+    },
+    {
+      "id": 3,
+      "condition": "document_expired",
+      "action": "renew_document",
+      "cost": 150,
+      "risk_reduction": 0.5
+    },
+    {
+      "id": 4,
+      "condition": "traceability_gap",
+      "action": "enhance_traceability",
+      "cost": 300,
+      "risk_reduction": 0.6
+    },
+    {
+      "id": 5,
+      "condition": "mrl_near_limit",
+      "action": "alternative_lab",
+      "cost": 180,
+      "risk_reduction": 0.35
+    },
+    {
+      "id": 6,
+      "condition": "rasff_alert",
+      "action": "additional_inspection",
+      "cost": 250,
+      "risk_reduction": 0.45
+    },
+    {
+      "id": 7,
+      "condition": "country_high_risk",
+      "action": "enhanced_documentation",
+      "cost": 100,
+      "risk_reduction": 0.25
+    },
+    {
+      "id": 8,
+      "condition": "exporter_new",
+      "action": "manual_review",
+      "cost": 0,
+      "risk_reduction": 0.1
+    },
+    {
+      "id": 9,
+      "condition": "certificate_missing",
+      "action": "obtain_certificate",
+      "cost": 400,
+      "risk_reduction": 0.55
+    },
+    {
+      "id": 10,
+      "condition": "origin_unclear",
+      "action": "verify_origin",
+      "cost": 220,
+      "risk_reduction": 0.42
+    },
+    {
+      "id": 11,
+      "condition": "phytosanitary_concern",
+      "action": "extra_fumigation",
+      "cost": 350,
+      "risk_reduction": 0.38
+    },
+    {
+      "id": 12,
+      "condition": "weight_discrepancy",
+      "action": "reweigh",
+      "cost": 50,
+      "risk_reduction": 0.15
+    }
+  ]
+}

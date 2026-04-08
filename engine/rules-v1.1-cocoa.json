@@ -1,0 +1,115 @@
+{
+  "version": "1.1",
+  "description": "Culbridge Cocoa Enforcement Matrix v1.1 - EU/NL/DE verified rules",
+  "jurisdiction": ["EU", "NL", "DE"],
+  "rules": [
+    {
+      "id": "HARD_GATE_COCOA_001",
+      "type": "HARD_GATE",
+      "conditions": {
+        "phytosanitary_certificate": "null"
+      },
+      "action": "BLOCK",
+      "reason": "Phytosanitary certificate missing - mandatory for cocoa beans (EU 2019/2072)",
+      "source_regulation": "EU 2019/2072",
+      "applies_to": {
+        "products": ["cocoa"]
+      }
+    },
+    {
+      "id": "HARD_GATE_COCOA_002",
+      "type": "HARD_GATE",
+      "conditions": {
+        "certificate_of_origin": "null"
+      },
+      "action": "BLOCK",
+      "reason": "Certificate of origin missing - EU import control requirement",
+      "source_regulation": "EU 2017/625",
+      "applies_to": {
+        "products": ["cocoa"]
+      }
+    },
+    {
+      "id": "HARD_GATE_COCOA_003",
+      "type": "HARD_GATE",
+      "conditions": {
+        "traceability_docs": "null"
+      },
+      "action": "BLOCK",
+      "reason": "Traceability documentation missing - EU Reg EC 178/2002",
+      "source_regulation": "Reg EC 178/2002",
+      "applies_to": {
+        "products": ["cocoa"]
+      }
+    },
+    {
+      "id": "HARD_GATE_COCOA_004",
+      "type": "HARD_GATE",
+      "conditions": {
+        "EUDR_deforestation_proof": "null"
+      },
+      "action": "BLOCK",
+      "reason": "EUDR deforestation-free proof missing - geolocation to farm required",
+      "source_regulation": "EU Deforestation Regulation",
+      "applies_to": {
+        "products": ["cocoa"]
+      }
+    },
+    {
+      "id": "HARD_GATE_COCOA_005",
+      "type": "HARD_GATE",
+      "conditions": {
+        "health_certificate": "null"
+      },
+      "action": "BLOCK",
+      "reason": "Health certificate/lab report missing for food safety",
+      "source_regulation": "EU General Food Law 178/2002",
+      "applies_to": {
+        "products": ["cocoa"]
+      }
+    },
+    {
+      "id": "PENALTY_COCOA_001",
+      "type": "PENALTY",
+      "severity": "critical",
+      "conditions": {
+        "aflatoxin_level": { "gt": 4.0 }
+      },
+      "score_adjustment": -50,
+      "reason": "Aflatoxin exceeds EU MRL (EC 1881/2006)",
+      "source_regulation": "EC 1881/2006 (2023/915)",
+      "applies_to": {
+        "products": ["cocoa"]
+      }
+    },
+    {
+      "id": "PENALTY_COCOA_002",
+      "type": "PENALTY",
+      "severity": "critical",
+      "conditions": {
+        "pesticide_residues": { "any_over_mrl": true }
+      },
+      "score_adjustment": -40,
+      "reason": "Pesticide residues exceed EU MRLs (EC 396/2005)",
+      "source_regulation": "EC 396/2005",
+      "applies_to": {
+        "products": ["cocoa"]
+      }
+    },
+    {
+      "id": "PENALTY_COCOA_003",
+      "type": "PENALTY",
+      "severity": "moderate",
+      "conditions": {
+        "document_identity_match": false
+      },
+      "score_adjustment": -30,
+      "reason": "Document mismatch detected at BCP (EU 2017/625)",
+      "source_regulation": "EU Official Controls 2017/625",
+      "applies_to": {
+        "products": ["cocoa"]
+      }
+    }
+  ]
+}
+

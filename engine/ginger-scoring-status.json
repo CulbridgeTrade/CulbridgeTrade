@@ -1,0 +1,25 @@
+{
+  "shipment_id": "G12345",
+  "calculation_order": [
+    "hard_blockers",
+    "critical_penalties",
+    "moderate_penalties",
+    "trust_boosters"
+  ],
+  "penalty_mapping": {
+    "pesticides_exceedance": -10,
+    "minor_botanical_mismatch": -5,
+    "metadata_mismatch": -2,
+    "non_accredited_lab": -2
+  },
+  "trust_booster_mapping": {
+    "tier_1_lab": 10,
+    "historical_rasff_compliance": 5,
+    "batch_consistency": 5,
+    "accurate_metadata": 2
+  },
+  "hard_blockers_triggered": [],
+  "health_score": 92,
+  "status": "SAFE"
+}
+

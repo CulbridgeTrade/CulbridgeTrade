@@ -1,0 +1,14 @@
+{
+  "aflatoxin_b1": {"source": "lab_report", "type": "number", "unit": "µg/kg"},
+  "aflatoxin_total": {"source": "lab_report", "type": "number", "unit": "µg/kg"},
+  "pesticides": {"source": "lab_report", "type": "array", "unit": "mg/kg"},
+  "Salmonella_present": {"source": "lab_report", "type": "boolean"},
+  "moisture": {"source": "lab_report", "type": "number", "unit": "%"},
+  "botanical_name": {"source": "lab_report | certificate", "type": "string"},
+  "traceability_chain": {"source": "shipment + lab", "type": "array"},
+  "certificate_of_origin": {"source": "certificate", "type": "string", "required": true},
+  "phytosanitary_certificate": {"source": "certificate", "type": "string", "required": true},
+  "lab_batch_number": {"source": "lab_report", "type": "string"},
+  "shipment_batch_number": {"source": "shipping_doc", "type": "string"}
+}
+

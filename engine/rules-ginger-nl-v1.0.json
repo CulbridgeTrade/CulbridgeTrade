@@ -1,0 +1,64 @@
+{
+  "version": "1.0",
+  "description": "Culbridge Ginger Dried NL Deterministic v1.0 - Nigeria→Netherlands. NAQS/NEPC + EU MRL/Salmonella/moisture.",
+  "jurisdiction": ["NL"],
+  "rules": [
+    {
+      "id": "HARD_GATE_GINGER_NL_001",
+      "type": "HARD_GATE",
+      "conditions": {"phytosanitary_certificate": "null"},
+      "action": "BLOCK",
+      "reason": "Phytosanitary Certificate missing - no quarantine pests/soil contamination.",
+      "source_regulation": "NAQS / EU plant health",
+      "applies_to": {"products": ["ginger"], "destinations": ["NL"]},
+      "execution_steps": ["book_naqs_inspection", "submit_shipment_details"],
+      "fail_states": ["pest_detected", "contamination_present"]
+    },
+    {
+      "id": "HARD_GATE_GINGER_NL_002",
+      "type": "HARD_GATE",
+      "conditions": {"certificate_of_origin": "null"},
+      "action": "BLOCK",
+      "reason": "Certificate of Origin missing - origin Nigeria + traceability.",
+      "source_regulation": "NEPC",
+      "applies_to": {"products": ["ginger"], "destinations": ["NL"]},
+      "execution_steps": ["submit_origin_documents", "apply_for_certificate"],
+      "fail_states": ["origin_unverified"]
+    },
+    {
+      "id": "HARD_GATE_GINGER_NL_003",
+      "type": "HARD_GATE",
+      "conditions": {"Salmonella_present": true},
+      "action": "BLOCK",
+      "reason": "Salmonella detected - automatic rejection.",
+      "applies_to": {"products": ["ginger"], "destinations": ["NL"]}
+    },
+    {
+      "id": "HARD_GATE_GINGER_NL_004",
+      "type": "HARD_GATE",
+      "conditions": {"moisture": {"gt": 12}},
+      "action": "BLOCK",
+      "reason": "Moisture >12% - mold risk.",
+      "applies_to": {"products": ["ginger"], "destinations": ["NL"]}
+    },
+    {
+      "id": "PENALTY_GINGER_NL_001",
+      "type": "PENALTY",
+      "severity": "critical",
+      "conditions": {"pesticides": {"any_over_mrl": true}},
+      "score_adjustment": -50,
+      "reason": "Pesticide residues exceed EU MRL.",
+      "applies_to": {"products": ["ginger"], "destinations": ["NL"]},
+      "next_action": "conduct_eu_lab_test"
+    },
+    {
+      "id": "PENALTY_GINGER_NL_002",
+      "type": "PENALTY",
+      "severity": "critical",
+      "conditions": {"aflatoxin_b1": {"gt": 2}},
+      "score_adjustment": -40,
+      "reason": "Aflatoxin B1 >2 µg/kg.",
+      "applies_to": {"products": ["ginger"], "destinations": ["NL"]}
+    }
+  ]
+}

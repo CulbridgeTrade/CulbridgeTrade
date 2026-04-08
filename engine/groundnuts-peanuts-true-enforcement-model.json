@@ -1,0 +1,41 @@
+{
+  "enforcement_model": "groundnuts_peanuts_true_nl_de",
+  "goal": "Deterministic EU customs simulation for Arachis hypogaea",
+  "workflow": [
+    "1. Validate shipment_record/exporter/consignee/product/port/date/batch",
+    "2. Hard-stop: aflatoxin>20ppb, Salmonella+, batch_mismatch, trace_null, moisture>thresh → BLOCK + log_snapshot",
+    "3. Lab checks: tier_confidence, aflatoxin_b1/total, pesticides, salmonella, moisture",
+    "4. Trace: chain match exporter→warehouse→port→consignee",
+    "5. Botanical: Arachis hypogaea exact (minor → CRIT, wrong → BLOCK)",
+    "6. Certs: COA/phytosanitary/health present+batch_match (missing/invalid → BLOCK)",
+    "7. Batch linkage: lab==shipment (discrep → BLOCK)",
+    "8. Moisture vs storage limits (exceed → BLOCK/HIGH)",
+    "9. Aflatoxin/pesticides vs EU (total>20ppb b1>8ppb → BLOCK, MRL exceed → CRIT)",
+    "10. Output: health48 HIGH_RISK violations[] decision DO_NOT_SHIP loss$12500 fix retest confidence0.78 snapshot"
+  ],
+  "output_example": {
+    "shipment_id": "SH12345",
+    "evaluated_at": "2026-03-26T12:30:00Z",
+    "health_score": 48,
+    "status": "HIGH_RISK",
+    "violations": [
+      {"rule_id": "aflatoxin_total_limit", "result": "FAIL", "penalty": 100},
+      {"rule_id": "pesticide_limit_imidacloprid", "result": "FAIL", "penalty": 20}
+    ],
+    "decision": {
+      "action": "DO_NOT_SHIP",
+      "expected_loss_if_shipped": "$12,500",
+      "cheapest_fix": "Retest Tier-1 lab ($150)",
+      "confidence": 0.78
+    },
+    "immutable_snapshot": {"lab_results": {}, "shipment_record": {}, "traceability_chain": []}
+  },
+  "dev_notes": [
+    "deterministic no ML",
+    "hard override penalties",
+    "immutable logging",
+    "behavioral port/lab_switch feeds future score",
+    "JSON → scoring → decision DO_NOT_SHIP/SHIP_WITH_CAUTION/SHIP"
+  ]
+}
+

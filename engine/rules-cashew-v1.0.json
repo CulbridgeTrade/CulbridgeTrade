@@ -1,0 +1,143 @@
+{
+  "version": "1.0",
+  "description": "EU Cashew Enforcement Matrix v1.0 - NL/DE (Reg 1881/2006, RASFF)",
+  "rules": [
+    {
+      "id": "HARD_BLOCKER_CASHEW_001",
+      "type": "HARD_GATE",
+      "conditions": {
+        "aflatoxin_total": { "gt": 4.0 },
+        "product": "cashew"
+      },
+      "action": "BLOCK",
+      "reason": "Aflatoxin total > 4 µg/kg (Reg 1881/2006)",
+      "applies_to": {
+        "products": ["cashew"],
+        "destinations": ["NL", "DE"]
+      }
+    },
+    {
+      "id": "HARD_BLOCKER_CASHEW_002",
+      "type": "HARD_GATE",
+      "conditions": {
+        "aflatoxin_b1": { "gt": 2.0 }
+      },
+      "action": "BLOCK",
+      "reason": "Aflatoxin B1 > 2 µg/kg (Reg 1881/2006)",
+      "applies_to": { "products": ["cashew"] }
+    },
+    {
+      "id": "HARD_BLOCKER_CASHEW_003",
+      "type": "HARD_GATE",
+      "conditions": {
+        "salmonella_present": true
+      },
+      "action": "BLOCK",
+      "reason": "Salmonella present - microbiological hard blocker",
+      "applies_to": { "products": ["cashew"] }
+    },
+    {
+      "id": "HARD_BLOCKER_CASHEW_004",
+      "type": "HARD_GATE",
+      "conditions": {
+        "traceability_chain": "null"
+      },
+      "action": "BLOCK",
+      "reason": "Missing complete batch-to-farm traceability",
+      "applies_to": { "products": ["cashew"] }
+    },
+    {
+      "id": "HARD_BLOCKER_CASHEW_005",
+      "type": "HARD_GATE",
+      "conditions": {
+        "botanical_name": { "neq": "Anacardium occidentale" }
+      },
+      "action": "BLOCK",
+      "reason": "Botanical name mismatch - must be Anacardium occidentale",
+      "applies_to": { "products": ["cashew"] }
+    },
+    {
+      "id": "HARD_BLOCKER_CASHEW_006",
+      "type": "HARD_GATE",
+      "conditions": {
+        "certificate_of_origin": "null"
+      },
+      "action": "BLOCK",
+      "reason": "Missing certificate of origin",
+      "applies_to": { "products": ["cashew"] }
+    },
+    {
+      "id": "HARD_BLOCKER_CASHEW_007",
+      "type": "HARD_GATE",
+      "conditions": {
+        "phytosanitary_certificate": "null"
+      },
+      "action": "BLOCK",
+      "reason": "Missing phytosanitary certificate - EU plant health law",
+      "applies_to": { "products": ["cashew"] }
+    },
+    {
+      "id": "HARD_BLOCKER_CASHEW_008",
+      "type": "HARD_GATE",
+      "conditions": {
+        "lab_batch_number": { "neq": "$shipment_batch_number" }
+      },
+      "action": "BLOCK",
+      "reason": "Lab batch number mismatch with shipment batch",
+      "applies_to": { "products": ["cashew"] }
+    },
+    {
+      "id": "HARD_BLOCKER_CASHEW_009",
+      "type": "HARD_GATE",
+      "conditions": {
+        "moisture": { "gt": 7.0 }
+      },
+      "action": "BLOCK",
+      "reason": "Moisture > 7% - EU storage/quality threshold",
+      "applies_to": { "products": ["cashew"] }
+    },
+    {
+      "id": "PENALTY_CRITICAL_CASHEW_001",
+      "type": "PENALTY",
+      "severity": "critical",
+      "conditions": {
+        "pesticides": { "any_over_mrl": true }
+      },
+      "score_adjustment": -30,
+      "reason": "Pesticides exceed EU MRL limits - minor over-limit",
+      "applies_to": { "products": ["cashew"] }
+    },
+    {
+      "id": "PENALTY_MODERATE_CASHEW_001",
+      "type": "PENALTY",
+      "severity": "moderate",
+      "conditions": {
+        "moisture": { "between": [6.0, 7.0] }
+      },
+      "score_adjustment": -10,
+      "reason": "Minor moisture deviation (6-7%)",
+      "applies_to": { "products": ["cashew"] }
+    },
+    {
+      "id": "TRUST_BOOSTER_CASHEW_001",
+      "type": "TRUST_SIGNAL",
+      "conditions": {
+        "historical_compliance": true
+      },
+      "score_adjustment": +10,
+      "reason": "Clean RASFF historical compliance record",
+      "applies_to": { "products": ["cashew"] }
+    },
+    {
+      "id": "TRUST_BOOSTER_CASHEW_002",
+      "type": "TRUST_SIGNAL",
+      "conditions": {
+        "lab_tier": "Tier1"
+      },
+      "score_adjustment": +10,
+      "reason": "Tier 1 lab verification (ISO/IEC 17025)",
+      "applies_to": { "products": ["cashew"] }
+    }
+  ]
+}
+

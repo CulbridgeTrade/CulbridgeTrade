@@ -1,0 +1,196 @@
+{
+  "lastChecked": "2026-03-27T00:49:55.500Z",
+  "records": [
+    {
+      "shipmentId": "COCOA-NG-001",
+      "product": "cocoa beans",
+      "hsCode": "180100",
+      "exporterId": "EXP-NG-001",
+      "exporterName": "Premium Cocoa Exports Ltd",
+      "origin": {
+        "country": "Nigeria",
+        "region": "Ondo",
+        "coordinates": {
+          "lat": 7,
+          "lon": 4.7
+        }
+      },
+      "farmPlotId": "PLOT-NG-ODO-001",
+      "harvestDate": "2026-01-15",
+      "eudrStatus": "COMPLIANT",
+      "deforestationFree": true,
+      "geocledianRiskScore": 0.12,
+      "geocledianRiskLevel": "LOW",
+      "riskFactors": [],
+      "checkedAt": "2026-03-20T10:00:00Z",
+      "certificate": "EUDR-CERT-001"
+    },
+    {
+      "shipmentId": "COCOA-NG-002",
+      "product": "cocoa beans",
+      "hsCode": "180100",
+      "exporterId": "EXP-NG-002",
+      "exporterName": "Nigerian Cocoa Co",
+      "origin": {
+        "country": "Nigeria",
+        "region": "Edo",
+        "coordinates": {
+          "lat": 6.5,
+          "lon": 5.6
+        }
+      },
+      "farmPlotId": "PLOT-NG-EDO-002",
+      "harvestDate": "2026-02-01",
+      "eudrStatus": "COMPLIANT",
+      "deforestationFree": true,
+      "geocledianRiskScore": 0.28,
+      "geocledianRiskLevel": "MEDIUM",
+      "riskFactors": [
+        "proximity_to_forest"
+      ],
+      "checkedAt": "2026-03-18T14:30:00Z",
+      "certificate": "EUDR-CERT-002"
+    },
+    {
+      "shipmentId": "COCOA-GH-001",
+      "product": "cocoa beans",
+      "hsCode": "180100",
+      "exporterId": "EXP-GH-001",
+      "exporterName": "Ghana Sustainable Cocoa",
+      "origin": {
+        "country": "Ghana",
+        "region": "Ashanti",
+        "coordinates": {
+          "lat": 6.8,
+          "lon": -1.5
+        }
+      },
+      "farmPlotId": "PLOT-GH-ASH-001",
+      "harvestDate": "2026-01-20",
+      "eudrStatus": "COMPLIANT",
+      "deforestationFree": true,
+      "geocledianRiskScore": 0.08,
+      "geocledianRiskLevel": "LOW",
+      "riskFactors": [],
+      "checkedAt": "2026-03-19T09:15:00Z",
+      "certificate": "EUDR-CERT-003"
+    },
+    {
+      "shipmentId": "TIMBER-LBR-001",
+      "product": "timber",
+      "hsCode": "440710",
+      "exporterId": "EXP-LBR-001",
+      "exporterName": "Liberia Forest Products",
+      "origin": {
+        "country": "Liberia",
+        "region": "Nimba",
+        "coordinates": {
+          "lat": 7.5,
+          "lon": -8.5
+        }
+      },
+      "farmPlotId": "PLOT-LBR-NIM-001",
+      "harvestDate": "2025-12-10",
+      "eudrStatus": "NON_COMPLIANT",
+      "deforestationFree": false,
+      "geocledianRiskScore": 0.78,
+      "geocledianRiskLevel": "HIGH",
+      "riskFactors": [
+        "recent_deforestation",
+        "protected_area_proximity",
+        "no_plot_documentation"
+      ],
+      "checkedAt": "2026-03-15T11:00:00Z",
+      "certificate": null,
+      "denialReason": "Deforestation detected within 5-year period"
+    },
+    {
+      "shipmentId": "COFFEE-ETH-001",
+      "product": "coffee",
+      "hsCode": "090111",
+      "exporterId": "EXP-ETH-001",
+      "exporterName": "Ethiopian Coffee Export",
+      "origin": {
+        "country": "Ethiopia",
+        "region": "Oromia",
+        "coordinates": {
+          "lat": 9,
+          "lon": 38.7
+        }
+      },
+      "farmPlotId": "PLOT-ETH-ORO-001",
+      "harvestDate": "2026-01-05",
+      "eudrStatus": "COMPLIANT",
+      "deforestationFree": true,
+      "geocledianRiskScore": 0.05,
+      "geocledianRiskLevel": "LOW",
+      "riskFactors": [],
+      "checkedAt": "2026-03-21T08:45:00Z",
+      "certificate": "EUDR-CERT-004"
+    },
+    {
+      "shipmentId": "COFFEE-001",
+      "product": "coffee",
+      "hsCode": "coffee",
+      "exporterId": "EXP-ET-001",
+      "exporterName": "Unknown",
+      "origin": {
+        "country": "Unknown",
+        "region": "Unknown",
+        "coordinates": {}
+      },
+      "farmPlotId": null,
+      "harvestDate": "2026-01-10",
+      "eudrStatus": "COMPLIANT",
+      "deforestationFree": true,
+      "geocledianRiskScore": 0.03927036731966572,
+      "geocledianRiskLevel": "LOW",
+      "riskFactors": [],
+      "checkedAt": "2026-03-27T00:45:16.024Z",
+      "certificate": "EUDR-CERT-1774572316024",
+      "denialReason": null
+    },
+    {
+      "shipmentId": "PALM-001",
+      "product": "palm oil",
+      "hsCode": "palm oil",
+      "exporterId": "EXP-ID-001",
+      "exporterName": "Unknown",
+      "origin": {
+        "country": "Unknown",
+        "region": "Unknown",
+        "coordinates": {}
+      },
+      "farmPlotId": null,
+      "harvestDate": "2026-01-05",
+      "eudrStatus": "COMPLIANT",
+      "deforestationFree": true,
+      "geocledianRiskScore": 0.08382845821596019,
+      "geocledianRiskLevel": "LOW",
+      "riskFactors": [],
+      "checkedAt": "2026-03-27T00:45:41.772Z",
+      "certificate": "EUDR-CERT-1774572341772",
+      "denialReason": null
+    },
+    {
+      "product": "timber",
+      "hsCode": "timber",
+      "exporterName": "Unknown",
+      "origin": {
+        "country": "Unknown",
+        "region": "Unknown",
+        "coordinates": {}
+      },
+      "farmPlotId": null,
+      "harvestDate": "2026-03-27",
+      "eudrStatus": "COMPLIANT",
+      "deforestationFree": true,
+      "geocledianRiskScore": 0.29383244319545926,
+      "geocledianRiskLevel": "MEDIUM",
+      "riskFactors": [],
+      "checkedAt": "2026-03-27T00:49:55.500Z",
+      "certificate": "EUDR-CERT-1774572595500",
+      "denialReason": null
+    }
+  ]
+}

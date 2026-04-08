@@ -1,0 +1,129 @@
+{
+  "version": "1.0",
+  "description": "Culbridge MVP Rules Registry v1.0 - Sesame/Cocoa to NL/DE",
+  "rules": [
+    {
+      "id": "HARD_GATE_001",
+      "type": "HARD_GATE",
+      "conditions": {
+        "lab_report": "null"
+      },
+      "action": "BLOCK",
+      "reason": "No lab report provided - EU border control requirement",
+      "applies_to": {
+        "destinations": ["NL", "DE"],
+        "products": ["sesame", "cocoa"],
+        "categories": ["agro-export"]
+      }
+    },
+    {
+      "id": "HARD_GATE_002",
+      "type": "HARD_GATE",
+      "conditions": {
+        "lab_iso_17025": false
+      },
+      "action": "BLOCK",
+      "reason": "Lab not ISO 17025 accredited - EU rejection driver",
+      "applies_to": {
+        "destinations": ["NL", "DE"],
+        "products": ["sesame", "cocoa"]
+      }
+    },
+    {
+      "id": "HARD_GATE_003",
+      "type": "HARD_GATE",
+      "conditions": {
+        "batch_mismatch": true
+      },
+      "action": "BLOCK",
+      "reason": "Batch number mismatch between shipment and lab report",
+      "applies_to": {
+        "destinations": ["NL", "DE"]
+      }
+    },
+    {
+      "id": "PENALTY_CRITICAL_001",
+      "type": "PENALTY",
+      "severity": "critical",
+      "conditions": {
+        "lab_report_age_days": { "gt": 180 }
+      },
+      "score_adjustment": -50,
+      "reason": "Lab report older than 6 months - expired validity",
+      "applies_to": {
+        "products": ["sesame", "cocoa"]
+      }
+    },
+    {
+      "id": "PENALTY_CRITICAL_002",
+      "type": "PENALTY",
+      "severity": "critical",
+      "conditions": {
+        "aflatoxin_test": "null",
+        "product": "sesame"
+      },
+      "score_adjustment": -40,
+      "reason": "Missing aflatoxin test for sesame - RASFF alert risk",
+      "applies_to": {
+        "products": ["sesame"]
+      }
+    },
+    {
+      "id": "PENALTY_MODERATE_001",
+      "type": "PENALTY",
+      "severity": "moderate",
+      "conditions": {
+        "phytosanitary_cert": "null"
+      },
+      "score_adjustment": -20,
+      "reason": "No phytosanitary certificate - EU import requirement",
+      "applies_to": {
+        "destinations": ["NL", "DE"]
+      }
+    },
+    {
+      "id": "PENALTY_MODERATE_002",
+      "type": "PENALTY",
+      "severity": "moderate",
+      "conditions": {
+        "pesticide_test": "null"
+      },
+      "score_adjustment": -15,
+      "reason": "Missing pesticide residue test",
+      "applies_to": {
+        "products": ["sesame", "cocoa"]
+      }
+    },
+    {
+      "id": "TRUST_SIGNAL_001",
+      "type": "TRUST_SIGNAL",
+      "conditions": {
+        "lab_tier": 1
+      },
+"score_adjustment": 15,
+      "reason": "Tier 1 ISO 17025 lab used",
+      "applies_to": {}
+    },
+    {
+      "id": "TRUST_SIGNAL_002",
+      "type": "TRUST_SIGNAL",
+      "conditions": {
+        "all_required_docs_present": true
+      },
+      "score_adjustment": +10,
+      "reason": "Complete documentation set",
+      "applies_to": {}
+    },
+    {
+      "id": "TRUST_SIGNAL_003",
+      "type": "TRUST_SIGNAL",
+      "conditions": {
+        "exporter_history_clean": true
+      },
+"score_adjustment": 20,
+      "reason": "Exporter has clean evaluation history",
+      "applies_to": {}
+    }
+  ]
+}
+

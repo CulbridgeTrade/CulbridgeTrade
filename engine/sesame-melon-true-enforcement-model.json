@@ -1,0 +1,53 @@
+{
+  "model": "true_enforcement_nl_de_sesame_melon",
+  "workflow": [
+    "shipment_validation_metadata",
+    "hard_stop_triggers",
+    "lab_checks",
+    "traceability_validation",
+    "botanical_verification",
+    "certificate_requirements",
+    "batch_linkage",
+    "moisture_checks",
+    "chemical_biological_limits"
+  ],
+  "fields": {
+    "shipment_id": "string",
+    "origin": "string",
+    "exporter": "string",
+    "batch_number": "string",
+    "aflatoxin_b1": "numeric",
+    "aflatoxin_total": "numeric",
+    "pesticides": "array",
+    "salmonella": "boolean",
+    "moisture": "numeric",
+    "botanical_name": "string",
+    "traceability_chain": "array",
+    "coa": "boolean",
+    "phytosanitary": "boolean",
+    "health_cert": "boolean",
+    "lab_batch": "string",
+    "lab_accredited": "boolean"
+  },
+  "hard_blockers": [
+    {"rule": "aflatoxin_limit", "field": "aflatoxin_total", "threshold": 20},
+    {"rule": "salmonella", "field": "salmonella", "value": true},
+    {"rule": "batch_mismatch", "fields": ["batch_number", "lab_batch"]},
+    {"rule": "trace_missing", "field": "traceability_chain"},
+    {"rule": "botanical_mismatch", "expected": "Sesamum indicum"},
+    {"rule": "moisture_high", "field": "moisture", "threshold": 12},
+    {"rule": "no_coa", "field": "coa"},
+    {"rule": "no_phyto", "field": "phytosanitary"}
+  ],
+  "output_example": {
+    "shipment_id": "S12345",
+    "batch_number": "B6789",
+    "results": [
+      {"rule_id": "aflatoxin_limit", "status": "BLOCKED", "reason": "25>20"},
+      {"rule_id": "botanical_check", "status": "PASS"}
+    ],
+    "health_score": 40,
+    "final_status": "BLOCKED"
+  }
+}
+

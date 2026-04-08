@@ -1,0 +1,68 @@
+[
+  {
+    "auditId": "THRESHOLD_AUDIT-1774983943728",
+    "shipmentId": "test-shipment-001",
+    "ruleId": "THRESHOLD_AFLATOXIN",
+    "baseThreshold": 2,
+    "adjustedThreshold": "2.00",
+    "adjustmentFactor": 1,
+    "inputValue": 2.5,
+    "result": "BLOCKER",
+    "timestamp": "2026-03-31T19:05:43.728Z"
+  },
+  {
+    "auditId": "THRESHOLD_AUDIT-1774940185368",
+    "shipmentId": "test-shipment-001",
+    "ruleId": "THRESHOLD_AFLATOXIN",
+    "baseThreshold": 2,
+    "adjustedThreshold": "2.00",
+    "adjustmentFactor": 1,
+    "inputValue": 2.5,
+    "result": "BLOCKER",
+    "timestamp": "2026-03-31T06:56:25.368Z"
+  },
+  {
+    "auditId": "THRESHOLD_AUDIT-1774939849388",
+    "shipmentId": "test-shipment-001",
+    "ruleId": "THRESHOLD_AFLATOXIN",
+    "baseThreshold": 2,
+    "adjustedThreshold": "2.00",
+    "adjustmentFactor": 1,
+    "inputValue": 2.5,
+    "result": "BLOCKER",
+    "timestamp": "2026-03-31T06:50:49.388Z"
+  },
+  {
+    "auditId": "THRESHOLD_AUDIT-1774939428518",
+    "shipmentId": "test-shipment-001",
+    "ruleId": "THRESHOLD_AFLATOXIN",
+    "baseThreshold": 2,
+    "adjustedThreshold": "2.00",
+    "adjustmentFactor": 1,
+    "inputValue": 2.5,
+    "result": "BLOCKER",
+    "timestamp": "2026-03-31T06:43:48.518Z"
+  },
+  {
+    "auditId": "THRESHOLD_AUDIT-1774933434843",
+    "shipmentId": "test_shipment_001",
+    "ruleId": "THRESHOLD_AFLATOXIN",
+    "baseThreshold": 2,
+    "adjustedThreshold": "2.00",
+    "adjustmentFactor": 1,
+    "inputValue": 2.5,
+    "result": "BLOCKER",
+    "timestamp": "2026-03-31T05:03:54.844Z"
+  },
+  {
+    "auditId": "THRESHOLD_AUDIT-1774933049491",
+    "shipmentId": "test_shipment_001",
+    "ruleId": "THRESHOLD_AFLATOXIN",
+    "baseThreshold": 2,
+    "adjustedThreshold": "2.00",
+    "adjustmentFactor": 1,
+    "inputValue": 2.5,
+    "result": "BLOCKER",
+    "timestamp": "2026-03-31T04:57:29.491Z"
+  }
+]

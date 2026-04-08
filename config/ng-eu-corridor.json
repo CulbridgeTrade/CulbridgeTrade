@@ -1,0 +1,546 @@
+{
+  "version": "1.0.0",
+  "description": "Culbridge NG → EU Corridor Configuration",
+  "created": "2026-03-28T00:00:00Z",
+  
+  "labRegistry": {
+    "description": "Approved labs for NG → EU corridor",
+    "entities": [
+      {
+        "id": "lab_ng_nafdac_001",
+        "name": "NAFDAC Food Safety Lab Lagos",
+        "country": "NG",
+        "accreditation": ["NAFDAC", "ISO/IEC 17025"],
+        "scopes": ["pesticide", "aflatoxin", "microbe", "heavy_metal"],
+        "verified": true,
+        "status": "ACTIVE",
+        "lastSynced": "2026-03-28T00:00:00Z"
+      },
+      {
+        "id": "lab_ng_son_002",
+        "name": "SON Standards Test House Abuja",
+        "country": "NG",
+        "accreditation": ["SON", "ISO/IEC 17025"],
+        "scopes": ["pesticide", "moisture", "aflatoxin"],
+        "verified": true,
+        "status": "ACTIVE",
+        "lastSynced": "2026-03-28T00:00:00Z"
+      },
+      {
+        "id": "lab_ng_naqs_003",
+        "name": "Nigerian Agricultural Quarantine Service Lab",
+        "country": "NG",
+        "accreditation": ["NAQS", "ISO/IEC 17025"],
+        "scopes": ["aflatoxin", "pesticide", "microbe"],
+        "verified": true,
+        "status": "ACTIVE",
+        "lastSynced": "2026-03-28T00:00:00Z"
+      },
+      {
+        "id": "lab_ng_fiqc_004",
+        "name": "Federal Institute of Quality Control",
+        "country": "NG",
+        "accreditation": ["FIQC", "ISO/IEC 17025"],
+        "scopes": ["aflatoxin", "heavy_metal"],
+        "verified": true,
+        "status": "ACTIVE",
+        "lastSynced": "2026-03-28T00:00:00Z"
+      },
+      {
+        "id": "lab_eu_nl_001",
+        "name": "Dutch National Reference Lab (Food)",
+        "country": "NL",
+        "accreditation": ["EU NRL", "ISO/IEC 17025"],
+        "scopes": ["pesticide", "aflatoxin", "salmonella", "heavy_metal"],
+        "verified": true,
+        "status": "ACTIVE",
+        "lastSynced": "2026-03-28T00:00:00Z"
+      },
+      {
+        "id": "lab_eu_de_001",
+        "name": "German Federal Institute for Risk Assessment",
+        "country": "DE",
+        "accreditation": ["BfR", "ISO/IEC 17025"],
+        "scopes": ["pesticide", "aflatoxin", "microbe"],
+        "verified": true,
+        "status": "ACTIVE",
+        "lastSynced": "2026-03-28T00:00:00Z"
+      },
+      {
+        "id": "lab_unverified_001",
+        "name": "Unverified Test Lab",
+        "country": "NG",
+        "accreditation": [],
+        "scopes": ["aflatoxin"],
+        "verified": false,
+        "status": "SUSPENDED",
+        "lastSynced": "2026-02-01T00:00:00Z"
+      }
+    ]
+  },
+
+  "productOntology": {
+    "description": "Required lab tests per commodity",
+    "products": {
+      "sesame": {
+        "requiredTests": ["ethylene_oxide", "aflatoxin", "salmonella"],
+        "notes": "EU requires all three - ethylene oxide banned since 2022"
+      },
+      "cocoa": {
+        "requiredTests": ["aflatoxin", "cadmium"],
+        "notes": "Cadmium limit strict for EU cocoa products"
+      },
+      "cashew": {
+        "requiredTests": ["aflatoxin", "lead"],
+        "notes": "Lead testing important for cashews"
+      },
+      "ginger": {
+        "requiredTests": ["ethylene_oxide", "aflatoxin"],
+        "notes": "Ethylene oxide concern for ginger"
+      },
+      "fish": {
+        "requiredTests": ["mercury", "histamine"],
+        "notes": "Scombroid fish species require histamine test"
+      },
+      "coffee": {
+        "requiredTests": ["aflatoxin", "ochratoxin_a"],
+        "notes": "Ochratoxin A concern for coffee"
+      },
+      "spices": {
+        "requiredTests": ["aflatoxin", "ethylene_oxide", "salmonella"],
+        "notes": "Multiple requirements for spice exports"
+      },
+      "groundnuts": {
+        "requiredTests": ["aflatoxin"],
+        "notes": "Peanuts = highest aflatoxin risk"
+      },
+      "seeds": {
+        "requiredTests": ["aflatoxin", "ethylene_oxide"],
+        "notes": "Similar to sesame requirements"
+      }
+    }
+  },
+
+  "mrlThresholds": {
+    "description": "Maximum Residue Limits for EU",
+    "jurisdiction": "EU",
+    "thresholds": [
+      { "substance": "ethylene_oxide", "limit": 0.1, "unit": "mg/kg" },
+      { "substance": "aflatoxin_b1", "limit": 2.0, "unit": "μg/kg" },
+      { "substance": "aflatoxin_total", "limit": 4.0, "unit": "μg/kg" },
+      { "substance": "chlorpyrifos", "limit": 0.01, "unit": "mg/kg" },
+      { "substance": "dichlorvos", "limit": 0.01, "unit": "mg/kg" },
+      { "substance": "cadmium", "limit": 0.5, "unit": "mg/kg", "appliesTo": "cocoa" },
+      { "substance": "lead", "limit": 0.1, "unit": "mg/kg" },
+      { "substance": "mercury", "limit": 1.0, "unit": "mg/kg", "appliesTo": "fish" },
+      { "substance": "histamine", "limit": 100, "unit": "mg/kg", "appliesTo": "fish" },
+      { "substance": "ochratoxin_a", "limit": 3.0, "unit": "μg/kg", "appliesTo": "coffee" },
+      { "substance": "salmonella", "limit": 0, "unit": "absent/25g", "appliesTo": "sesame" }
+    ]
+  },
+
+  "ruleEngine": {
+    "description": "Lab verification + MRL/contaminant checks",
+    "rules": [
+      {
+        "id": "LAB_VERIFIED_ACTIVE",
+        "name": "Lab must be verified and active",
+        "scope": { "product": "any", "corridor": "any" },
+        "condition": {
+          "field": "labResults.$KEY.labId.status",
+          "operator": "==",
+          "value": "ACTIVE"
+        },
+        "effect": {
+          "type": "BLOCKER",
+          "message": "Lab is not ACTIVE"
+        },
+        "source": { "regulation": "Culbridge Core", "reference": "LAB_VERIFY_001" }
+      },
+      {
+        "id": "LAB_VERIFIED_TRUE",
+        "name": "Lab must be system-verified",
+        "scope": { "product": "any", "corridor": "any" },
+        "condition": {
+          "field": "labResults.$KEY.labId.verified",
+          "operator": "==",
+          "value": true
+        },
+        "effect": {
+          "type": "BLOCKER",
+          "message": "Result from unverified lab"
+        },
+        "source": { "regulation": "Culbridge Core", "reference": "LAB_VERIFY_002" }
+      },
+      {
+        "id": "REQUIRED_TEST_EXISTS",
+        "name": "Required lab test must exist",
+        "scope": { "product": "$PRODUCT", "corridor": "NG→EU" },
+        "condition": {
+          "field": "labResults.$REQUIRED_TEST",
+          "operator": "EXISTS",
+          "value": true
+        },
+        "effect": {
+          "type": "BLOCKER",
+          "message": "Mandatory lab test missing: $REQUIRED_TEST"
+        },
+        "source": { "regulation": "EU Import Requirements", "reference": "LAB_REQ_001" }
+      },
+      {
+        "id": "MRL_ETHYLENE_OXIDE",
+        "name": "Ethylene oxide limit",
+        "scope": { "product": "sesame", "corridor": "NG→EU" },
+        "condition": {
+          "field": "labResults.ethylene_oxide.value",
+          "operator": ">",
+          "value": 0.1
+        },
+        "effect": {
+          "type": "BLOCKER",
+          "message": "Ethylene oxide exceeds EU MRL of 0.1 mg/kg"
+        },
+        "source": { "regulation": "EU 2022/1430", "reference": "MRL_EO_001" }
+      },
+      {
+        "id": "MRL_AFLATOXIN_B1",
+        "name": "Aflatoxin B1 limit",
+        "scope": { "product": "sesame", "corridor": "NG→EU" },
+        "condition": {
+          "field": "labResults.aflatoxin_b1.value",
+          "operator": ">",
+          "value": 2.0
+        },
+        "effect": {
+          "type": "BLOCKER",
+          "message": "Aflatoxin B1 exceeds EU MRL of 2.0 μg/kg"
+        },
+        "source": { "regulation": "EU 2023/915", "reference": "MRL_AFLA_001" }
+      },
+      {
+        "id": "MRL_AFLATOXIN_TOTAL",
+        "name": "Total aflatoxin limit",
+        "scope": { "product": "sesame", "corridor": "NG→EU" },
+        "condition": {
+          "field": "labResults.aflatoxin_total.value",
+          "operator": ">",
+          "value": 4.0
+        },
+        "effect": {
+          "type": "BLOCKER",
+          "message": "Total aflatoxins exceed EU MRL of 4.0 μg/kg"
+        },
+        "source": { "regulation": "EU 2023/915", "reference": "MRL_AFLA_002" }
+      },
+      {
+        "id": "MRL_CADMIUM_COCOA",
+        "name": "Cadmium limit for cocoa",
+        "scope": { "product": "cocoa", "corridor": "NG→EU" },
+        "condition": {
+          "field": "labResults.cadmium.value",
+          "operator": ">",
+          "value": 0.5
+        },
+        "effect": {
+          "type": "BLOCKER",
+          "message": "Cadmium exceeds EU limit of 0.5 mg/kg for cocoa"
+        },
+        "source": { "regulation": "EU 2023/466", "reference": "MRL_CD_001" }
+      },
+      {
+        "id": "MRL_LEAD_CASHEW",
+        "name": "Lead limit for cashew",
+        "scope": { "product": "cashew", "corridor": "NG→EU" },
+        "condition": {
+          "field": "labResults.lead.value",
+          "operator": ">",
+          "value": 0.1
+        },
+        "effect": {
+          "type": "BLOCKER",
+          "message": "Lead exceeds EU limit of 0.1 mg/kg"
+        },
+        "source": { "regulation": "EU 2023/915", "reference": "MRL_PB_001" }
+      },
+      {
+        "id": "SALMONELLA_ABSENT",
+        "name": "Salmonella must be absent",
+        "scope": { "product": "sesame", "corridor": "NG→EU" },
+        "condition": {
+          "field": "labResults.salmonella.value",
+          "operator": ">",
+          "value": 0
+        },
+        "effect": {
+          "type": "BLOCKER",
+          "message": "Salmonella must be absent (0) for sesame exports"
+        },
+        "source": { "regulation": "EU Regulation 2073/2005", "reference": "MICRO_001" }
+      },
+      {
+        "id": "MRL_MERCURY_FISH",
+        "name": "Mercury limit for fish",
+        "scope": { "product": "fish", "corridor": "NG→EU" },
+        "condition": {
+          "field": "labResults.mercury.value",
+          "operator": ">",
+          "value": 1.0
+        },
+        "effect": {
+          "type": "BLOCKER",
+          "message": "Mercury exceeds EU limit of 1.0 mg/kg"
+        },
+        "source": { "regulation": "EU 2023/915", "reference": "MRL_HG_001" }
+      },
+      {
+        "id": "MRL_HISTAMINE_FISH",
+        "name": "Histamine limit for fish",
+        "scope": { "product": "fish", "corridor": "NG→EU" },
+        "condition": {
+          "field": "labResults.histamine.value",
+          "operator": ">",
+          "value": 100
+        },
+        "effect": {
+          "type": "BLOCKER",
+          "message": "Histamine exceeds EU limit of 100 mg/kg"
+        },
+        "source": { "regulation": "EU 2023/915", "reference": "MRL_HIST_001" }
+      },
+      {
+        "id": "LAB_REPORT_HASH",
+        "name": "Lab result must have report hash",
+        "scope": { "product": "any", "corridor": "any" },
+        "condition": {
+          "field": "labResults.$KEY.reportHash",
+          "operator": "EXISTS",
+          "value": true
+        },
+        "effect": {
+          "type": "BLOCKER",
+          "message": "Lab result missing report hash for audit trail"
+        },
+        "source": { "regulation": "Culbridge Core", "reference": "AUDIT_001" }
+      }
+    ]
+  },
+
+  "sampleShipments": {
+    "description": "Test shipments for engine validation",
+    "shipments": [
+      {
+        "id": "test_shipment_001",
+        "description": "PASS - Sesame with valid lab results",
+        "product": "sesame",
+        "corridor": "NG→EU",
+        "destination": "NL",
+        "labResults": {
+          "ethylene_oxide": {
+            "value": 0.05,
+            "unit": "mg/kg",
+            "labId": "lab_ng_nafdac_001",
+            "testDate": "2026-03-27",
+            "reportHash": "sha256:a1b2c3d4e5f6g7h8"
+          },
+          "aflatoxin_b1": {
+            "value": 1.5,
+            "unit": "μg/kg",
+            "labId": "lab_ng_nafdac_001",
+            "testDate": "2026-03-27",
+            "reportHash": "sha256:b2c3d4e5f6g7h8i9"
+          },
+          "aflatoxin_total": {
+            "value": 2.8,
+            "unit": "μg/kg",
+            "labId": "lab_ng_nafdac_001",
+            "testDate": "2026-03-27",
+            "reportHash": "sha256:c3d4e5f6g7h8i9j0"
+          },
+          "salmonella": {
+            "value": 0,
+            "unit": "absent/25g",
+            "labId": "lab_ng_nafdac_001",
+            "testDate": "2026-03-27",
+            "reportHash": "sha256:d4e5f6g7h8i9j0k1"
+          }
+        },
+        "expectedResult": "PASS"
+      },
+      {
+        "id": "test_shipment_002",
+        "description": "FAIL - Sesame with ethylene oxide exceeded",
+        "product": "sesame",
+        "corridor": "NG→EU",
+        "destination": "NL",
+        "labResults": {
+          "ethylene_oxide": {
+            "value": 0.15,
+            "unit": "mg/kg",
+            "labId": "lab_ng_nafdac_001",
+            "testDate": "2026-03-27",
+            "reportHash": "sha256:e5f6g7h8i9j0k1l2"
+          },
+          "aflatoxin": {
+            "value": 1.0,
+            "unit": "μg/kg",
+            "labId": "lab_ng_nafdac_001",
+            "testDate": "2026-03-27",
+            "reportHash": "sha256:f6g7h8i9j0k1l2m3"
+          }
+        },
+        "expectedResult": "BLOCKER - MRL_ETHYLENE_OXIDE"
+      },
+      {
+        "id": "test_shipment_003",
+        "description": "FAIL - Sesame with aflatoxin exceeded",
+        "product": "sesame",
+        "corridor": "NG→EU",
+        "destination": "NL",
+        "labResults": {
+          "ethylene_oxide": {
+            "value": 0.02,
+            "unit": "mg/kg",
+            "labId": "lab_ng_nafdac_001",
+            "testDate": "2026-03-27",
+            "reportHash": "sha256:g7h8i9j0k1l2m3n4"
+          },
+          "aflatoxin_b1": {
+            "value": 3.5,
+            "unit": "μg/kg",
+            "labId": "lab_ng_nafdac_001",
+            "testDate": "2026-03-27",
+            "reportHash": "sha256:h8i9j0k1l2m3n4o5"
+          },
+          "aflatoxin_total": {
+            "value": 6.2,
+            "unit": "μg/kg",
+            "labId": "lab_ng_nafdac_001",
+            "testDate": "2026-03-27",
+            "reportHash": "sha256:i9j0k1l2m3n4o5p6"
+          }
+        },
+        "expectedResult": "BLOCKER - MRL_AFLATOXIN_B1 + MRL_AFLATOXIN_TOTAL"
+      },
+      {
+        "id": "test_shipment_004",
+        "description": "FAIL - Unverified lab",
+        "product": "sesame",
+        "corridor": "NG→EU",
+        "destination": "NL",
+        "labResults": {
+          "ethylene_oxide": {
+            "value": 0.01,
+            "unit": "mg/kg",
+            "labId": "lab_unverified_001",
+            "testDate": "2026-03-27",
+            "reportHash": "sha256:j0k1l2m3n4o5p6q7"
+          },
+          "aflatoxin": {
+            "value": 1.0,
+            "unit": "μg/kg",
+            "labId": "lab_unverified_001",
+            "testDate": "2026-03-27",
+            "reportHash": "sha256:k1l2m3n4o5p6q7r8"
+          }
+        },
+        "expectedResult": "BLOCKER - LAB_VERIFIED_TRUE"
+      },
+      {
+        "id": "test_shipment_005",
+        "description": "FAIL - Missing required test (salmonella)",
+        "product": "sesame",
+        "corridor": "NG→EU",
+        "destination": "NL",
+        "labResults": {
+          "ethylene_oxide": {
+            "value": 0.02,
+            "unit": "mg/kg",
+            "labId": "lab_ng_nafdac_001",
+            "testDate": "2026-03-27",
+            "reportHash": "sha256:l2m3n4o5p6q7r8s9"
+          },
+          "aflatoxin": {
+            "value": 1.5,
+            "unit": "μg/kg",
+            "labId": "lab_ng_nafdac_001",
+            "testDate": "2026-03-27",
+            "reportHash": "sha256:m3n4o5p6q7r8s9t0"
+          }
+        },
+        "expectedResult": "BLOCKER - REQUIRED_TEST_EXISTS (salmonella)"
+      },
+      {
+        "id": "test_shipment_006",
+        "description": "PASS - Cocoa with valid lab results",
+        "product": "cocoa",
+        "corridor": "NG→EU",
+        "destination": "NL",
+        "labResults": {
+          "aflatoxin_b1": {
+            "value": 1.2,
+            "unit": "μg/kg",
+            "labId": "lab_ng_fiqc_004",
+            "testDate": "2026-03-27",
+            "reportHash": "sha256:n4o5p6q7r8s9t0u1"
+          },
+          "cadmium": {
+            "value": 0.3,
+            "unit": "mg/kg",
+            "labId": "lab_ng_fiqc_004",
+            "testDate": "2026-03-27",
+            "reportHash": "sha256:o5p6q7r8s9t0u1v2"
+          }
+        },
+        "expectedResult": "PASS"
+      },
+      {
+        "id": "test_shipment_007",
+        "description": "FAIL - Cocoa cadmium exceeded",
+        "product": "cocoa",
+        "corridor": "NG→EU",
+        "destination": "NL",
+        "labResults": {
+          "aflatoxin": {
+            "value": 0.8,
+            "unit": "μg/kg",
+            "labId": "lab_ng_fiqc_004",
+            "testDate": "2026-03-27",
+            "reportHash": "sha256:p6q7r8s9t0u1v2w3"
+          },
+          "cadmium": {
+            "value": 0.8,
+            "unit": "mg/kg",
+            "labId": "lab_ng_fiqc_004",
+            "testDate": "2026-03-27",
+            "reportHash": "sha256:q7r8s9t0u1v2w3x4"
+          }
+        },
+        "expectedResult": "BLOCKER - MRL_CADMIUM_COCOA"
+      },
+      {
+        "id": "test_shipment_008",
+        "description": "PASS - Cashew with valid lab results",
+        "product": "cashew",
+        "corridor": "NG→EU",
+        "destination": "NL",
+        "labResults": {
+          "aflatoxin_b1": {
+            "value": 1.0,
+            "unit": "μg/kg",
+            "labId": "lab_ng_naqs_003",
+            "testDate": "2026-03-27",
+            "reportHash": "sha256:r8s9t0u1v2w3x4y5"
+          },
+          "lead": {
+            "value": 0.05,
+            "unit": "mg/kg",
+            "labId": "lab_ng_naqs_003",
+            "testDate": "2026-03-27",
+            "reportHash": "sha256:s9t0u1v2w3x4y5z6"
+          }
+        },
+        "expectedResult": "PASS"
+      }
+    ]
+  }
+}

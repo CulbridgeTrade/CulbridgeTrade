@@ -1,0 +1,225 @@
+[
+  {
+    "audit_id": "AUDIT-1774984100441",
+    "shipment_id": "TEST-003",
+    "timestamp": "2026-03-31T19:08:20.437Z",
+    "eudr_status": "NOT_APPLICABLE",
+    "eudr_risk_score": 0,
+    "eudr_certificate": null,
+    "a2m_compliant": false,
+    "a2m_violations": [],
+    "traces_status": "INVALID",
+    "traces_cert_id": null,
+    "nvwa_decision": "UNKNOWN",
+    "nvwa_blocks": [],
+    "decision": "BLOCKED",
+    "blocked": true,
+    "block_reasons": [
+      {
+        "stage": "EUDR",
+        "type": "EUDR_NON_COMPLIANT",
+        "status": "NOT_APPLICABLE",
+        "riskScore": 0,
+        "reason": "Deforestation risk too high",
+        "severity": "HARD"
+      }
+    ],
+    "warnings": 0,
+    "rasff_rejection_rate": 0,
+    "threshold_version": null,
+    "risk_score": 0,
+    "compliance_flags": {
+      "eudr": "NOT_APPLICABLE"
+    }
+  },
+  {
+    "audit_id": "AUDIT-1774984100413",
+    "shipment_id": "TEST-002",
+    "timestamp": "2026-03-31T19:08:20.399Z",
+    "eudr_status": "NOT_APPLICABLE",
+    "eudr_risk_score": 0,
+    "eudr_certificate": null,
+    "a2m_compliant": false,
+    "a2m_violations": [],
+    "traces_status": "INVALID",
+    "traces_cert_id": null,
+    "nvwa_decision": "UNKNOWN",
+    "nvwa_blocks": [],
+    "decision": "BLOCKED",
+    "blocked": true,
+    "block_reasons": [
+      {
+        "stage": "EUDR",
+        "type": "EUDR_NON_COMPLIANT",
+        "status": "NOT_APPLICABLE",
+        "riskScore": 0,
+        "reason": "Deforestation risk too high",
+        "severity": "HARD"
+      }
+    ],
+    "warnings": 0,
+    "rasff_rejection_rate": 0,
+    "threshold_version": null,
+    "risk_score": 0,
+    "compliance_flags": {
+      "eudr": "NOT_APPLICABLE"
+    }
+  },
+  {
+    "audit_id": "AUDIT-1774984099980",
+    "shipment_id": "TEST-001",
+    "timestamp": "2026-03-31T19:08:19.827Z",
+    "eudr_status": "NOT_APPLICABLE",
+    "eudr_risk_score": 0,
+    "eudr_certificate": null,
+    "a2m_compliant": false,
+    "a2m_violations": [],
+    "traces_status": "INVALID",
+    "traces_cert_id": null,
+    "nvwa_decision": "UNKNOWN",
+    "nvwa_blocks": [],
+    "decision": "BLOCKED",
+    "blocked": true,
+    "block_reasons": [
+      {
+        "stage": "EUDR",
+        "type": "EUDR_NON_COMPLIANT",
+        "status": "NOT_APPLICABLE",
+        "riskScore": 0,
+        "reason": "Deforestation risk too high",
+        "severity": "HARD"
+      }
+    ],
+    "warnings": 0,
+    "rasff_rejection_rate": 0,
+    "threshold_version": null,
+    "risk_score": 0,
+    "compliance_flags": {
+      "eudr": "NOT_APPLICABLE"
+    }
+  },
+  {
+    "audit_id": "AUDIT-1774740423370",
+    "shipment_id": "TEST-003",
+    "timestamp": "2026-03-28T23:27:03.370Z",
+    "eudr_status": "NOT_APPLICABLE",
+    "eudr_risk_score": 0,
+    "eudr_certificate": null,
+    "a2m_compliant": false,
+    "a2m_violations": [],
+    "traces_status": "INVALID",
+    "traces_cert_id": null,
+    "nvwa_decision": "UNKNOWN",
+    "nvwa_blocks": [],
+    "decision": "BLOCKED",
+    "blocked": true,
+    "block_reasons": [
+      {
+        "stage": "EUDR",
+        "type": "EUDR_NON_COMPLIANT",
+        "status": "NOT_APPLICABLE",
+        "riskScore": 0,
+        "reason": "Deforestation risk too high",
+        "severity": "HARD"
+      }
+    ],
+    "warnings": 0,
+    "rasff_rejection_rate": 0,
+    "compliance_flags": {
+      "eudr": "NOT_APPLICABLE"
+    }
+  },
+  {
+    "audit_id": "AUDIT-1774740423368",
+    "shipment_id": "TEST-002",
+    "timestamp": "2026-03-28T23:27:03.368Z",
+    "eudr_status": "NOT_APPLICABLE",
+    "eudr_risk_score": 0,
+    "eudr_certificate": null,
+    "a2m_compliant": false,
+    "a2m_violations": [],
+    "traces_status": "INVALID",
+    "traces_cert_id": null,
+    "nvwa_decision": "UNKNOWN",
+    "nvwa_blocks": [],
+    "decision": "BLOCKED",
+    "blocked": true,
+    "block_reasons": [
+      {
+        "stage": "EUDR",
+        "type": "EUDR_NON_COMPLIANT",
+        "status": "NOT_APPLICABLE",
+        "riskScore": 0,
+        "reason": "Deforestation risk too high",
+        "severity": "HARD"
+      }
+    ],
+    "warnings": 0,
+    "rasff_rejection_rate": 0,
+    "compliance_flags": {
+      "eudr": "NOT_APPLICABLE"
+    }
+  },
+  {
+    "audit_id": "AUDIT-1774740423352",
+    "shipment_id": "TEST-001",
+    "timestamp": "2026-03-28T23:27:03.341Z",
+    "eudr_status": "NOT_APPLICABLE",
+    "eudr_risk_score": 0,
+    "eudr_certificate": null,
+    "a2m_compliant": false,
+    "a2m_violations": [],
+    "traces_status": "INVALID",
+    "traces_cert_id": null,
+    "nvwa_decision": "UNKNOWN",
+    "nvwa_blocks": [],
+    "decision": "BLOCKED",
+    "blocked": true,
+    "block_reasons": [
+      {
+        "stage": "EUDR",
+        "type": "EUDR_NON_COMPLIANT",
+        "status": "NOT_APPLICABLE",
+        "riskScore": 0,
+        "reason": "Deforestation risk too high",
+        "severity": "HARD"
+      }
+    ],
+    "warnings": 0,
+    "rasff_rejection_rate": 0,
+    "compliance_flags": {
+      "eudr": "NOT_APPLICABLE"
+    }
+  },
+  {
+    "audit_id": "AUDIT-1774572821829",
+    "shipment_id": "TIMBER-LBR-001",
+    "timestamp": "2026-03-27T00:53:41.828Z",
+    "eudr_status": "NON_COMPLIANT",
+    "eudr_risk_score": 0.78,
+    "eudr_certificate": null,
+    "a2m_compliant": false,
+    "a2m_violations": [],
+    "traces_status": "INVALID",
+    "traces_cert_id": null,
+    "nvwa_decision": "UNKNOWN",
+    "nvwa_blocks": [],
+    "decision": "BLOCKED",
+    "blocked": true,
+    "block_reasons": [
+      {
+        "stage": "EUDR",
+        "type": "EUDR_NON_COMPLIANT",
+        "status": "NON_COMPLIANT",
+        "riskScore": 0.78,
+        "reason": "Deforestation detected within 5-year period",
+        "severity": "HARD"
+      }
+    ],
+    "warnings": 0,
+    "rasff_rejection_rate": 0,
+    "compliance_flags": {
+      "eudr": "NON_COMPLIANT"
+    }
+  }
+]

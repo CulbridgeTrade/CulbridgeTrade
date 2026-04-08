@@ -1,0 +1,54 @@
+{
+  "shipment_id": "S12345",
+  "validation_steps": [
+    {
+      "step": "verify_lab_accreditation",
+      "condition": "lab.accredited == true",
+      "on_fail": "BLOCKED",
+      "log_reason": "Lab not accredited"
+    },
+    {
+      "step": "check_aflatoxin_total",
+      "condition": "lab.aflatoxin_total <= 4.0",
+      "on_fail": "BLOCKED",
+      "log_reason": "Aflatoxin exceeded EU limit"
+    },
+    {
+      "step": "check_salmonella",
+      "condition": "lab.Salmonella_present == false",
+      "on_fail": "BLOCKED",
+      "log_reason": "Salmonella positive"
+    },
+    {
+      "step": "verify_traceability",
+      "condition": "shipment.traceability_chain_complete == true",
+      "on_fail": "BLOCKED",
+      "log_reason": "Traceability incomplete"
+    },
+    {
+      "step": "verify_botanical_name",
+      "condition": "shipment.botanical_name == 'Anacardium occidentale'",
+      "on_fail": "BLOCKED",
+      "log_reason": "Botanical name mismatch"
+    },
+    {
+      "step": "verify_certificates",
+      "condition": "shipment.certificate_of_origin && shipment.phytosanitary_certificate",
+      "on_fail": "BLOCKED",
+      "log_reason": "Missing or invalid certificates"
+    },
+    {
+      "step": "verify_batch_linkage",
+      "condition": "lab.lab_batch_number == shipment.shipment_batch_number",
+      "on_fail": "BLOCKED",
+      "log_reason": "Batch mismatch"
+    },
+    {
+      "step": "check_moisture",
+      "condition": "lab.moisture <= 7",
+      "on_fail": "BLOCKED",
+      "log_reason": "Moisture exceeds EU limit"
+    }
+  ]
+}
+

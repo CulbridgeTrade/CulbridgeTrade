@@ -1,0 +1,41 @@
+{
+  "product": "brown_white_beans",
+  "corridor": ["NL", "DE"],
+  "version": "1.0-mvp",
+  "extraction_mapping": {
+    "aflatoxin_b1": {"source": "coa_lab_report", "path": "aflatoxins.B1", "type": "number", "unit": "µg/kg", "hard_blocker": true, "limit": 2},
+    "aflatoxin_total": {"source": "coa_lab_report", "path": "aflatoxins.total", "type": "number", "unit": "µg/kg", "hard_blocker": true, "limit": 4},
+    "pesticides": {"source": "coa_lab_report", "path": "pesticides", "type": "array", "unit": "mg/kg", "critical_penalty": true},
+    "Salmonella_present": {"source": "microbiology_report", "path": "salmonella", "type": "boolean", "hard_blocker": true},
+    "moisture_percent": {"source": "lab_report", "path": "moisture_percent", "type": "number", "unit": "%", "hard_blocker": true, "limit": 14},
+    "botanical_name": {"source": "phytosanitary_certificate", "path": "botanical_name", "type": "string", "expected": "Phaseolus vulgaris", "hard_blocker": true},
+    "traceability_chain": {"source": "shipping_docs", "path": "traceability", "type": "array", "hard_blocker": true},
+    "certificate_of_origin": {"source": "shipping_docs", "path": "certificate_of_origin_present", "type": "boolean", "required": true, "hard_blocker": true},
+    "phytosanitary_certificate": {"source": "shipping_docs", "path": "phytosanitary_present", "type": "boolean", "required": true, "hard_blocker": true},
+    "lab_batch_number": {"source": "lab_report", "path": "batch_number", "type": "string"},
+    "shipment_batch_number": {"source": "shipping_manifest", "path": "shipment_batch", "type": "string"}
+  },
+  "deterministic_flow": [
+    {"step": "validate_extraction", "desc": "Ensure all fields extracted"},
+    {"step": "check_certificates", "desc": "if !certificate_of_origin or !phytosanitary → BLOCK 'missing certs'"},
+    {"step": "batch_linkage", "desc": "if lab_batch != shipment_batch → BLOCK 'batch mismatch'"},
+    {"step": "mycotoxins_hard_block", "desc": "if aflatoxin_total > 4 or aflatoxin_b1 > 2 → BLOCK 'mycotoxins exceed'"},
+    {"step": "salmonella_hard_block", "desc": "if Salmonella_present → BLOCK 'pathogen detected'"},
+    {"step": "moisture_hard_block", "desc": "if moisture > 14 → BLOCK 'storage violation'"},
+    {"step": "botanical_verification", "desc": "if botanical != 'Phaseolus vulgaris' → BLOCK 'species mismatch'"},
+    {"step": "traceability_check", "desc": "if !traceability_chain → BLOCK 'traceability failure'"},
+    {"step": "pesticide_mrl_check", "desc": "for pesticide: if value > MRL → CRITICAL_PENALTY"},
+    {"step": "log_immutable_snapshot", "desc": "SHA256 hash of all inputs/outputs"}
+  ],
+  "rules": [
+    {"id": "BEANS_HARD_001", "type": "HARD_GATE", "conditions": {"certificate_of_origin": false}, "action": "BLOCK", "reason": "Missing Certificate of Origin"},
+    {"id": "BEANS_HARD_002", "type": "HARD_GATE", "conditions": {"phytosanitary_certificate": false}, "action": "BLOCK", "reason": "Missing Phytosanitary Certificate"},
+    {"id": "BEANS_HARD_003", "type": "HARD_GATE", "conditions": {"lab_batch_number": {"ne": "shipment_batch_number"}}, "action": "BLOCK", "reason": "Batch mismatch"},
+    {"id": "BEANS_HARD_004", "type": "HARD_GATE", "conditions": {"aflatoxin_total": {"gt": 4}}, "action": "BLOCK", "reason": "Aflatoxin total exceeds EU limit"},
+    {"id": "BEANS_HARD_005", "type": "HARD_GATE", "conditions": {"Salmonella_present": true}, "action": "BLOCK", "reason": "Salmonella detected"},
+    {"id": "BEANS_HARD_006", "type": "HARD_GATE", "conditions": {"moisture_percent": {"gt": 14}}, "action": "BLOCK", "reason": "Moisture above threshold"},
+    {"id": "BEANS_HARD_007", "type": "HARD_GATE", "conditions": {"botanical_name": {"ne": "Phaseolus vulgaris"}}, "action": "BLOCK", "reason": "Botanical mismatch"},
+    {"id": "BEANS_CRITICAL_001", "type": "PENALTY", "severity": "critical", "conditions": {"pesticides": {"any_above_mrl": true}}, "score_adjustment": -40, "reason": "Pesticide MRL exceedance"}
+  ]
+}
+

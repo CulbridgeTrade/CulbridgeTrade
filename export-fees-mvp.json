@@ -1,0 +1,162 @@
+{
+  "agencies": [
+    {
+      "agency_id": "uuid_NEPC",
+      "name": "NEPC",
+      "type": "government",
+      "headquarters_address": "Plot 424, Aguiyi Ironsi Street, Maitama, Abuja",
+      "regional_offices": [
+        {
+          "location": "Lagos",
+          "address": "13/15, Ladipo Oluwole Street, Apapa",
+          "phone": "+234 705 162 1328",
+          "email": "enquiry@nepc.gov.ng",
+          "website": "https://nepc.gov.ng/"
+        }
+      ],
+      "services": ["Exporter's Certificate"]
+    },
+    {
+      "agency_id": "uuid_NAQS",
+      "name": "NAQS",
+      "type": "government",
+      "headquarters_address": "Plot 81, Ralph Shodeinde Street, Central Business District, Abuja",
+      "regional_offices": [
+        {
+          "location": "Lagos",
+          "address": "Beside FAAN Headquarters, Opp. MMA 2, Ikeja",
+          "phone": "+234 807 777 8943",
+          "email": "contact@naqs.gov.ng",
+          "website": "https://naqs.gov.ng/"
+        }
+      ],
+      "services": ["Phytosanitary Certificate"]
+    },
+    {
+      "agency_id": "uuid_NAFDAC",
+      "name": "NAFDAC",
+      "type": "government",
+      "headquarters_address": "Plot 2032, Olusegun Obasanjo Way, Wuse Zone 7, Abuja",
+      "regional_offices": [
+        {
+          "location": "Lagos",
+          "address": "Plot 1, Industrial Estate, Apapa-Oshodi Expressway, Isolo",
+          "phone": "0700-1-NAFDAC (0700-1-623322)",
+          "email": "nafdac@nafdac.gov.ng",
+          "website": "https://nafdac.gov.ng/"
+        }
+      ],
+      "services": ["Export Health Certificate", "Certificate of Free Sale"]
+    },
+    {
+      "agency_id": "uuid_NACCIMA",
+      "name": "NACCIMA",
+      "type": "chamber",
+      "headquarters_address": "8A, Oba Akinjobi Way, Ikeja GRA, Lagos",
+      "regional_offices": [
+        {
+          "location": "Abuja",
+          "address": "Plot 701B, Central Business District, Opp. Central Mosque",
+          "phone": "+234 803 450 0900",
+          "email": "info@naccima.com",
+          "website": "https://naccima.com/"
+        }
+      ],
+      "services": ["Certificate of Origin"]
+    },
+    {
+      "agency_id": "uuid_INSPECTION",
+      "name": "Accredited Inspection Agents",
+      "type": "private",
+      "headquarters_address": "",
+      "regional_offices": [
+        {
+          "name": "SGS Nigeria",
+          "address": "13/15 Wharf Road, Apapa, Lagos",
+          "phone": "+234 810 543 6091",
+          "website": "https://www.sgs.com/en-ng/services/import-and-export-certification"
+        },
+        {
+          "name": "Intertek Nigeria",
+          "address": "Lagos Office",
+          "phone": "Varies",
+          "website": "https://www.intertek.com"
+        },
+        {
+          "name": "NICERT",
+          "address": "Lagos Office",
+          "phone": "Varies",
+          "website": "https://www.nicert.gov.ng"
+        }
+      ],
+      "services": ["Clean Certificate of Inspection", "Organic / Quality Certification"]
+    }
+  ],
+  "certificates": [
+    {
+      "certificate_id": "uuid_exporter_cert",
+      "name": "Exporter's Certificate",
+      "issuing_agency_id": "uuid_NEPC",
+      "base_fee_naira": 13500,
+      "variable_fee_info": null,
+      "processing_time_days": [0.04, 2],
+      "fast_track_fee_naira": 0,
+      "fast_track_processing_days": null,
+      "mandatory": true,
+      "products_required_for": ["All Non-Oil Products"],
+      "notes": "Renewals cost ₦7,500"
+    },
+    {
+      "certificate_id": "uuid_phytosanitary",
+      "name": "Phytosanitary Certificate",
+      "issuing_agency_id": "uuid_NAQS",
+      "base_fee_naira": 0,
+      "variable_fee_info": {"type": "weight-based", "min_value": 50, "max_value": 50000},
+      "processing_time_days": [0.03, 4],
+      "fast_track_fee_naira": 5000,
+      "fast_track_processing_days": [0.03, 1],
+      "mandatory": true,
+      "products_required_for": ["Cocoa", "Ginger", "Sesame"],
+      "notes": "Use ePhyto for faster customs clearance"
+    },
+    {
+      "certificate_id": "uuid_health_cert",
+      "name": "Export Health Certificate",
+      "issuing_agency_id": "uuid_NAFDAC",
+      "base_fee_naira": 22000,
+      "variable_fee_info": {"type": "lab-fees", "min_value": 5000, "max_value": 50000},
+      "processing_time_days": [9, 21],
+      "fast_track_fee_naira": 50000,
+      "fast_track_processing_days": [2, 7],
+      "mandatory": true,
+      "products_required_for": ["Processed or Semi-Processed Foods", "Cosmetics", "Chemicals"],
+      "notes": "Fast Track option available"
+    },
+    {
+      "certificate_id": "uuid_certificate_origin",
+      "name": "Certificate of Origin",
+      "issuing_agency_id": "uuid_NACCIMA",
+      "base_fee_naira": 0,
+      "variable_fee_info": null,
+      "processing_time_days": [0.33, 0.67],
+      "fast_track_fee_naira": 0,
+      "fast_track_processing_days": null,
+      "mandatory": true,
+      "products_required_for": ["All Non-Oil Products"],
+      "notes": "EU-GSP compliance"
+    },
+    {
+      "certificate_id": "uuid_clean_cert",
+      "name": "Clean Certificate of Inspection (CCI)",
+      "issuing_agency_id": "uuid_INSPECTION",
+      "base_fee_naira": 0,
+      "variable_fee_info": {"type": "fob-percentage", "min_value": 0.5, "max_value": 1},
+      "processing_time_days": [3, 5],
+      "fast_track_fee_naira": 0,
+      "fast_track_processing_days": null,
+      "mandatory": true,
+      "products_required_for": ["All Export Products"],
+      "notes": "Required for EU buyers"
+    }
+  ]
+}

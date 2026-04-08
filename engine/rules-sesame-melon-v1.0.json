@@ -1,0 +1,86 @@
+{
+  "version": "1.0",
+  "description": "EU Sesame & Melon Seeds Enforcement Matrix NL/DE - 1881/2006 Plant Health RASFF",
+  "rules": [
+    {
+      "id": "HB_SESAME_AFLATOXIN",
+      "type": "HARD_BLOCKER",
+      "conditions": {
+        "aflatoxin_total": { "gt": 30 }
+      },
+      "action": "BLOCKED",
+      "reason": "Aflatoxin > EU 1881/2006 limit",
+      "source": "Reg 1881/2006"
+    },
+    {
+      "id": "HB_SESAME_SALMONELLA",
+      "type": "HARD_BLOCKER",
+      "conditions": {
+        "Salmonella_present": true
+      },
+      "action": "BLOCKED",
+      "reason": "Salmonella detected - microbiological limits",
+      "source": "EU microbiological regs"
+    },
+    {
+      "id": "HB_SESAME_MOISTURE",
+      "type": "HARD_BLOCKER",
+      "conditions": {
+        "moisture": { "gt": 12.0 }
+      },
+      "action": "BLOCKED",
+      "reason": "Moisture > storage limit",
+      "source": "Seed storage regs"
+    },
+    {
+      "id": "HB_SESAME_BATCH_MISMATCH",
+      "type": "HARD_BLOCKER",
+      "conditions": {
+        "batch_mismatch": true
+      },
+      "action": "BLOCKED",
+      "reason": "Lab batch != shipment batch",
+      "source": "Traceability"
+    },
+    {
+      "id": "HB_SESAME_TRACE_NULL",
+      "type": "HARD_BLOCKER",
+      "conditions": {
+        "traceability_chain": null
+      },
+      "action": "BLOCKED",
+      "reason": "No traceability chain",
+      "source": "EU Plant Health"
+    },
+    {
+      "id": "CP_SESAME_PESTICIDES",
+      "type": "CRITICAL_PENALTY",
+      "conditions": {
+        "pesticides_any_over_mrl": true
+      },
+      "penalty": -25,
+      "reason": "Pesticide > MRL",
+      "source": "1881/2006"
+    },
+    {
+      "id": "MP_SESAME_NONISO",
+      "type": "MODERATE_PENALTY",
+      "conditions": {
+        "lab_accredited": false
+      },
+      "penalty": -10,
+      "reason": "Non-ISO lab",
+      "source": "ISO/IEC 17025"
+    },
+    {
+      "id": "TB_SESAME_HISTORY_CLEAN",
+      "type": "TRUST_BOOSTER",
+      "conditions": {
+        "historical_rasff_failures": 0
+      "bonus": 10,
+      "reason": "Clean RASFF history",
+      "source": "RASFF"
+    }
+  ]
+}
+

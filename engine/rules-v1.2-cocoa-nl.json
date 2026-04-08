@@ -1,0 +1,111 @@
+{
+  "version": "1.2",
+  "description": "Culbridge Cocoa NL Deterministic Enforcement v1.2 - Nigeria→Netherlands (EU entry). CCI/TRMS/NAQS/NEPC + EU validations with execution steps/fail states.",
+  "jurisdiction": ["NL"],
+  "rules": [
+    {
+      "id": "HARD_GATE_COCOA_NL_001",
+      "type": "HARD_GATE",
+      "conditions": {"cci_number": "null"},
+      "action": "BLOCK",
+      "reason": "Clean Certificate of Inspection (CCI) missing. Non-optional for Nigeria export clearance.",
+      "source_regulation": "Nigeria Customs Service / TRMS",
+      "applies_to": {"products": ["cocoa beans"], "destinations": ["NL"]},
+      "execution_steps": [
+        "1. Register shipment on TRMS",
+        "2. Assign inspection agent",
+        "3. Physical inspection (quality/quantity)",
+        "4. Pay NESS fee",
+        "5. CCI issued"
+      ],
+      "fail_states": ["No TRMS registration → Cannot proceed"]
+    },
+    {
+      "id": "HARD_GATE_COCOA_NL_002",
+      "type": "HARD_GATE",
+      "conditions": {"phytosanitary_cert_number": "null"},
+      "action": "BLOCK",
+      "reason": "Phytosanitary Certificate missing. Cocoa must be pest-free + NL requirements.",
+      "source_regulation": "NAQS / EU 2019/2072",
+      "applies_to": {"products": ["cocoa beans"], "destinations": ["NL"]},
+      "execution_steps": [
+        "1. Book NAQS inspection",
+        "2. Submit lab test results (pests/moisture)",
+        "3. Generate certificate request"
+      ],
+      "fail_states": ["Quarantine pests detected → REJECT SHIPMENT", "Moisture >7% → BLOCK CERTIFICATE"]
+    },
+    {
+      "id": "HARD_GATE_COCOA_NL_003",
+      "type": "HARD_GATE",
+      "conditions": {"certificate_of_origin_number": "null"},
+      "action": "BLOCK",
+      "reason": "Certificate of Origin missing. Prove Nigerian origin for tariffs/customs.",
+      "source_regulation": "NEPC / Chambers of Commerce",
+      "applies_to": {"products": ["cocoa beans"], "destinations": ["NL"]},
+      "execution_steps": ["1. Submit to NEPC/Chamber", "2. Verify origin docs"],
+      "fail_states": ["Cannot prove Nigerian origin → BLOCK"]
+    },
+    {
+      "id": "HARD_GATE_COCOA_NL_004",
+      "type": "HARD_GATE",
+      "conditions": {"trms_registered": false},
+      "action": "BLOCK",
+      "reason": "TRMS registration missing - first step for CCI.",
+      "applies_to": {"products": ["cocoa beans"], "destinations": ["NL"]}
+    },
+    {
+      "id": "HARD_GATE_COCOA_NL_005",
+      "type": "HARD_GATE",
+      "conditions": {"ness_fee_paid": false},
+      "action": "BLOCK",
+      "reason": "NESS fee not paid - blocks CCI issuance.",
+      "applies_to": {"products": ["cocoa beans"], "destinations": ["NL"]}
+    },
+    {
+      "id": "HARD_GATE_COCOA_NL_006",
+      "type": "HARD_GATE",
+      "conditions": {"naqs_inspection_passed": false},
+      "action": "BLOCK",
+      "reason": "NAQS inspection failed (pests/contaminants).",
+      "applies_to": {"products": ["cocoa beans"], "destinations": ["NL"]},
+      "fail_states": ["Live pests → REJECT SHIPMENT", "Non-compliant importer rules → BLOCK"]
+    },
+    {
+      "id": "PENALTY_COCOA_NL_001",
+      "type": "PENALTY",
+      "severity": "critical",
+      "conditions": {"aflatoxin_b1": {"gt": 2}},
+      "score_adjustment": -50,
+      "reason": "Aflatoxin B1 >2 μg/kg (NL/EU MRL).",
+      "source_regulation": "EC 1881/2006",
+      "applies_to": {"products": ["cocoa beans"], "destinations": ["NL"]}
+    },
+    {
+      "id": "PENALTY_COCOA_NL_002",
+      "type": "PENALTY",
+      "severity": "critical",
+      "conditions": {"moisture_percent": {"gt": 7}},
+      "score_adjustment": -40,
+      "reason": "Moisture >7% - risk of mold/pests.",
+      "applies_to": {"products": ["cocoa beans"], "destinations": ["NL"]}
+    },
+    {
+      "id": "PENALTY_COCOA_NL_003",
+      "type": "PENALTY",
+      "severity": "moderate",
+      "conditions": {"batch_mismatch": true},
+      "score_adjustment": -30,
+      "reason": "Batch mismatch between shipment/lab.",
+      "applies_to": {"products": ["cocoa beans"], "destinations": ["NL"]}
+    },
+    {
+      "id": "TRUST_COCOA_NL_001",
+      "type": "TRUST_SIGNAL",
+      "conditions": {"lab_accreditation": "ISO 17025", "report_fresh": true},
+      "score_adjustment": +10,
+      "reason": "Trusted NL-compliant lab report.",
+      "applies_to": {"products": ["cocoa beans"], "destinations": ["NL"]}
+    }
+  ]
+}

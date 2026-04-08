@@ -1,0 +1,178 @@
+{
+  "lastUpdated": "2026-03-27T00:27:00.721Z",
+  "alerts": [
+    {
+      "id": "USH-2026-001",
+      "category": "security",
+      "type": "banditry",
+      "title": "Bandit Activity on Lagos-Kano Highway",
+      "description": "Reports of armed banditry near Katina forest. Multiple transport companies holding cargo.",
+      "region": {
+        "country": "Nigeria",
+        "state": "Niger"
+      },
+      "coordinates": {
+        "lat": 10.4,
+        "lon": 7.2
+      },
+      "riskLevel": "CRITICAL",
+      "affectedRoutes": [
+        "Lagos-Kano"
+      ],
+      "date": "2026-03-25",
+      "source": "community",
+      "verified": true,
+      "upvotes": 45,
+      "response": "reroute"
+    },
+    {
+      "id": "USH-2026-002",
+      "category": "security",
+      "type": "checkpoint_extortion",
+      "title": "Multiple Illegal Checkpoints - Benin Border",
+      "description": "Extortion checkpoints increasing near Seme border. Average delay 3 hours.",
+      "region": {
+        "country": "Nigeria",
+        "state": "Ogun"
+      },
+      "coordinates": {
+        "lat": 6.4,
+        "lon": 2.9
+      },
+      "riskLevel": "HIGH",
+      "affectedRoutes": [
+        "Lagos-Seme",
+        " Cotonou"
+      ],
+      "date": "2026-03-24",
+      "source": "community",
+      "verified": true,
+      "upvotes": 32,
+      "response": "avoid"
+    },
+    {
+      "id": "USH-2026-003",
+      "category": "logistics",
+      "type": "port_delay",
+      "title": "Port Congestion - Apapa Terminal",
+      "description": "Container clearance backlog extending to 21 days. Truck turnaround 96+ hours.",
+      "region": {
+        "country": "Nigeria",
+        "state": "Lagos"
+      },
+      "coordinates": {
+        "lat": 6.5,
+        "lon": 3.3
+      },
+      "riskLevel": "HIGH",
+      "affectedRoutes": [
+        "Apapa Port"
+      ],
+      "date": "2026-03-23",
+      "source": "port_authority",
+      "verified": true,
+      "upvotes": 78,
+      "response": "delay_expected"
+    },
+    {
+      "id": "USH-2026-004",
+      "category": "market_price",
+      "type": "price_spike",
+      "title": "Sesame Price Increase - 40%",
+      "description": "Market price surge due to export demand. Local farmers holding stock.",
+      "region": {
+        "country": "Nigeria",
+        "state": "Oyo"
+      },
+      "priceImpact": "+40%",
+      "date": "2026-03-22",
+      "source": "market",
+      "verified": true,
+      "upvotes": 15
+    },
+    {
+      "id": "USH-2026-005",
+      "category": "market_price",
+      "type": "price_drop",
+      "title": "Cocoa Price Decline",
+      "description": "Price adjustment following international market movement.",
+      "region": {
+        "country": "Ghana",
+        "region": "Ashanti"
+      },
+      "priceImpact": "-8%",
+      "date": "2026-03-21",
+      "source": "market",
+      "verified": false,
+      "upvotes": 8
+    },
+    {
+      "id": "USH-2026-006",
+      "category": "infrastructure",
+      "type": "road_damage",
+      "title": "Bridge Closure - Ife-Ilesha Road",
+      "description": "Culvert collapse. Alternative route adds 4 hours.",
+      "region": {
+        "country": "Nigeria",
+        "state": "Osun"
+      },
+      "coordinates": {
+        "lat": 7.5,
+        "lon": 4.5
+      },
+      "riskLevel": "MEDIUM",
+      "affectedRoutes": [
+        "Ibadan-Ilesha"
+      ],
+      "date": "2026-03-20",
+      "source": "community",
+      "verified": true,
+      "upvotes": 22,
+      "response": "reroute"
+    },
+    {
+      "id": "USH-2026-007",
+      "category": "export_alert",
+      "type": "customs_delay",
+      "title": "Customs Strike - Tin Can Island",
+      "description": "Strike action by customs officers. Operations suspended.",
+      "region": {
+        "country": "Nigeria",
+        "state": "Lagos"
+      },
+      "riskLevel": "HIGH",
+      "affectedRoutes": [
+        "Tin Can Port"
+      ],
+      "date": "2026-03-19",
+      "source": "customs",
+      "verified": true,
+      "upvotes": 56,
+      "response": "use_alternative_port"
+    },
+    {
+      "id": "USH-2026-008",
+      "category": "weather",
+      "type": "flood_warning",
+      "title": "Flood Alert - Niger River Delta",
+      "description": "Heavy rainfall causing flooding. Road access restricted.",
+      "region": {
+        "country": "Nigeria",
+        "state": "Delta"
+      },
+      "coordinates": {
+        "lat": 5.5,
+        "lon": 6
+      },
+      "riskLevel": "MEDIUM",
+      "affectedRoutes": [
+        "Warri-Benin"
+      ],
+      "date": "2026-03-18",
+      "source": "weather_service",
+      "verified": true,
+      "upvotes": 19,
+      "response": "delay_expected"
+    }
+  ]
+}

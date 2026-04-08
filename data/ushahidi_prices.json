@@ -1,0 +1,69 @@
+{
+  "lastUpdated": "2026-03-27T00:27:00.723Z",
+  "prices": [
+    {
+      "product": "sesame seeds",
+      "region": "Nigeria-Oyo",
+      "pricePerKg": 850,
+      "currency": "NGN",
+      "date": "2026-03-25",
+      "trend": "up"
+    },
+    {
+      "product": "sesame seeds",
+      "region": "Nigeria-Kano",
+      "pricePerKg": 820,
+      "currency": "NGN",
+      "date": "2026-03-25",
+      "trend": "stable"
+    },
+    {
+      "product": "cocoa beans",
+      "region": "Nigeria-Ondo",
+      "pricePerKg": 2100,
+      "currency": "NGN",
+      "date": "2026-03-25",
+      "trend": "down"
+    },
+    {
+      "product": "cocoa beans",
+      "region": "Ghana-Ashanti",
+      "pricePerKg": 12.5,
+      "currency": "USD",
+      "date": "2026-03-25",
+      "trend": "down"
+    },
+    {
+      "product": "cocoa beans",
+      "region": "Ivory Coast-Daloa",
+      "pricePerKg": 1050,
+      "currency": "XOF",
+      "date": "2026-03-25",
+      "trend": "stable"
+    },
+    {
+      "product": "groundnuts",
+      "region": "Nigeria-Kano",
+      "pricePerKg": 450,
+      "currency": "NGN",
+      "date": "2026-03-25",
+      "trend": "up"
+    },
+    {
+      "product": "cashew nuts",
+      "region": "Nigeria-Benue",
+      "pricePerKg": 1200,
+      "currency": "NGN",
+      "date": "2026-03-25",
+      "trend": "stable"
+    },
+    {
+      "product": "ginger",
+      "region": "Nigeria-Kogi",
+      "pricePerKg": 380,
+      "currency": "NGN",
+      "date": "2026-03-25",
+      "trend": "up"
+    }
+  ]
+}

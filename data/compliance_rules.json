@@ -1,0 +1,520 @@
+{
+  "lastUpdated": "2026-03-27T00:16:07.312Z",
+  "rules": [
+    {
+      "id": "MRL-120740-chlorpyrifos",
+      "type": "MRL",
+      "hsCode": "120740",
+      "productName": "Sesame seeds",
+      "pesticideName": "chlorpyrifos",
+      "mrlLimit": 0.01,
+      "unit": "mg/kg",
+      "country": "NG",
+      "requiredDocuments": [
+        "phytosanitary_certificate",
+        "certificate_of_origin",
+        "laboratory_test_report"
+      ],
+      "specialConditions": {
+        "maxMoistureContent": 10,
+        "mustBeHeatTreated": true,
+        "requiresPreShipmentInspection": true,
+        "additionalRequirements": "Must be free from Salmonella"
+      },
+      "source": "Access2Markets",
+      "lastUpdated": "2026-03-27T00:16:07.311Z"
+    },
+    {
+      "id": "MRL-120740-pendimethalin",
+      "type": "MRL",
+      "hsCode": "120740",
+      "productName": "Sesame seeds",
+      "pesticideName": "pendimethalin",
+      "mrlLimit": 0.05,
+      "unit": "mg/kg",
+      "country": "NG",
+      "requiredDocuments": [
+        "phytosanitary_certificate",
+        "certificate_of_origin",
+        "laboratory_test_report"
+      ],
+      "specialConditions": {
+        "maxMoistureContent": 10,
+        "mustBeHeatTreated": true,
+        "requiresPreShipmentInspection": true,
+        "additionalRequirements": "Must be free from Salmonella"
+      },
+      "source": "Access2Markets",
+      "lastUpdated": "2026-03-27T00:16:07.311Z"
+    },
+    {
+      "id": "MRL-120740-carbofuran",
+      "type": "MRL",
+      "hsCode": "120740",
+      "productName": "Sesame seeds",
+      "pesticideName": "carbofuran",
+      "mrlLimit": 0.02,
+      "unit": "mg/kg",
+      "country": "NG",
+      "requiredDocuments": [
+        "phytosanitary_certificate",
+        "certificate_of_origin",
+        "laboratory_test_report"
+      ],
+      "specialConditions": {
+        "maxMoistureContent": 10,
+        "mustBeHeatTreated": true,
+        "requiresPreShipmentInspection": true,
+        "additionalRequirements": "Must be free from Salmonella"
+      },
+      "source": "Access2Markets",
+      "lastUpdated": "2026-03-27T00:16:07.311Z"
+    },
+    {
+      "id": "MRL-120740-dichlorvos",
+      "type": "MRL",
+      "hsCode": "120740",
+      "productName": "Sesame seeds",
+      "pesticideName": "dichlorvos",
+      "mrlLimit": 0.01,
+      "unit": "mg/kg",
+      "country": "NG",
+      "requiredDocuments": [
+        "phytosanitary_certificate",
+        "certificate_of_origin",
+        "laboratory_test_report"
+      ],
+      "specialConditions": {
+        "maxMoistureContent": 10,
+        "mustBeHeatTreated": true,
+        "requiresPreShipmentInspection": true,
+        "additionalRequirements": "Must be free from Salmonella"
+      },
+      "source": "Access2Markets",
+      "lastUpdated": "2026-03-27T00:16:07.311Z"
+    },
+    {
+      "id": "MRL-120729-aflatoxin_b1",
+      "type": "MRL",
+      "hsCode": "120729",
+      "productName": "Groundnuts (peanuts)",
+      "pesticideName": "aflatoxin_b1",
+      "mrlLimit": 0.002,
+      "unit": "mg/kg",
+      "country": "NG",
+      "requiredDocuments": [
+        "phytosanitary_certificate",
+        "certificate_of_origin",
+        "aflatoxin_certificate",
+        "laboratory_test_report"
+      ],
+      "specialConditions": {
+        "maxAflatoxinB1": 0.002,
+        "maxTotalAflatoxins": 0.004,
+        "mustBeHeatTreated": false,
+        "requiresPreShipmentInspection": true,
+        "additionalRequirements": "Aflatoxin testing mandatory"
+      },
+      "source": "Access2Markets",
+      "lastUpdated": "2026-03-27T00:16:07.311Z"
+    },
+    {
+      "id": "MRL-120729-total_aflatoxins",
+      "type": "MRL",
+      "hsCode": "120729",
+      "productName": "Groundnuts (peanuts)",
+      "pesticideName": "total_aflatoxins",
+      "mrlLimit": 0.004,
+      "unit": "mg/kg",
+      "country": "NG",
+      "requiredDocuments": [
+        "phytosanitary_certificate",
+        "certificate_of_origin",
+        "aflatoxin_certificate",
+        "laboratory_test_report"
+      ],
+      "specialConditions": {
+        "maxAflatoxinB1": 0.002,
+        "maxTotalAflatoxins": 0.004,
+        "mustBeHeatTreated": false,
+        "requiresPreShipmentInspection": true,
+        "additionalRequirements": "Aflatoxin testing mandatory"
+      },
+      "source": "Access2Markets",
+      "lastUpdated": "2026-03-27T00:16:07.311Z"
+    },
+    {
+      "id": "MRL-120729-chlorpyrifos",
+      "type": "MRL",
+      "hsCode": "120729",
+      "productName": "Groundnuts (peanuts)",
+      "pesticideName": "chlorpyrifos",
+      "mrlLimit": 0.05,
+      "unit": "mg/kg",
+      "country": "NG",
+      "requiredDocuments": [
+        "phytosanitary_certificate",
+        "certificate_of_origin",
+        "aflatoxin_certificate",
+        "laboratory_test_report"
+      ],
+      "specialConditions": {
+        "maxAflatoxinB1": 0.002,
+        "maxTotalAflatoxins": 0.004,
+        "mustBeHeatTreated": false,
+        "requiresPreShipmentInspection": true,
+        "additionalRequirements": "Aflatoxin testing mandatory"
+      },
+      "source": "Access2Markets",
+      "lastUpdated": "2026-03-27T00:16:07.311Z"
+    },
+    {
+      "id": "MRL-180100-cadmium",
+      "type": "MRL",
+      "hsCode": "180100",
+      "productName": "Cocoa beans",
+      "pesticideName": "cadmium",
+      "mrlLimit": 0.1,
+      "unit": "mg/kg",
+      "country": "NG",
+      "requiredDocuments": [
+        "phytosanitary_certificate",
+        "certificate_of_origin",
+        "cocoa_quality_certificate"
+      ],
+      "specialConditions": {
+        "maxCadmium": 0.1,
+        "maxMoistureContent": 8,
+        "mustBeHeatTreated": false,
+        "requiresPreShipmentInspection": false,
+        "additionalRequirements": "Cadmium limits strictly enforced"
+      },
+      "source": "Access2Markets",
+      "lastUpdated": "2026-03-27T00:16:07.311Z"
+    },
+    {
+      "id": "MRL-180100-lead",
+      "type": "MRL",
+      "hsCode": "180100",
+      "productName": "Cocoa beans",
+      "pesticideName": "lead",
+      "mrlLimit": 0.2,
+      "unit": "mg/kg",
+      "country": "NG",
+      "requiredDocuments": [
+        "phytosanitary_certificate",
+        "certificate_of_origin",
+        "cocoa_quality_certificate"
+      ],
+      "specialConditions": {
+        "maxCadmium": 0.1,
+        "maxMoistureContent": 8,
+        "mustBeHeatTreated": false,
+        "requiresPreShipmentInspection": false,
+        "additionalRequirements": "Cadmium limits strictly enforced"
+      },
+      "source": "Access2Markets",
+      "lastUpdated": "2026-03-27T00:16:07.311Z"
+    },
+    {
+      "id": "MRL-180100-chlorpyrifos",
+      "type": "MRL",
+      "hsCode": "180100",
+      "productName": "Cocoa beans",
+      "pesticideName": "chlorpyrifos",
+      "mrlLimit": 0.02,
+      "unit": "mg/kg",
+      "country": "NG",
+      "requiredDocuments": [
+        "phytosanitary_certificate",
+        "certificate_of_origin",
+        "cocoa_quality_certificate"
+      ],
+      "specialConditions": {
+        "maxCadmium": 0.1,
+        "maxMoistureContent": 8,
+        "mustBeHeatTreated": false,
+        "requiresPreShipmentInspection": false,
+        "additionalRequirements": "Cadmium limits strictly enforced"
+      },
+      "source": "Access2Markets",
+      "lastUpdated": "2026-03-27T00:16:07.311Z"
+    },
+    {
+      "id": "MRL-080131-chlorpyrifos",
+      "type": "MRL",
+      "hsCode": "080131",
+      "productName": "Cashew nuts",
+      "pesticideName": "chlorpyrifos",
+      "mrlLimit": 0.01,
+      "unit": "mg/kg",
+      "country": "NG",
+      "requiredDocuments": [
+        "phytosanitary_certificate",
+        "certificate_of_origin",
+        "laboratory_test_report"
+      ],
+      "specialConditions": {
+        "maxMoistureContent": 12,
+        "mustBeHeatTreated": false,
+        "requiresPreShipmentInspection": true,
+        "additionalRequirements": "No live insects allowed"
+      },
+      "source": "Access2Markets",
+      "lastUpdated": "2026-03-27T00:16:07.311Z"
+    },
+    {
+      "id": "MRL-080131-carbofuran",
+      "type": "MRL",
+      "hsCode": "080131",
+      "productName": "Cashew nuts",
+      "pesticideName": "carbofuran",
+      "mrlLimit": 0.01,
+      "unit": "mg/kg",
+      "country": "NG",
+      "requiredDocuments": [
+        "phytosanitary_certificate",
+        "certificate_of_origin",
+        "laboratory_test_report"
+      ],
+      "specialConditions": {
+        "maxMoistureContent": 12,
+        "mustBeHeatTreated": false,
+        "requiresPreShipmentInspection": true,
+        "additionalRequirements": "No live insects allowed"
+      },
+      "source": "Access2Markets",
+      "lastUpdated": "2026-03-27T00:16:07.311Z"
+    },
+    {
+      "id": "MRL-080131-dichlorvos",
+      "type": "MRL",
+      "hsCode": "080131",
+      "productName": "Cashew nuts",
+      "pesticideName": "dichlorvos",
+      "mrlLimit": 0.01,
+      "unit": "mg/kg",
+      "country": "NG",
+      "requiredDocuments": [
+        "phytosanitary_certificate",
+        "certificate_of_origin",
+        "laboratory_test_report"
+      ],
+      "specialConditions": {
+        "maxMoistureContent": 12,
+        "mustBeHeatTreated": false,
+        "requiresPreShipmentInspection": true,
+        "additionalRequirements": "No live insects allowed"
+      },
+      "source": "Access2Markets",
+      "lastUpdated": "2026-03-27T00:16:07.311Z"
+    },
+    {
+      "id": "MRL-120890-chlorpyrifos",
+      "type": "MRL",
+      "hsCode": "120890",
+      "productName": "Ginger",
+      "pesticideName": "chlorpyrifos",
+      "mrlLimit": 0.05,
+      "unit": "mg/kg",
+      "country": "NG",
+      "requiredDocuments": [
+        "phytosanitary_certificate",
+        "certificate_of_origin",
+        "laboratory_test_report"
+      ],
+      "specialConditions": {
+        "maxMoistureContent": 10,
+        "mustBeHeatTreated": false,
+        "requiresPreShipmentInspection": false,
+        "additionalRequirements": "Root must be intact"
+      },
+      "source": "Access2Markets",
+      "lastUpdated": "2026-03-27T00:16:07.311Z"
+    },
+    {
+      "id": "MRL-120890-carbofuran",
+      "type": "MRL",
+      "hsCode": "120890",
+      "productName": "Ginger",
+      "pesticideName": "carbofuran",
+      "mrlLimit": 0.02,
+      "unit": "mg/kg",
+      "country": "NG",
+      "requiredDocuments": [
+        "phytosanitary_certificate",
+        "certificate_of_origin",
+        "laboratory_test_report"
+      ],
+      "specialConditions": {
+        "maxMoistureContent": 10,
+        "mustBeHeatTreated": false,
+        "requiresPreShipmentInspection": false,
+        "additionalRequirements": "Root must be intact"
+      },
+      "source": "Access2Markets",
+      "lastUpdated": "2026-03-27T00:16:07.311Z"
+    },
+    {
+      "id": "MRL-120890-omethoate",
+      "type": "MRL",
+      "hsCode": "120890",
+      "productName": "Ginger",
+      "pesticideName": "omethoate",
+      "mrlLimit": 0.01,
+      "unit": "mg/kg",
+      "country": "NG",
+      "requiredDocuments": [
+        "phytosanitary_certificate",
+        "certificate_of_origin",
+        "laboratory_test_report"
+      ],
+      "specialConditions": {
+        "maxMoistureContent": 10,
+        "mustBeHeatTreated": false,
+        "requiresPreShipmentInspection": false,
+        "additionalRequirements": "Root must be intact"
+      },
+      "source": "Access2Markets",
+      "lastUpdated": "2026-03-27T00:16:07.311Z"
+    },
+    {
+      "id": "DOC-120729",
+      "type": "DOCUMENT_REQUIREMENT",
+      "hsCode": "120729",
+      "productName": "Groundnuts (peanuts)",
+      "requiredDocuments": [
+        "phytosanitary_certificate",
+        "certificate_of_origin",
+        "aflatoxin_certificate",
+        "laboratory_test_report"
+      ],
+      "source": "Access2Markets",
+      "lastUpdated": "2026-03-27T00:16:07.312Z"
+    },
+    {
+      "id": "DOC-120740",
+      "type": "DOCUMENT_REQUIREMENT",
+      "hsCode": "120740",
+      "productName": "Sesame seeds",
+      "requiredDocuments": [
+        "phytosanitary_certificate",
+        "certificate_of_origin",
+        "laboratory_test_report"
+      ],
+      "source": "Access2Markets",
+      "lastUpdated": "2026-03-27T00:16:07.312Z"
+    },
+    {
+      "id": "DOC-120890",
+      "type": "DOCUMENT_REQUIREMENT",
+      "hsCode": "120890",
+      "productName": "Ginger",
+      "requiredDocuments": [
+        "phytosanitary_certificate",
+        "certificate_of_origin",
+        "laboratory_test_report"
+      ],
+      "source": "Access2Markets",
+      "lastUpdated": "2026-03-27T00:16:07.312Z"
+    },
+    {
+      "id": "DOC-180100",
+      "type": "DOCUMENT_REQUIREMENT",
+      "hsCode": "180100",
+      "productName": "Cocoa beans",
+      "requiredDocuments": [
+        "phytosanitary_certificate",
+        "certificate_of_origin",
+        "cocoa_quality_certificate"
+      ],
+      "source": "Access2Markets",
+      "lastUpdated": "2026-03-27T00:16:07.312Z"
+    },
+    {
+      "id": "DOC-080131",
+      "type": "DOCUMENT_REQUIREMENT",
+      "hsCode": "080131",
+      "productName": "Cashew nuts",
+      "requiredDocuments": [
+        "phytosanitary_certificate",
+        "certificate_of_origin",
+        "laboratory_test_report"
+      ],
+      "source": "Access2Markets",
+      "lastUpdated": "2026-03-27T00:16:07.312Z"
+    },
+    {
+      "id": "COND-120729",
+      "type": "SPECIAL_CONDITION",
+      "hsCode": "120729",
+      "productName": "Groundnuts (peanuts)",
+      "specialConditions": {
+        "maxAflatoxinB1": 0.002,
+        "maxTotalAflatoxins": 0.004,
+        "mustBeHeatTreated": false,
+        "requiresPreShipmentInspection": true,
+        "additionalRequirements": "Aflatoxin testing mandatory"
+      },
+      "source": "Access2Markets",
+      "lastUpdated": "2026-03-27T00:16:07.312Z"
+    },
+    {
+      "id": "COND-120740",
+      "type": "SPECIAL_CONDITION",
+      "hsCode": "120740",
+      "productName": "Sesame seeds",
+      "specialConditions": {
+        "maxMoistureContent": 10,
+        "mustBeHeatTreated": true,
+        "requiresPreShipmentInspection": true,
+        "additionalRequirements": "Must be free from Salmonella"
+      },
+      "source": "Access2Markets",
+      "lastUpdated": "2026-03-27T00:16:07.312Z"
+    },
+    {
+      "id": "COND-120890",
+      "type": "SPECIAL_CONDITION",
+      "hsCode": "120890",
+      "productName": "Ginger",
+      "specialConditions": {
+        "maxMoistureContent": 10,
+        "mustBeHeatTreated": false,
+        "requiresPreShipmentInspection": false,
+        "additionalRequirements": "Root must be intact"
+      },
+      "source": "Access2Markets",
+      "lastUpdated": "2026-03-27T00:16:07.312Z"
+    },
+    {
+      "id": "COND-180100",
+      "type": "SPECIAL_CONDITION",
+      "hsCode": "180100",
+      "productName": "Cocoa beans",
+      "specialConditions": {
+        "maxCadmium": 0.1,
+        "maxMoistureContent": 8,
+        "mustBeHeatTreated": false,
+        "requiresPreShipmentInspection": false,
+        "additionalRequirements": "Cadmium limits strictly enforced"
+      },
+      "source": "Access2Markets",
+      "lastUpdated": "2026-03-27T00:16:07.312Z"
+    },
+    {
+      "id": "COND-080131",
+      "type": "SPECIAL_CONDITION",
+      "hsCode": "080131",
+      "productName": "Cashew nuts",
+      "specialConditions": {
+        "maxMoistureContent": 12,
+        "mustBeHeatTreated": false,
+        "requiresPreShipmentInspection": true,
+        "additionalRequirements": "No live insects allowed"
+      },
+      "source": "Access2Markets",
+      "lastUpdated": "2026-03-27T00:16:07.312Z"
+    }
+  ]
+}

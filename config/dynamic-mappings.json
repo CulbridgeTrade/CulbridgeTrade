@@ -1,0 +1,137 @@
+{
+  "version": "1.0.0",
+  "mappings": [
+    {
+      "productCategory": "sesame",
+      "corridorId": "NG-NL",
+      "requiredLabTests": [
+        "ethylene_oxide",
+        "aflatoxin_b1",
+        "aflatoxin_total",
+        "salmonella"
+      ],
+      "requiredDocuments": [
+        "phytosanitary",
+        "certificate_of_origin"
+      ],
+      "thresholds": {
+        "ethylene_oxide": 0.02,
+        "aflatoxin_b1": 2,
+        "aflatoxin_total": 4
+      },
+      "mrlLimits": {
+        "ethylene_oxide": 0.02,
+        "aflatoxin_b1": 2,
+        "aflatoxin_total": 4,
+        "salmonella": 0
+      },
+      "version": "v1",
+      "validFrom": "2024-01-01",
+      "validTo": null
+    },
+    {
+      "productCategory": "sesame",
+      "corridorId": "NG-DE",
+      "requiredLabTests": [
+        "ethylene_oxide",
+        "aflatoxin_b1",
+        "aflatoxin_total",
+        "salmonella"
+      ],
+      "requiredDocuments": [
+        "phytosanitary"
+      ],
+      "thresholds": {
+        "ethylene_oxide": 0.02,
+        "aflatoxin_b1": 2,
+        "aflatoxin_total": 8
+      },
+      "mrlLimits": {
+        "ethylene_oxide": 0.02,
+        "aflatoxin_b1": 2,
+        "aflatoxin_total": 8,
+        "salmonella": 0
+      },
+      "version": "v1",
+      "validFrom": "2024-01-01",
+      "validTo": null
+    },
+    {
+      "productCategory": "cocoa",
+      "corridorId": "NG-NL",
+      "requiredLabTests": [
+        "aflatoxin_b1",
+        "cadmium",
+        "lead"
+      ],
+      "requiredDocuments": [
+        "phytosanitary",
+        "certificate_of_origin",
+        "nafdac_cert"
+      ],
+      "thresholds": {
+        "aflatoxin_b1": 5,
+        "cadmium": 0.6,
+        "lead": 0.5
+      },
+      "mrlLimits": {
+        "aflatoxin_b1": 5,
+        "cadmium": 0.6,
+        "lead": 0.5
+      },
+      "version": "v1",
+      "validFrom": "2024-01-01",
+      "validTo": null
+    },
+    {
+      "productCategory": "cashew",
+      "corridorId": "NG-DE",
+      "requiredLabTests": [
+        "aflatoxin_b1",
+        "aflatoxin_total",
+        "salmonella"
+      ],
+      "requiredDocuments": [
+        "phytosanitary"
+      ],
+      "thresholds": {
+        "aflatoxin_b1": 2,
+        "aflatoxin_total": 10
+      },
+      "mrlLimits": {
+        "aflatoxin_b1": 2,
+        "aflatoxin_total": 10,
+        "salmonella": 0
+      },
+      "version": "v1",
+      "validFrom": "2024-01-01",
+      "validTo": null
+    },
+    {
+      "productCategory": "ginger",
+      "corridorId": "NG-NL",
+      "requiredLabTests": [
+        "cadmium",
+        "lead",
+        "mercury"
+      ],
+      "requiredDocuments": [
+        "phytosanitary",
+        "certificate_of_origin"
+      ],
+      "thresholds": {
+        "cadmium": 0.5,
+        "lead": 0.3,
+        "mercury": 0.1
+      },
+      "mrlLimits": {
+        "cadmium": 0.5,
+        "lead": 0.3,
+        "mercury": 0.1
+      },
+      "version": "v1",
+      "validFrom": "2024-05-01",
+      "validTo": null
+    }
+  ]
+}

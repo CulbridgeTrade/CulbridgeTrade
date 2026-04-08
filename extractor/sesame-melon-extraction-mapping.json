@@ -1,0 +1,90 @@
+{
+  "version": "1.0",
+  "description": "Sesame & Melon Seeds NL/DE Extraction MVP - PDF/CSV to Enforcement JSON",
+  "inputs": ["lab_report_pdf", "coa_pdf", "phytosanitary_pdf", "shipping_manifest_csv"],
+  "fields": {
+    "aflatoxin_b1": {
+      "source": "lab_report",
+      "type": "float",
+      "unit": "µg/kg",
+      "selectors": ["aflatoxin_b1", "aflatoxin B1", "AFB1"],
+      "required": true
+    },
+    "aflatoxin_total": {
+      "source": "lab_report",
+      "type": "float",
+      "unit": "µg/kg",
+      "selectors": ["total_aflatoxin", "sum aflatoxins"],
+      "required": true
+    },
+    "pesticides": {
+      "source": "lab_report",
+      "type": "array",
+      "format": {"name": "string", "value": "float", "unit": "mg/kg"},
+      "selectors": "pesticide_table"
+    },
+    "Salmonella_present": {
+      "source": "lab_report",
+      "type": "boolean",
+      "selectors": ["Salmonella", "salmonella_detected"],
+      "required": true
+    },
+    "moisture": {
+      "source": ["lab_report", "shipping_manifest"],
+      "type": "float",
+      "unit": "%",
+      "selectors": ["moisture_content"],
+      "required": true
+    },
+    "botanical_name": {
+      "source": "coa",
+      "type": "string",
+      "expected": ["Sesamum indicum", "Cucumis spp."],
+      "required": true
+    },
+    "traceability_chain": {
+      "source": "shipping_manifest",
+      "type": "array",
+      "format": "string[]",
+      "required": true
+    },
+    "certificate_of_origin": {
+      "source": "coa",
+      "type": "string",
+      "required": true
+    },
+    "phytosanitary_certificate": {
+      "source": "phytosanitary_pdf",
+      "type": "string",
+      "required": true
+    },
+    "lab_batch_number": {
+      "source": "lab_report",
+      "type": "string",
+      "required": true
+    },
+    "shipment_batch_number": {
+      "source": "shipping_manifest",
+      "type": "string",
+      "required": true
+    }
+  },
+  "output_example": {
+    "shipment_id": "S98765",
+    "batch_number": "B1234",
+    "fields_extracted": {
+      "aflatoxin_b1": 12.5,
+      "aflatoxin_total": 18.0,
+      "pesticides": [{"name": "DDT", "value": 0.05}],
+      "Salmonella_present": false,
+      "moisture": 8.5,
+      "botanical_name": "Sesamum indicum",
+      "traceability_chain": ["FarmA", "ExporterB"],
+      "certificate_of_origin": "COA123.pdf",
+      "phytosanitary_certificate": "PHYT456.pdf",
+      "lab_batch_number": "LAB789",
+      "shipment_batch_number": "B1234"
+    }
+  }
+}
+

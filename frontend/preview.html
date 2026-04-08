@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Culbridge Frontend Preview</title>
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #0B1929;
+      min-height: 100vh;
+    }
+    .preview-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: #0D1F33;
+      border-bottom: 1px solid #1E3A5F;
+      padding: 12px 24px;
+      display: flex;
+      gap: 12px;
+      z-index: 9999;
+    }
+    .preview-nav button {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 6px;
+      background: #1E3A5F;
+      color: #7A95B0;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    .preview-nav button:hover {
+      background: #F97316;
+      color: white;
+    }
+    .preview-nav button.active {
+      background: #F97316;
+      color: white;
+    }
+    .preview-container {
+      padding-top: 60px;
+    }
+    .preview-frame {
+      display: none;
+      width: 100%;
+      min-height: calc(100vh - 60px);
+    }
+    .preview-frame.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <nav class="preview-nav">
+    <button onclick="showTab('submission')" class="active" id="btn-submission">Submission Form</button>
+    <button onclick="showTab('admin')" id="btn-admin">Admin Dashboard</button>
+    <button onclick="showTab('exporter')" id="btn-exporter">Exporter Dashboard</button>
+  </nav>
+
+  <div class="preview-container">
+    <div id="submission-frame" class="preview-frame active">
+      <!-- Submission Form will be rendered here -->
+      <div style="padding: 40px; text-align: center; color: #7A95B0;">
+        <h2 style="color: #E8EDF2; margin-bottom: 16px;">Culbridge Submission Form</h2>
+        <p>Loading React component...</p>
+        <p style="margin-top: 20px; font-size: 12px;">To view, serve this file with a local server that supports JSX transformation.</p>
+        <div style="margin-top: 40px; padding: 20px; background: #112236; border-radius: 8px; display: inline-block;">
+          <h3 style="color: #F97316; margin-bottom: 12px;">Quick Preview</h3>
+          <p style="color: #E8EDF2; margin-bottom: 8px;">📦 Step 1: Commodity Selection</p>
+          <p style="color: #E8EDF2; margin-bottom: 8px;">🏢 Step 2: Company Details</p>
+          <p style="color: #E8EDF2; margin-bottom: 8px;">📄 Step 3: Document Upload</p>
+          <p style="color: #E8EDF2; margin-bottom: 8px;">✅ Step 4: Compliance Check</p>
+          <p style="color: #E8EDF2;">📝 Step 5: Review & Submit</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="admin-frame" class="preview-frame">
+      <div style="padding: 40px; text-align: center; color: #7A95B0;">
+        <h2 style="color: #E8EDF2; margin-bottom: 16px;">Admin Dashboard</h2>
+        <div style="margin-top: 40px; padding: 20px; background: #112236; border-radius: 8px; display: inline-block;">
+          <h3 style="color: #F97316; margin-bottom: 12px;">Features</h3>
+          <p style="color: #E8EDF2; margin-bottom: 8px;">📊 Shipment Overview</p>
+          <p style="color: #E8EDF2; margin-bottom: 8px;">🚨 RASFF Alerts</p>
+          <p style="color: #E8EDF2; margin-bottom: 8px;">⚙️ System Settings</p>
+          <p style="color: #E8EDF2;">📈 Analytics</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="exporter-frame" class="preview-frame">
+      <div style="padding: 40px; text-align: center; color: #7A95B0;">
+        <h2 style="color: #E8EDF2; margin-bottom: 16px;">Exporter Dashboard</h2>
+        <div style="margin-top: 40px; padding: 20px; background: #112236; border-radius: 8px; display: inline-block;">
+          <h3 style="color: #F97316; margin-bottom: 12px;">Features</h3>
+          <p style="color: #E8EDF2; margin-bottom: 8px;">📦 My Shipments</p>
+          <p style="color: #E8EDF2; margin-bottom: 8px;">➕ New Submission</p>
+          <p style="color: #E8EDF2; margin-bottom: 8px;">📋 Compliance Status</p>
+          <p style="color: #E8EDF2;">💰 Fee Calculator</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function showTab(tab) {
+      // Hide all frames
+      document.querySelectorAll('.preview-frame').forEach(f => f.classList.remove('active'));
+      document.querySelectorAll('.preview-nav button').forEach(b => b.classList.remove('active'));
+      
+      // Show selected
+      document.getElementById(tab + '-frame').classList.add('active');
+      document.getElementById('btn-' + tab).classList.add('active');
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+{
+  "model": "true-enforcement",
+  "product": "cocoa beans",
+  "destination": "NL",
+  "origin": "Nigeria",
+  "REQUIREMENT": "Phytosanitary Certificate",
+  "CONDITIONS": [
+    "Shipment product = cocoa beans",
+    "Destination = NL"
+  ],
+  "VALIDATION_RULES": [
+    "No live pests detected",
+    "Moisture content <=7%",
+    "No prohibited contaminants",
+    "Aflatoxin B1 <=2 ug/kg"
+  ],
+  "ACTIONS": [
+    "1. Book NAQS inspection",
+    "2. Submit lab test results",
+    "3. Generate certificate request"
+  ],
+  "FAIL_STATES": [
+    "Pest detected → REJECT SHIPMENT",
+    "Missing lab test → BLOCK CERTIFICATE",
+    "Moisture >7% → BLOCK"
+  ],
+  "CCI_REQUIREMENT": {
+    "ACTIONS": [
+      "Register TRMS",
+      "Inspection agent assigned",
+      "Physical inspection",
+      "Pay NESS fee"
+    ],
+    "FAIL_STATES": ["No TRMS → BLOCK"]
+  },
+  "ORIGIN_REQUIREMENT": {
+    "ISSUER": "NEPC",
+    "FAIL_STATES": ["No Nigerian proof → BLOCK"]
+  }
+}

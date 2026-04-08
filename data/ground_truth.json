@@ -1,0 +1,176 @@
+{
+  "outcomes": [
+    {
+      "shipment_id": "COCOA-NG-001",
+      "predicted_decision": "APPROVE",
+      "predicted_risk_score": 0.15,
+      "predicted_loss_usd": 500,
+      "actual_outcome": "CLEARED",
+      "actual_loss_usd": 0,
+      "port": "Rotterdam",
+      "product_type": "cocoa"
+    },
+    {
+      "shipment_id": "COCOA-NG-002",
+      "predicted_decision": "APPROVE",
+      "predicted_risk_score": 0.25,
+      "predicted_loss_usd": 1200,
+      "actual_outcome": "DELAYED",
+      "actual_loss_usd": 3000,
+      "port": "Rotterdam",
+      "product_type": "cocoa"
+    },
+    {
+      "shipment_id": "COCOA-GH-001",
+      "predicted_decision": "APPROVE",
+      "predicted_risk_score": 0.08,
+      "predicted_loss_usd": 200,
+      "actual_outcome": "CLEARED",
+      "actual_loss_usd": 0,
+      "port": "Amsterdam",
+      "product_type": "cocoa"
+    },
+    {
+      "shipment_id": "SESAME-NL-001",
+      "predicted_decision": "APPROVE",
+      "predicted_risk_score": 0.18,
+      "predicted_loss_usd": 800,
+      "actual_outcome": "REJECTED",
+      "actual_loss_usd": 15000,
+      "port": "Rotterdam",
+      "product_type": "sesame"
+    },
+    {
+      "shipment_id": "SESAME-NL-002",
+      "predicted_decision": "REVIEW",
+      "predicted_risk_score": 0.45,
+      "predicted_loss_usd": 5000,
+      "actual_outcome": "REJECTED",
+      "actual_loss_usd": 22000,
+      "port": "Hamburg",
+      "product_type": "sesame"
+    },
+    {
+      "shipment_id": "COFFEE-ET-001",
+      "predicted_decision": "APPROVE",
+      "predicted_risk_score": 0.12,
+      "predicted_loss_usd": 300,
+      "actual_outcome": "CLEARED",
+      "actual_loss_usd": 0,
+      "port": "Rotterdam",
+      "product_type": "coffee"
+    },
+    {
+      "shipment_id": "COFFEE-ET-002",
+      "predicted_decision": "APPROVE",
+      "predicted_risk_score": 0.2,
+      "predicted_loss_usd": 900,
+      "actual_outcome": "DELAYED",
+      "actual_loss_usd": 4500,
+      "port": "Antwerp",
+      "product_type": "coffee"
+    },
+    {
+      "shipment_id": "TIMBER-LBR-001",
+      "predicted_decision": "REJECT",
+      "predicted_risk_score": 0.75,
+      "predicted_loss_usd": 45000,
+      "actual_outcome": "REJECTED",
+      "actual_loss_usd": 42000,
+      "port": "Rotterdam",
+      "product_type": "timber"
+    },
+    {
+      "shipment_id": "PALM-ID-001",
+      "predicted_decision": "REVIEW",
+      "predicted_risk_score": 0.55,
+      "predicted_loss_usd": 18000,
+      "actual_outcome": "DESTROYED",
+      "actual_loss_usd": 35000,
+      "port": "Hamburg",
+      "product_type": "palm oil"
+    },
+    {
+      "shipment_id": "BEANS-NG-001",
+      "predicted_decision": "APPROVE",
+      "predicted_risk_score": 0.22,
+      "predicted_loss_usd": 1500,
+      "actual_outcome": "CLEARED",
+      "actual_loss_usd": 0,
+      "port": "Rotterdam",
+      "product_type": "beans"
+    }
+  ],
+  "predictions": [
+    {
+      "shipment_id": "COCOA-NG-001",
+      "predicted_decision": "APPROVE",
+      "predicted_risk_score": 0.15,
+      "predicted_loss_usd": 500,
+      "timestamp": "2026-03-27T01:04:19.665Z"
+    },
+    {
+      "shipment_id": "COCOA-NG-002",
+      "predicted_decision": "APPROVE",
+      "predicted_risk_score": 0.25,
+      "predicted_loss_usd": 1200,
+      "timestamp": "2026-03-27T01:04:19.665Z"
+    },
+    {
+      "shipment_id": "COCOA-GH-001",
+      "predicted_decision": "APPROVE",
+      "predicted_risk_score": 0.08,
+      "predicted_loss_usd": 200,
+      "timestamp": "2026-03-27T01:04:19.665Z"
+    },
+    {
+      "shipment_id": "SESAME-NL-001",
+      "predicted_decision": "APPROVE",
+      "predicted_risk_score": 0.18,
+      "predicted_loss_usd": 800,
+      "timestamp": "2026-03-27T01:04:19.665Z"
+    },
+    {
+      "shipment_id": "SESAME-NL-002",
+      "predicted_decision": "REVIEW",
+      "predicted_risk_score": 0.45,
+      "predicted_loss_usd": 5000,
+      "timestamp": "2026-03-27T01:04:19.665Z"
+    },
+    {
+      "shipment_id": "COFFEE-ET-001",
+      "predicted_decision": "APPROVE",
+      "predicted_risk_score": 0.12,
+      "predicted_loss_usd": 300,
+      "timestamp": "2026-03-27T01:04:19.665Z"
+    },
+    {
+      "shipment_id": "COFFEE-ET-002",
+      "predicted_decision": "APPROVE",
+      "predicted_risk_score": 0.2,
+      "predicted_loss_usd": 900,
+      "timestamp": "2026-03-27T01:04:19.665Z"
+    },
+    {
+      "shipment_id": "TIMBER-LBR-001",
+      "predicted_decision": "REJECT",
+      "predicted_risk_score": 0.75,
+      "predicted_loss_usd": 45000,
+      "timestamp": "2026-03-27T01:04:19.665Z"
+    },
+    {
+      "shipment_id": "PALM-ID-001",
+      "predicted_decision": "REVIEW",
+      "predicted_risk_score": 0.55,
+      "predicted_loss_usd": 18000,
+      "timestamp": "2026-03-27T01:04:19.665Z"
+    },
+    {
+      "shipment_id": "BEANS-NG-001",
+      "predicted_decision": "APPROVE",
+      "predicted_risk_score": 0.22,
+      "predicted_loss_usd": 1500,
+      "timestamp": "2026-03-27T01:04:19.665Z"
+    }
+  ]
+}

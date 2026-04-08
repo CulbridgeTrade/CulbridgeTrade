@@ -1,0 +1,36 @@
+[
+  {
+    "lab_id": "LAB001",
+    "lab_name": "Alpha Testing Labs",
+    "tier": "Tier 1",
+    "tier_score": 100,
+    "batch_linked": true,
+    "batch_link_score": 100,
+    "historical_reliability": 95,
+    "confidence_score": 98,
+    "comments": "No RASFF alerts in last 3 years"
+  },
+  {
+    "lab_id": "LAB002",
+    "lab_name": "Beta Quality Labs",
+    "tier": "Tier 2",
+    "tier_score": 75,
+    "batch_linked": false,
+    "batch_link_score": 0,
+    "historical_reliability": 85,
+    "confidence_score": 65,
+    "comments": "Minor RASFF issue 2025; batch linkage missing"
+  },
+  {
+    "lab_id": "LAB003",
+    "lab_name": "Gamma Analysis Center",
+    "tier": "Tier 1",
+    "tier_score": 100,
+    "batch_linked": true,
+    "batch_link_score": 100,
+    "historical_reliability": 92,
+    "confidence_score": 96,
+    "comments": "ISO 17025 accredited, clean record"
+  }
+]
+

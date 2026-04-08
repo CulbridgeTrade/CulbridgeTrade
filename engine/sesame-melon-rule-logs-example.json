@@ -1,0 +1,41 @@
+[
+  {
+    "shipment_id": "S98765",
+    "rule_id": "AFLT_TOTAL_LIMIT",
+    "result": "BLOCKED",
+    "reason": "aflatoxin_total 15.0 µg/kg exceeds EU limit 10.0 µg/kg",
+    "timestamp": "2026-03-26T12:45:00Z",
+    "immutable_snapshot": {
+      "aflatoxin_total": 15.0,
+      "Salmonella_present": false,
+      "moisture": 7.5,
+      "traceability_chain": true,
+      "botanical_name": "Sesamum indicum",
+      "certificate_of_origin": true,
+      "phytosanitary_certificate": true,
+      "lab_batch_number": "LABB123",
+      "shipment_batch_number": "SHIP987"
+    }
+  },
+  {
+    "shipment_id": "S98765",
+    "rule_id": "SALMONELLA_CHECK",
+    "result": "PASS",
+    "reason": "",
+    "timestamp": "2026-03-26T12:45:01Z",
+    "immutable_snapshot": {
+      "Salmonella_present": false
+    }
+  },
+  {
+    "shipment_id": "S98765",
+    "rule_id": "MOISTURE_LIMIT",
+    "result": "PASS",
+    "reason": "",
+    "timestamp": "2026-03-26T12:45:02Z",
+    "immutable_snapshot": {
+      "moisture": 7.5
+    }
+  }
+]
+

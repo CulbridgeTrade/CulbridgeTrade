@@ -1,0 +1,40 @@
+{
+  "shipment_id": "G12345",
+  "rule_logs": [
+    {
+      "rule_id": "AFB1_HARD_BLOCK",
+      "result": "PASS",
+      "reason": "Aflatoxin_total = 3.5 µg/kg (<= 4 µg/kg)",
+      "timestamp": "2026-03-26T10:00:00Z",
+      "immutable_snapshot": {
+        "aflatoxin_total": 3.5,
+        "Salmonella_present": false,
+        "moisture": 11.2,
+        "traceability_chain": ["Farm A", "Processor B", "Shipment C"],
+        "botanical_name": "Zingiber officinale",
+        "certificate_of_origin": "CO12345",
+        "phytosanitary_certificate": "PC12345",
+        "lab_batch_number": "LB12345",
+        "shipment_batch_number": "SB12345"
+      }
+    },
+    {
+      "rule_id": "SALMONELLA_HARD_BLOCK",
+      "result": "PASS",
+      "reason": "No Salmonella detected",
+      "timestamp": "2026-03-26T10:00:01Z",
+      "immutable_snapshot": {
+        "aflatoxin_total": 3.5,
+        "Salmonella_present": false,
+        "moisture": 11.2,
+        "traceability_chain": ["Farm A", "Processor B", "Shipment C"],
+        "botanical_name": "Zingiber officinale",
+        "certificate_of_origin": "CO12345",
+        "phytosanitary_certificate": "PC12345",
+        "lab_batch_number": "LB12345",
+        "shipment_batch_number": "SB12345"
+      }
+    }
+  ]
+}
+

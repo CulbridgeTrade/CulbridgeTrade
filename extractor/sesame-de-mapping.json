@@ -1,0 +1,76 @@
+{
+  "country": "Germany",
+  "commodity": "Sesame",
+  "extraction_mapping": {
+    "aflatoxin_b1": {
+      "source": ["lab_report.pdf", "lab_report.csv"],
+      "type": "float",
+      "unit": "µg/kg",
+      "mandatory": true,
+      "validation": ">=0"
+    },
+    "aflatoxin_total": {
+      "source": ["lab_report.pdf", "lab_report.csv"],
+      "type": "float",
+      "unit": "µg/kg",
+      "mandatory": true,
+      "validation": ">=0"
+    },
+    "pesticides": {
+      "source": ["lab_report.pdf", "lab_report.csv"],
+      "type": "array",
+      "unit": "mg/kg",
+      "mandatory": true,
+      "validation": "all >= 0"
+    },
+    "salmonella_present": {
+      "source": ["lab_report.pdf", "lab_report.csv"],
+      "type": "boolean",
+      "mandatory": true
+    },
+    "botanical_name": {
+      "source": ["lab_report.pdf", "certificate.pdf"],
+      "type": "string",
+      "mandatory": true,
+      "validation": "Sesamum indicum"
+    },
+    "traceability_chain": {
+      "source": ["certificate_of_origin.pdf", "shipping_docs.csv"],
+      "type": "string",
+      "mandatory": true
+    },
+    "certificate_of_origin": {
+      "source": ["certificate_of_origin.pdf"],
+      "type": "string",
+      "mandatory": true
+    },
+    "phytosanitary_certificate": {
+      "source": ["phytosanitary_certificate.pdf"],
+      "type": "string",
+      "mandatory": false
+    },
+    "lab_batch_number": {
+      "source": ["lab_report.pdf"],
+      "type": "string",
+      "mandatory": true
+    },
+    "shipment_batch_number": {
+      "source": ["shipping_docs.csv"],
+      "type": "string",
+      "mandatory": true
+    },
+    "moisture_percent": {
+      "source": ["lab_report.pdf"],
+      "type": "float",
+      "unit": "%",
+      "mandatory": false,
+      "validation": "[0,15]"
+    },
+    "ethylene_oxide_detected": {
+      "source": ["lab_report.pdf"],
+      "type": "boolean",
+      "mandatory": true
+    }
+  }
+}
+

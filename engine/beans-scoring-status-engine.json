@@ -1,0 +1,38 @@
+{
+  "engine": "beans-scoring-mvp",
+  "version": "1.0",
+  "input": "shipment_evaluation_results + lab/exporter_trust_scores",
+  "output": {
+    "health_score": "0-100",
+    "status": ["BLOCKED", "HIGH_RISK", "SAFE"],
+    "applied_penalties": "array"
+  },
+  "calculation_flow": [
+    {"step": 1, "init": "health_score = 100; status = 'SAFE'; penalties = []"},
+    {"step": 2, "hard_blockers": "if FAIL → status = 'BLOCKED'"},
+    {"step": 3, "critical_penalties": "−20 per FAIL rule"},
+    {"step": 4, "moderate_penalties": "−5 per FAIL rule"},
+    {"step": 5, "trust_boosters": "+5 per PASS rule"},
+    {"step": 6, "clamp": "health_score = max(0, min(100, health_score))"},
+    {"step": 7, "status": "if health_score < 50 → 'HIGH_RISK' else 'SAFE'"}
+  ],
+  "penalty_bonus_mapping": {
+    "HARD_BLOCKER": {"status": "BLOCKED"},
+    "CRITICAL": {"score_adjustment": -20},
+    "MODERATE": {"score_adjustment": -5},
+    "TRUST": {"score_adjustment": 5}
+  },
+  "example": {
+    "input": {"rules": [{"type": "CRITICAL", "result": "FAIL"}, {"type": "MODERATE", "result": "FAIL"}, {"type": "TRUST", "result": "PASS"}]},
+    "output": {
+      "health_score": 75,
+      "status": "SAFE",
+      "applied_penalties": [
+        {"rule_id": "RULE_PESTICIDE_X", "impact": "CRITICAL"},
+        {"rule_id": "RULE_METADATA", "impact": "MODERATE"},
+        {"rule_id": "RULE_TRUST_HISTORY", "impact": "TRUST"}
+      ]
+    }
+  }
+}
+

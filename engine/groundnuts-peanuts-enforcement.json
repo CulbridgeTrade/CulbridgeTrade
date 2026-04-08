@@ -1,0 +1,25 @@
+{
+  "product": "groundnuts/peanuts",
+  "corridor": ["NL", "DE"],
+  "sources": ["EC 1881/2006", "EU Plant Health", "RASFF", "ISO17025"],
+  "hard_blockers": [
+    {"rule_id": "HB1", "condition": "aflatoxin_total > EU_limit", "action": "BLOCK_SHIPMENT", "desc": "Aflatoxin exceeds limit - destruction/return", "penalty": "destruction_or_return"},
+    {"rule_id": "HB2", "condition": "salmonella_present == true", "action": "BLOCK_SHIPMENT", "desc": "Microbiological hazard", "penalty": "mandatory_border_action"},
+    {"rule_id": "HB3", "condition": "batch_mismatch OR traceability_fail", "action": "BLOCK_SHIPMENT", "desc": "Batch/trace mismatch", "penalty": "shipment_blocked"},
+    {"rule_id": "HB4", "condition": "moisture > threshold", "action": "BLOCK_SHIPMENT", "desc": "Moisture prevents fungal growth", "penalty": "shipment_blocked"}
+  ],
+  "critical_penalties": [
+    {"rule_id": "CP1", "condition": "pesticides > MRL", "action": "HIGH_RISK", "desc": "Pesticide residue exceeds"},
+    {"rule_id": "CP2", "condition": "botanical_minor_mismatch", "action": "HIGH_RISK", "desc": "Botanical name issue"}
+  ],
+  "moderate_penalties": [
+    {"rule_id": "MP1", "condition": "metadata_mismatch", "action": "MEDIUM_RISK", "desc": "Document metadata issue"},
+    {"rule_id": "MP2", "condition": "lab_non_iso17025", "action": "MEDIUM_RISK", "desc": "Non-accredited lab"}
+  ],
+  "trust_boosters": [
+    {"rule_id": "TB1", "condition": "historical_reliability_high", "action": "TRUST_BOOST", "desc": "Lab/exporter history good"},
+    {"rule_id": "TB2", "condition": "consistent_batch", "action": "TRUST_BOOST", "desc": "Traceability consistent"}
+  ],
+  "notes": "NL Rotterdam/DE Hamburg enforcement. Behavioral signals for lab/port switching."
+}
+

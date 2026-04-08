@@ -1,0 +1,40 @@
+{
+  "version": "1.0",
+  "description": "Culbridge Ginger Dried DE Deterministic v1.0 - Nigeria→Germany. Similar to NL.",
+  "jurisdiction": ["DE"],
+  "rules": [
+    {
+      "id": "HARD_GATE_GINGER_DE_001",
+      "type": "HARD_GATE",
+      "conditions": {"phytosanitary_certificate": "null"},
+      "action": "BLOCK",
+      "reason": "Phytosanitary Certificate missing.",
+      "applies_to": {"products": ["ginger"], "destinations": ["DE"]}
+    },
+    {
+      "id": "HARD_GATE_GINGER_DE_002",
+      "type": "HARD_GATE",
+      "conditions": {"certificate_of_origin": "null"},
+      "action": "BLOCK",
+      "reason": "Certificate of Origin missing.",
+      "applies_to": {"products": ["ginger"], "destinations": ["DE"]}
+    },
+    {
+      "id": "HARD_GATE_GINGER_DE_003",
+      "type": "HARD_GATE",
+      "conditions": {"Salmonella_present": true},
+      "action": "BLOCK",
+      "reason": "Salmonella detected.",
+      "applies_to": {"products": ["ginger"], "destinations": ["DE"]}
+    },
+    {
+      "id": "PENALTY_GINGER_DE_001",
+      "type": "PENALTY",
+      "severity": "critical",
+      "conditions": {"moisture": {"gt": 12}},
+      "score_adjustment": -50,
+      "reason": "Moisture >12%.",
+      "applies_to": {"products": ["ginger"], "destinations": ["DE"]}
+    }
+  ]
+}

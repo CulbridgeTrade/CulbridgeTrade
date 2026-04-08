@@ -1,0 +1,30 @@
+{
+  "hard_blockers": [
+    {"field": "aflatoxin_b1", "limit": 2, "unit": "µg/kg"},
+    {"field": "aflatoxin_total", "limit": 4, "unit": "µg/kg"},
+    {"field": "Salmonella_present", "limit": false},
+    {"field": "batch_linkage", "limit": "match_required"},
+    {"field": "traceability_chain", "limit": "complete"},
+    {"field": "certificate_of_origin", "limit": "required"},
+    {"field": "phytosanitary_certificate", "limit": "required"},
+    {"field": "moisture", "limit": 12, "unit": "%"}
+  ],
+  "critical_penalties": [
+    {"field": "pesticides", "penalty_points": 10, "threshold": "EU_MRL"},
+    {"field": "botanical_name", "penalty_points": 5},
+    {"field": "E_coli", "penalty_points": 5, "range": "10-100 CFU/g"},
+    {"field": "packaging_integrity", "penalty_points": 3}
+  ],
+  "moderate_penalties": [
+    {"field": "metadata_mismatch", "penalty_points": 1},
+    {"field": "non_accredited_lab", "penalty_points": 2},
+    {"field": "minor_lab_error", "penalty_points": 1}
+  ],
+  "trust_boosters": [
+    {"field": "tier_1_lab", "bonus_points": 10},
+    {"field": "historical_rasff_compliance", "bonus_points": 5},
+    {"field": "batch_consistency", "bonus_points": 5},
+    {"field": "accurate_metadata", "bonus_points": 2}
+  ]
+}
+
