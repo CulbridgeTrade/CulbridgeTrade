@@ -36,11 +36,17 @@ fastify.post('/shipments/:id/documents/lab_report', async (request, reply) => {
 
 const start = async () => {
   try {
-    await fastify.listen({ port: 3002 });
+    await fastify.listen({
+      port: process.env.PORT || 3002,
+      host: "0.0.0.0"
+    });
+
+    console.log("Server started successfully");
   } catch (err) {
-    fastify.log.error(err);
+    console.error(err);
     process.exit(1);
   }
 };
+
 start();
 
