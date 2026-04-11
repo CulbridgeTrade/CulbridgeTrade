@@ -10,7 +10,7 @@ RUN apk add --no-cache curl
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install --only=production
+RUN npm install --only=production --no-audit --no-fund --loglevel=error
 
 # Copy source code
 COPY . .
