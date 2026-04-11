@@ -13,7 +13,7 @@
  */
 
 const crypto = require('crypto');
-const { v4: uuidv4 } = require('uuid');
+const uuidv4 = require('uuid').v4;
 
 // In-memory traceability store (in production, this would be a database)
 const traceabilityStore = {
