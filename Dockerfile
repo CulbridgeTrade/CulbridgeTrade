@@ -26,4 +26,4 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
   CMD curl -f http://localhost:3000/health || exit 1
 
 # Start the application
-CMD ["node", "server.js"]
+RUN addgroup -g 1001 -S nodejs\nRUN adduser -S culbridge -u 1001\nUSER culbridge\nCMD ["node", "server.js"]

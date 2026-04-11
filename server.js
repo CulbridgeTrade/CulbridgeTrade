@@ -39,8 +39,7 @@ const { PDFGeneratorService } = require('./services/pdf-generator');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(cors());
-app.use(bodyParser.json({ limit: '10mb' }));
+app.use(helmet());\nconst limiter = rateLimit({\n  windowMs: 15 * 60 * 1000,\n  max: 100\n});\napp.use(limiter);\napp.use(cors({\n  origin: process.env.ALLOWED_ORIGINS || 'https://localhost:3000'\n}));\napp.use('/api', require('./middleware/auth').verifyToken);\napp.use(bodyParser.json({ limit: '10mb' })); 
 app.use(express.static('public')); // for future static files
 
 // Init DB on startup
