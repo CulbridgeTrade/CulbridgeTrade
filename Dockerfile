@@ -1,29 +1,17 @@
 FROM node:18-alpine
 
-# Set working directory
 WORKDIR /app
 
-# Install curl for healthcheck
-RUN apk add --no-cache curl
-
-# Copy package files
 COPY package*.json ./
 
-# Install dependencies
-RUN npm install --only=production --no-audit --no-fund --loglevel=error
+RUN npm install --only=production
 
-# Copy source code
 COPY . .
 
-# Create data directory
-RUN mkdir -p data
+RUN addgroup -S nodejs &amp;&amp; adduser -S culbridge -G nodejs
 
-# Expose port
+USER culbridge
+
 EXPOSE 3000
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
-  CMD curl -f http://localhost:3000/health || exit 1
-
-# Start the application
-RUN addgroup -g 1001 -S nodejs\nRUN adduser -S culbridge -u 1001\nUSER culbridge\nCMD ["node", "server.js"]
+CMD ["node", "server.js"]

@@ -566,7 +566,7 @@ app.get('/analytics/rules', async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`Culbridge Rule Engine running on http://localhost:${PORT}`);
   console.log(`Health: http://localhost:${PORT}/health`);
   console.log(`Test eval: POST http://localhost:${PORT}/shipments/CB-001/evaluate`);

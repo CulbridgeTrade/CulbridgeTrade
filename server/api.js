@@ -62,5 +62,5 @@ fastify.register(async function (fastify) {
 // Health
 fastify.get('/v1/admin/health', async () => ({ status: 'healthy' }));
 
-fastify.listen({ port: 3000 });
+fastify.listen({ port: process.env.PORT || 3000, host: "0.0.0.0" });
 
