@@ -13,7 +13,7 @@
  */
 
 const crypto = require('crypto');
-const uuidv4 = require('uuid').v4;
+const { v4: uuidv4 } = await import('uuid');
 
 // In-memory traceability store (in production, this would be a database)
 const traceabilityStore = {
