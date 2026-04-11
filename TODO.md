@@ -1,18 +1,31 @@
-# Cocoa-Netherlands Deterministic Enforcement MVP
+# Culbridge Rule Engine - Critical Fixes
 
-## Plan Steps (Approved)
+## Task: Fix all Render deployment errors one by one (Node v18 ESM compatibility + engine warnings)
 
-- [x] 1. Create engine/rules-v1.2-cocoa-nl.json (HARD_GATE for CCI, NAQS phyto, NEPC origin, NL validations, actions/fail states)
-- [x] 2. Create COCOA-NL-MVP-SCOPE.md (MVP checklist)
-- [x] 3. Create engine/cocoa-nl-enforcement-model.json (true model with rules/actions/fail_states)
-- [x] 4. Edit extractor/cocoaMapping.json (add cci_number, trms_id, ness_paid, naqs_inspection_date)
-- [x] 5. Edit db/cocoaLabSchema.sql (add columns/views for Nigeria export)
-- [x] 6. Edit extractor/cocoaExtractor.js (regex for new fields)
-- [ ] 5. Edit db/cocoaLabSchema.sql (add columns/views for Nigeria export)
-- [ ] 6. Edit extractor/cocoaExtractor.js (regex for new fields)
-- [x] 7. Update ruleEngine.js ruleFiles array to load v1.2
-- [ ] 8. Add sample NL cocoa data to schema
-- [ ] 9. Test: node engine/test-comprehensive.js or similar
-- [ ] 10. Update README.md
+### 1. ✅ FIXED: uuid ESM error in traceability.js
+- Updated to `const uuid = require('uuid'); const { v4: uuidv4 } = uuid;`
+- Commit pushed to main
+- Now compatible with uuid@^8.3.2 CommonJS
 
-**Progress: Cocoa NL/DE + Ginger NL/DE rules complete. Deterministic pass/fail with actions/fail_states. Test with `node engine/ruleEngine.js.evaluate('test-shipment')`.**
+### 2. ⏳ PENDING: Fix Node engine version mismatch warnings
+- `@hyperledger/fabric-gateway@1.10.1` requires Node >=20.9.0
+- `sqlite3@6.0.1` requires Node >=20.17.0
+- Current runtime: Node v18.20.8
+- **Next**: Downgrade to v1.5.x (Node 18 compatible)
+
+### 3. ⏳ PENDING: Fix 4 npm vulnerabilities
+- 1 moderate, 2 high, 1 critical
+- Run `npm audit fix` or update vulnerable packages
+
+### 4. ⏳ PENDING: Address deprecation warnings
+- turf@3.x → @turf/turf (multiple packages)
+- stellar-sdk@13.3.0 → @stellar/stellar-sdk
+- level-* packages → modern alternatives
+- These are warnings only, app will run
+
+### 5. ⏳ PENDING: Verify deployment after fixes
+- Push each fix individually
+- Monitor Render logs after each push
+- Confirm no more ERR_REQUIRE_ESM
+
+**Instructions**: Execute fixes in order 2→3→4→5. Commit each as `fix(deps): resolve [specific issue]`. Test locally with `node server.js` before pushing.
