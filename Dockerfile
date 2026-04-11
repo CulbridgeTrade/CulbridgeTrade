@@ -8,7 +8,7 @@ RUN npm install --only=production
 
 COPY . .
 
-RUN addgroup -S nodejs &amp;&amp; adduser -S culbridge -G nodejs
+RUN addgroup -S nodejs && adduser -S culbridge -G nodejs
 
 USER culbridge
 
