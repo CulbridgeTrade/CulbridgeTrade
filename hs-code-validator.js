@@ -1,10 +1,11 @@
 const fuse = require('fuse.js');
 const fs = require('fs');
+const path = require('path');
 const { run } = require('./utils/db');
 
 class HSCodeValidator {
   constructor() {
-    this.hsCodes = JSON.parse(fs.readFileSync('./data/hs-codes.json', 'utf8'));
+this.hsCodes = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'hs-codes.json'), 'utf8'));
     this.fuse = new Fuse(this.hsCodes, {
       keys: ['description', 'product_name'],
       threshold: 0.4 // Deterministic fuzzy matching

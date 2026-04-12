@@ -295,6 +295,19 @@ function getAuditLogs(limit = 100) {
   return traceabilityStore.auditLogs.slice(-limit);
 }
 
+/**
+ * Defensive stub for generateComplianceReport - added to prevent ReferenceError in case 
+ * of code expecting this export (Docker mismatch). Returns null; implement as needed.
+ * 
+ * @returns {null}
+ */
+function generateComplianceReport() {
+  // Temporary stub - unblocks server startup
+  // TODO: Implement actual compliance report generation using traceability data
+  console.log('generateComplianceReport stub called');
+  return null;
+}
+
 module.exports = {
   createTraceabilityRecord,
   addFieldMappings,
@@ -304,5 +317,6 @@ module.exports = {
   getAuditTrail,
   getAllTraceabilityRecords,
   getAuditLogs,
-  generateTraceId
+  generateTraceId,
+  generateComplianceReport  // Export stub
 };

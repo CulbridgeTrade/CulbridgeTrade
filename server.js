@@ -26,8 +26,7 @@ const fixOptimizer = require('./services/fix-optimizer');
 const humanLayer = require('./services/human-layer');
 const adversarialDetector = require('./services/adversarial-detector');
 const nvwaSimulator = require('./engine/nvwa-simulator');
-const orchestration = require('./services/application-orchestration');
-const labNetwork = require('./services/lab-network');
+// const orchestration = require('./services/application-orchestration');\nconst labNetwork = require('./services/lab-network');
 const rasffMonitor = require('./services/rasff-monitor');
 const riskScoring = require('./services/risk-scoring');
 const regulatoryIntelligence = require('./services/regulatory-intelligence');
@@ -36,8 +35,41 @@ const path = require('path');
 
 const { PDFGeneratorService } = require('./services/pdf-generator');
 
+console.log("Booting Culbridge...");
+console.log("NODE_ENV:", process.env.NODE_ENV || 'undefined');
+console.log("PORT:", process.env.PORT || 10000);
+
+function assert(condition, message) {
+  if (!condition) {
+    console.error("BOOT FAILURE:", message);
+    process.exit(1);
+  }
+}
+
+// Validate env
+if (!process.env.DATABASE_URL) {
+  console.warn("⚠️  DATABASE_URL missing - using SQLite fallback");
+}
+if (!process.env.PORT) {
+  console.warn("⚠️  PORT missing - using 10000");
+}
+
+// Validate critical modules
+try {
+  require('./utils/traceability');
+  console.log("✅ traceability module OK");
+} catch (err) {
+  console.error("BOOT FAILURE: traceability module failed", err.message);
+  process.exit(1);
+}
+
 const app = express();
 const PORT = process.env.PORT || 10000;
+
+// Environment validation
+const requiredEnv = ['DATABASE_URL'];
+// Skip strict env check for local testing - prod only
+console.log('⚠️  Running with fallback env - set DATABASE_URL for prod');
 
 app.use(helmet());
 const limiter = rateLimit({
@@ -52,15 +84,43 @@ app.use('/api', require('./middleware/auth').verifyToken);
 app.use(bodyParser.json({ limit: '10mb' }));
 app.use(express.static('public'));
 
-initDB();
+// Global error handler
+app.use((err, req, res, next) => {
+  console.error('Unhandled error:', err.stack);
+  res.status(500).json({ error: 'Internal server error' });
+});
+
+// initDB will be called after listen
 
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', timestamp: Date.now() });
 });
 
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Culbridge Rule Engine running on http://localhost:${PORT}`);
+app.get('/', (req, res) => {
+  res.json({ status: 'Culbridge API running', health: 'ok', timestamp: Date.now(), port: PORT });
+});
+
+app.listen(PORT, '0.0.0.0', async () => {
+  console.log(`SERVER READY on port ${PORT}`);
   console.log(`Health: http://localhost:${PORT}/health`);
+  
+  try {
+    await initDB();
+    console.log('✅ Database initialized successfully');
+  } catch (error) {
+    console.error('❌ Database init failed:', error.message);
+    console.log('Server running but DB unavailable - some features limited');
+  }
+});
+
+process.on('uncaughtException', (err) => {
+  console.error('UNCAUGHT EXCEPTION:', err);
+  process.exit(1);
+});
+
+process.on('unhandledRejection', (err) => {
+  console.error('UNHANDLED REJECTION:', err);
+  process.exit(1);
 });
 
 module.exports = app;

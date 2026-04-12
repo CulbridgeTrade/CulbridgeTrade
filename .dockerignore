@@ -1,0 +1,14 @@
+node_modules
+npm-debug.log
+.git
+.gitignore
+data/
+*.db
+.DS_Store
+culbridge-mvp/
+tests/
+frontend/
+.nyc_output
+coverage/
+.env
+config/production.env.example
