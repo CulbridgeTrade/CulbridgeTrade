@@ -37,7 +37,7 @@ const path = require('path');
 const { PDFGeneratorService } = require('./services/pdf-generator');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 10000;
 
 app.use(helmet());
 const limiter = rateLimit({
@@ -58,7 +58,7 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok', timestamp: Date.now() });
 });
 
-app.listen(PORT, '0.0.0.0', () => {
+app.listen(PORT, '0.0.0.0');
   console.log(`Culbridge Rule Engine running on http://localhost:${PORT}`);
   console.log(`Health: http://localhost:${PORT}/health`);
 });
