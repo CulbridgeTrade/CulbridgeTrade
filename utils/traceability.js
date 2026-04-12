@@ -301,10 +301,8 @@ module.exports = {
   addCertification,
   getTraceabilityRecord,
   performRiskAssessment,
-  generateComplianceReport,
   getAuditTrail,
   getAllTraceabilityRecords,
-  updateStatus,
   getAuditLogs,
   generateTraceId
 };

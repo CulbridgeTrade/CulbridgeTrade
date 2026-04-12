@@ -58,7 +58,7 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok', timestamp: Date.now() });
 });
 
-app.listen(PORT, '0.0.0.0');
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`Culbridge Rule Engine running on http://localhost:${PORT}`);
   console.log(`Health: http://localhost:${PORT}/health`);
 });
