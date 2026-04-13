@@ -296,17 +296,92 @@ function getAuditLogs(limit = 100) {
 }
 
 /**
- * Defensive stub for generateComplianceReport - added to prevent ReferenceError in case 
- * of code expecting this export (Docker mismatch). Returns null; implement as needed.
+ * Generate comprehensive compliance report from traceability data
+ * Aggregates shipments, risk assessments, audit logs into HTML report
  * 
- * @returns {null}
+ * @returns {Object} Report with HTML, summary data, timestamp
  */
 function generateComplianceReport() {
-  // Temporary stub - unblocks server startup
-  // TODO: Implement actual compliance report generation using traceability data
-  console.log('generateComplianceReport stub called');
-  return null;
+  const records = Array.from(traceabilityStore.shipments.values());
+  const auditLogs = traceabilityStore.auditLogs.slice(-50); // Last 50 logs
+  
+  const totalShipments = records.length;
+  const compliant = records.filter(r => r.eudr_compliance?.compliance_status === 'compliant').length;
+  const complianceRate = totalShipments > 0 ? ((compliant / totalShipments) * 100).toFixed(1) : 0;
+  
+  const riskScores = records.map(r => r.eudr_compliance?.risk_assessment?.risk_score || 100).filter(Boolean);
+  const avgRisk = riskScores.length > 0 ? riskScores.reduce((a, b) => a + b, 0) / riskScores.length : 100;
+  
+  const summary = {
+    generatedAt: new Date().toISOString(),
+    totalShipments,
+    compliantShipments: compliant,
+    complianceRate: `${complianceRate}%`,
+    avgRiskScore: avgRisk.toFixed(1),
+    highRisk: records.filter(r => (r.eudr_compliance?.risk_assessment?.risk_level || 'high') === 'high').length,
+    totalFields: records.reduce((sum, r) => sum + (r.field_mappings?.length || 0), 0),
+    totalCerts: records.reduce((sum, r) => sum + (r.certifications?.length || 0), 0),
+    auditLogCount: auditLogs.length
+  };
+  
+  // Generate HTML report
+  const html = `
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Culbridge Compliance Report - ${summary.generatedAt}</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; }
+    .header { background: #2c3e50; color: white; padding: 20px; }
+    .summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 20px 0; }
+    .stat { background: #ecf0f1; padding: 15px; border-radius: 8px; text-align: center; }
+    .stat h3 { margin: 0; color: #2c3e50; }
+    .stat-value { font-size: 2em; font-weight: bold; }
+    .good { color: #27ae60; } .warn { color: #f39c12; } .bad { color: #e74c3c; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+    th { background: #34495e; color: white; }
+    .risk-high { background: #ffebee; } .risk-medium { background: #fff3e0; } .risk-low { background: #e8f5e8; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>🌉 Culbridge EUDR Compliance Report</h1>
+    <p>Generated: ${new Date().toLocaleString()}</p>
+  </div>
+  
+  <div class="summary">
+    <div class="stat"><h3>Total Shipments</h3><div class="stat-value">${summary.totalShipments}</div></div>
+    <div class="stat"><h3>Compliance Rate</h3><div class="stat-value ${complianceRate > 80 ? 'good' : complianceRate > 50 ? 'warn' : 'bad'}">${summary.complianceRate}</div></div>
+    <div class="stat"><h3>Avg Risk Score</h3><div class="stat-value">${summary.avgRiskScore}</div></div>
+    <div class="stat"><h3>High Risk</h3><div class="stat-value">${summary.highRisk}</div></div>
+  </div>
+  
+  <h2>Recent Shipments</h2>
+  <table>
+    <tr><th>Trace ID</th><th>Shipment ID</th><th>Product</th><th>Risk Level</th><th>Status</th></tr>
+    ${records.slice(-10).map(r => `
+      <tr class="risk-${(r.eudr_compliance?.risk_assessment?.risk_level || 'high').toLowerCase()}">
+        <td>${r.trace_id.slice(-8)}</td>
+        <td>${r.shipment_id}</td>
+        <td>${r.product || 'Unknown'}</td>
+        <td>${r.eudr_compliance?.risk_assessment?.risk_level || 'Unknown'}</td>
+        <td>${r.eudr_compliance?.compliance_status || 'Pending'}</td>
+      </tr>
+    `).join('')}
+  </table>
+  
+  <h2>Recent Audit Logs</h2>
+  <ul>
+    ${auditLogs.slice(-5).map(log => `<li>[${log.timestamp}] ${log.action}: ${JSON.stringify(log.details)}</li>`).join('')}
+  </ul>
+</body>
+</html>`;
+  
+  console.log('Generated compliance report:', summary);
+  return { html, summary, recordsCount: totalShipments };
 }
+
 
 module.exports = {
   createTraceabilityRecord,
