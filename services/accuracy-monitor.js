@@ -11,6 +11,11 @@
 const fs = require('fs');
 const path = require('path');
 
+const DATA_DIR = process.env.DATA_DIR || path.join(process.env.RENDER_DISK_PATH || '/tmp', 'culbridge', 'data');
+if (!fs.existsSync(DATA_DIR)) {
+  fs.mkdirSync(DATA_DIR, { recursive: true });
+}
+
 // ==================== CONFIGURATION ====================
 
 const config = {
@@ -57,7 +62,7 @@ function initialize() {
  * Load data from storage
  */
 function loadData() {
-  const dataPath = path.join(__dirname, '..', 'data', 'ground_truth.json');
+  const dataPath = path.join(DATA_DIR, 'ground_truth.json');
   try {
     if (fs.existsSync(dataPath)) {
       const data = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
@@ -77,11 +82,7 @@ function loadData() {
  * Save data to storage
  */
 function saveData() {
-  const dataDir = path.join(__dirname, '..', 'data');
-  if (!fs.existsSync(dataDir)) {
-    fs.mkdirSync(dataDir, { recursive: true });
-  }
-  const dataPath = path.join(dataDir, 'ground_truth.json');
+  const dataPath = path.join(DATA_DIR, 'ground_truth.json');
   fs.writeFileSync(dataPath, JSON.stringify({ outcomes }, null, 2));
 }
 

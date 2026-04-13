@@ -19,11 +19,16 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 
+const DATA_DIR = process.env.DATA_DIR || path.join(process.env.RENDER_DISK_PATH || '/tmp', 'culbridge', 'data');
+if (!fs.existsSync(DATA_DIR)) {
+  fs.mkdirSync(DATA_DIR, { recursive: true });
+}
+
 // ==================== CONFIGURATION ====================
 
 const config = {
   // Storage path
-  dataPath: path.join(__dirname, '..', 'data', 'traces_certificates.json'),
+  dataPath: path.join(DATA_DIR, 'traces_certificates.json'),
   
   // Certificate status options
   validStatuses: ['VALID', 'CONFIRMED', 'VERIFIED'],
@@ -78,10 +83,6 @@ async function loadCertificates() {
  */
 async function saveCertificates() {
   try {
-    const dataDir = path.dirname(config.dataPath);
-    if (!fs.existsSync(dataDir)) {
-      fs.mkdirSync(dataDir, { recursive: true });
-    }
     fs.writeFileSync(config.dataPath, JSON.stringify(certificates, null, 2));
   } catch (error) {
     console.error('Failed to save certificates:', error.message);

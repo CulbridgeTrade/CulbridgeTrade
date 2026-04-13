@@ -10,6 +10,11 @@
 const fs = require('fs');
 const path = require('path');
 
+const DATA_DIR = process.env.DATA_DIR || path.join(process.env.RENDER_DISK_PATH || '/tmp', 'culbridge', 'data');
+if (!fs.existsSync(DATA_DIR)) {
+  fs.mkdirSync(DATA_DIR, { recursive: true });
+}
+
 // ==================== IN-MEMORY STORAGE ====================
 
 let fixRules = [];
@@ -47,7 +52,7 @@ function initialize() {
  * Load fix rules
  */
 function loadFixRules() {
-  const dataPath = path.join(__dirname, '..', 'data', 'fix_rules.json');
+  const dataPath = path.join(DATA_DIR, 'fix_rules.json');
   try {
     if (fs.existsSync(dataPath)) {
       const data = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
@@ -66,11 +71,7 @@ function loadFixRules() {
  * Save fix rules
  */
 function saveFixRules() {
-  const dataDir = path.join(__dirname, '..', 'data');
-  if (!fs.existsSync(dataDir)) {
-    fs.mkdirSync(dataDir, { recursive: true });
-  }
-  const dataPath = path.join(dataDir, 'fix_rules.json');
+  const dataPath = path.join(DATA_DIR, 'fix_rules.json');
   fs.writeFileSync(dataPath, JSON.stringify({ fixRules }, null, 2));
 }
 

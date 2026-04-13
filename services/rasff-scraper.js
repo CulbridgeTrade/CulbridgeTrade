@@ -16,6 +16,11 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 
+const DATA_DIR = process.env.DATA_DIR || path.join(process.env.RENDER_DISK_PATH || '/tmp', 'culbridge', 'data');
+if (!fs.existsSync(DATA_DIR)) {
+  fs.mkdirSync(DATA_DIR, { recursive: true });
+}
+
 // ==================== CONFIGURATION ====================
 
 const config = {
@@ -36,8 +41,8 @@ const config = {
   notifyOn: ['salmonella', 'aflatoxin', 'pesticide'],
   
   // Storage
-  dataPath: path.join(__dirname, '..', 'data', 'rasff_live.json'),
-  historyPath: path.join(__dirname, '..', 'data', 'rasff_history.json')
+  dataPath: path.join(DATA_DIR, 'rasff_live.json'),
+  historyPath: path.join(DATA_DIR, 'rasff_history.json')
 };
 
 // ==================== IN-MEMORY STORAGE ====================
@@ -176,10 +181,6 @@ async function loadLiveAlerts() {
  */
 async function saveLiveAlerts() {
   try {
-    const dataDir = path.dirname(config.dataPath);
-    if (!fs.existsSync(dataDir)) {
-      fs.mkdirSync(dataDir, { recursive: true });
-    }
     fs.writeFileSync(config.dataPath, JSON.stringify(liveAlerts, null, 2));
   } catch (error) {
     console.error('Failed to save live alerts:', error.message);

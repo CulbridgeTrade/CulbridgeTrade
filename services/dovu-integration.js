@@ -13,6 +13,11 @@
 const fs = require('fs');
 const path = require('path');
 
+const DATA_DIR = process.env.DATA_DIR || path.join(process.env.RENDER_DISK_PATH || '/tmp', 'culbridge', 'data');
+if (!fs.existsSync(DATA_DIR)) {
+  fs.mkdirSync(DATA_DIR, { recursive: true });
+}
+
 // ==================== CONFIGURATION ====================
 
 const config = {
@@ -39,9 +44,9 @@ const config = {
   ],
   
   // Storage
-  dataPath: path.join(__dirname, '..', 'data', 'dovu_credits.json'),
-  projectsPath: path.join(__dirname, '..', 'data', 'dovu_projects.json'),
-  certificatesPath: path.join(__dirname, '..', 'data', 'dovu_certificates.json')
+  dataPath: path.join(DATA_DIR, 'dovu_credits.json'),
+  projectsPath: path.join(DATA_DIR, 'dovu_projects.json'),
+  certificatesPath: path.join(DATA_DIR, 'dovu_certificates.json')
 };
 
 // ==================== IN-MEMORY STORAGE ====================
@@ -237,10 +242,6 @@ async function loadData() {
  */
 function saveData() {
   try {
-    const dataDir = path.dirname(config.projectsPath);
-    if (!fs.existsSync(dataDir)) {
-      fs.mkdirSync(dataDir, { recursive: true });
-    }
     fs.writeFileSync(config.projectsPath, JSON.stringify(projects, null, 2));
     fs.writeFileSync(config.certificatesPath, JSON.stringify(certificates, null, 2));
   } catch (error) {

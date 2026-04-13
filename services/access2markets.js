@@ -15,6 +15,11 @@
 const fs = require('fs');
 const path = require('path');
 
+const DATA_DIR = process.env.DATA_DIR || path.join(process.env.RENDER_DISK_PATH || '/tmp', 'culbridge', 'data');
+if (!fs.existsSync(DATA_DIR)) {
+  fs.mkdirSync(DATA_DIR, { recursive: true });
+}
+
 // ==================== CONFIGURATION ====================
 
 const config = {
@@ -36,7 +41,7 @@ const config = {
   ],
   
   // Storage path
-  dataPath: path.join(__dirname, '..', 'data', 'compliance_rules.json')
+  dataPath: path.join(DATA_DIR, 'compliance_rules.json')
 };
 
 // ==================== IN-MEMORY STORAGE ====================
@@ -162,10 +167,6 @@ async function loadRules() {
  */
 async function saveRules() {
   try {
-    const dataDir = path.dirname(config.dataPath);
-    if (!fs.existsSync(dataDir)) {
-      fs.mkdirSync(dataDir, { recursive: true });
-    }
     fs.writeFileSync(config.dataPath, JSON.stringify(complianceRules, null, 2));
   } catch (error) {
     console.error('Failed to save rules:', error.message);

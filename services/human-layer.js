@@ -16,6 +16,11 @@
 const fs = require('fs');
 const path = require('path');
 
+const DATA_DIR = process.env.DATA_DIR || path.join(process.env.RENDER_DISK_PATH || '/tmp', 'culbridge', 'data');
+if (!fs.existsSync(DATA_DIR)) {
+  fs.mkdirSync(DATA_DIR, { recursive: true });
+}
+
 // ==================== IN-MEMORY STORAGE ====================
 
 let exporters = [];
@@ -113,7 +118,7 @@ function initialize() {
  * Load exporters
  */
 function loadExporters() {
-  const dataPath = path.join(__dirname, '..', 'data', 'human_layer.json');
+  const dataPath = path.join(DATA_DIR, 'human_layer.json');
   try {
     if (fs.existsSync(dataPath)) {
       const data = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
@@ -132,11 +137,7 @@ function loadExporters() {
  * Save exporters
  */
 function saveExporters() {
-  const dataDir = path.join(__dirname, '..', 'data');
-  if (!fs.existsSync(dataDir)) {
-    fs.mkdirSync(dataDir, { recursive: true });
-  }
-  const dataPath = path.join(dataDir, 'human_layer.json');
+  const dataPath = path.join(DATA_DIR, 'human_layer.json');
   fs.writeFileSync(dataPath, JSON.stringify({ exporters }, null, 2));
 }
 

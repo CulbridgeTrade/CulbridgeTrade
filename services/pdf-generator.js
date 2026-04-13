@@ -16,6 +16,12 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 
+const DATA_DIR = process.env.DATA_DIR || path.join(process.env.RENDER_DISK_PATH || '/tmp', 'culbridge', 'data');
+const STORAGE_PATH = path.join(DATA_DIR, 'pdfs');
+if (!fs.existsSync(STORAGE_PATH)) {
+  fs.mkdirSync(STORAGE_PATH, { recursive: true });
+}
+
 // ReportLab imports - using platypus for structured documents
 let SimpleDocTemplate, Paragraph, Table, TableStyle, Spacer, PageBreak, Image;
 let BaseFont, Helvetica, HelveticaBold;
@@ -31,7 +37,6 @@ try {
 }
 
 // Configuration
-const STORAGE_PATH = process.env.PDF_STORAGE_PATH || '/storage/pdfs';
 const PDF_HASH_ALGORITHM = 'sha256';
 
 /**
@@ -44,17 +49,7 @@ class PDFGeneratorService {
    * @param {Object} config - Configuration object
    */
   constructor(config = {}) {
-    this.storagePath = config.storagePath || STORAGE_PATH;
-    this.ensureStorageDirectory();
-  }
-
-  /**
-   * Ensure storage directory exists
-   */
-  ensureStorageDirectory() {
-    if (!fs.existsSync(this.storagePath)) {
-      fs.mkdirSync(this.storagePath, { recursive: true });
-    }
+    this.storagePath = STORAGE_PATH;
   }
 
   /**

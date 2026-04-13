@@ -13,6 +13,11 @@
 const fs = require('fs');
 const path = require('path');
 
+const DATA_DIR = process.env.DATA_DIR || path.join(process.env.RENDER_DISK_PATH || '/tmp', 'culbridge', 'data');
+if (!fs.existsSync(DATA_DIR)) {
+  fs.mkdirSync(DATA_DIR, { recursive: true });
+}
+
 // ==================== CONFIGURATION ====================
 
 const config = {
@@ -43,9 +48,9 @@ const config = {
   ],
   
   // Storage
-  dataPath: path.join(__dirname, '..', 'data', 'ushahidi_alerts.json'),
-  reportsPath: path.join(__dirname, '..', 'data', 'ushahidi_reports.json'),
-  pricesPath: path.join(__dirname, '..', 'data', 'ushahidi_prices.json')
+  dataPath: path.join(DATA_DIR, 'ushahidi_alerts.json'),
+  reportsPath: path.join(DATA_DIR, 'ushahidi_reports.json'),
+  pricesPath: path.join(DATA_DIR, 'ushahidi_prices.json')
 };
 
 // ==================== IN-MEMORY STORAGE ====================
@@ -258,10 +263,6 @@ async function loadData() {
  */
 function saveData() {
   try {
-    const dataDir = path.dirname(config.dataPath);
-    if (!fs.existsSync(dataDir)) {
-      fs.mkdirSync(dataDir, { recursive: true });
-    }
     fs.writeFileSync(config.dataPath, JSON.stringify(alerts, null, 2));
     fs.writeFileSync(config.pricesPath, JSON.stringify(prices, null, 2));
   } catch (error) {
