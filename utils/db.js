@@ -1,7 +1,13 @@
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
+const fs = require('fs');
 
-const DB_PATH = path.join(__dirname, '..', 'culbridge.db');
+const DATA_DIR = process.env.DATA_DIR || path.join(process.env.RENDER_DISK_PATH || '/tmp', 'culbridge', 'data');
+if (!fs.existsSync(DATA_DIR)) {
+  fs.mkdirSync(DATA_DIR, { recursive: true });
+}
+
+const DB_PATH = process.env.DATABASE_PATH || path.join(DATA_DIR, 'culbridge.db');
 
 let db;
 

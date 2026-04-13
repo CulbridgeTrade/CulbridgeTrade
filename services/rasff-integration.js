@@ -2,7 +2,8 @@
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 
-const DB_PATH = path.join(__dirname, '../culbridge.db');
+const DATA_DIR = process.env.DATA_DIR || path.join(process.env.RENDER_DISK_PATH || '/tmp', 'culbridge', 'data');
+const DB_PATH = process.env.DATABASE_PATH || path.join(DATA_DIR, 'culbridge.db');
 
 async function getRasffAlerts(commodity) {
   return new Promise((resolve, reject) => {
