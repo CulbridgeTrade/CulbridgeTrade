@@ -1,4 +1,4 @@
-FROM node:18-alpine
+FROM node:20.17-alpine
 
 WORKDIR /app
 
@@ -8,7 +8,7 @@ RUN apk add --no-cache python3 make g++
 # Dependency layer
 COPY package*.json ./
 
-RUN npm ci --omit=dev --no-audit --no-fund
+RUN npm install --omit=dev --no-audit --no-fund
 
 # Application layer
 COPY . .
