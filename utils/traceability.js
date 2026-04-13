@@ -393,5 +393,4 @@ module.exports = {
   getAllTraceabilityRecords,
   getAuditLogs,
   generateTraceId,
-  generateComplianceReport  // Export stub
 };
