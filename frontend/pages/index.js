@@ -1,8 +1,5 @@
 import Head from 'next/head';
-import CulbridgeSubmissionForm from '../CulbridgeSubmissionForm';
-import CulbridgeAdminDashboard from '../CulbridgeAdminDashboard';
-import CulbridgeExporterDashboard from '../CulbridgeExporterDashboard';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const C = {
   navy: "#0B1929",
@@ -14,13 +11,21 @@ const C = {
 };
 
 export default function Home() {
-  const [currentView, setCurrentView] = useState('submission');
+  const [backendStatus, setBackendStatus] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const views = [
-    { id: 'submission', label: 'Submission Form', icon: '📝' },
-    { id: 'admin', label: 'Admin Dashboard', icon: '⚙️' },
-    { id: 'exporter', label: 'Exporter Dashboard', icon: '📦' },
-  ];
+  useEffect(() => {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/health`)
+      .then(r => r.json())
+      .then(data => {
+        setBackendStatus(data);
+        setLoading(false);
+      })
+      .catch(err => {
+        setBackendStatus({ error: err.message });
+        setLoading(false);
+      });
+  }, []);
 
   return (
     <>
@@ -28,51 +33,29 @@ export default function Home() {
         <title>Culbridge - Nigeria-EU Trade Compliance Platform</title>
         <meta name="description" content="Production-ready shipment submission form for Culbridge Trade Compliance Platform" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display" rel="stylesheet" />
       </Head>
 
-      <div style={{ minHeight: '100vh', background: C.navy }}>
-        {/* Navigation */}
-        <nav style={{
-          background: C.navyLight,
-          borderBottom: '1px solid #1E3A5F',
-          padding: '12px 24px',
-          display: 'flex',
-          gap: '8px',
-          position: 'sticky',
-          top: 0,
-          zIndex: 1000,
-        }}>
-          <div style={{ fontWeight: 800, fontSize: 20, marginRight: 'auto' }}>
-            <span style={{ color: C.white }}>Cul</span><span style={{ color: C.orange }}>bridge</span>
-          </div>
-          {views.map(view => (
-            <button
-              key={view.id}
-              onClick={() => setCurrentView(view.id)}
-              style={{
-                padding: '8px 16px',
-                border: 'none',
-                borderRadius: '6px',
-                background: currentView === view.id ? C.orange : 'transparent',
-                color: currentView === view.id ? C.white : C.textMuted,
-                cursor: 'pointer',
-                fontWeight: 500,
-                fontFamily: "'Outfit', sans-serif",
-                transition: 'all 0.2s',
-              }}
-            >
-              {view.icon} {view.label}
-            </button>
-          ))}
-        </nav>
-
-        {/* Main Content */}
-        <main style={{ padding: '24px' }}>
-          {currentView === 'submission' && <CulbridgeSubmissionForm />}
-          {currentView === 'admin' && <CulbridgeAdminDashboard />}
-          {currentView === 'exporter' && <CulbridgeExporterDashboard />}
-        </main>
+      <div style={{ minHeight: '100vh', background: C.navy, padding: '40px', fontFamily: "'Outfit', sans-serif" }}>
+        <h1 style={{ color: C.white, fontSize: 32 }}>
+          <span style={{ color: C.orange }}>Cul</span>bridge
+        </h1>
+        
+        <div style={{ marginTop: 40, padding: 20, background: C.navyLight, borderRadius: 8, border: '1px solid #1E3A5F' }}>
+          <h2 style={{ color: C.white }}>Backend Connection Test</h2>
+          
+          {loading ? (
+            <p style={{ color: C.textMuted }}>Checking backend...</p>
+          ) : backendStatus?.error ? (
+            <p style={{ color: '#E53E3E' }}>❌ Backend unreachable: {backendStatus.error}</p>
+          ) : (
+            <p style={{ color: '#1a7a4a' }}>✅ Backend connected: {JSON.stringify(backendStatus)}</p>
+          )}
+          
+          <p style={{ color: C.textMuted, marginTop: 10, fontSize: 12 }}>
+            API URL: {process.env.NEXT_PUBLIC_API_URL || 'NOT SET'}
+          </p>
+        </div>
       </div>
 
       <style jsx global>{`
@@ -81,6 +64,10 @@ export default function Home() {
           font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
           background: #0B1929;
         }
+      `}</style>
+    </>
+  );
+}
       `}</style>
     </>
   );
