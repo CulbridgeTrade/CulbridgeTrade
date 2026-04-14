@@ -5,9 +5,7 @@
  */
 
 import { useState, useEffect, useCallback } from "react";
-
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3000/v1";
-const WS_BASE = process.env.NEXT_PUBLIC_WS_BASE_URL || "ws://localhost:3000/v1";
+import api from "../lib/api";
 
 const getToken = () => localStorage.getItem("culbridge_access_token") || "";
 
@@ -50,7 +48,7 @@ async function apiCall(method: string, path: string, body?: unknown) {
   const config: RequestInit = { method, headers };
   if (body) config.body = JSON.stringify(body);
 
-  const res = await fetch(`${API_BASE}${path}`, config);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${path}`, config);
   if (!res.ok) {
     const data = await res.json().catch(() => ({}));
     throw new Error(data.message || `HTTP ${res.status}`);
@@ -141,9 +139,9 @@ const AdminShipmentDashboard = ({
       if (filters.commodity) params.set("commodity", filters.commodity);
 
       const [shipmentsData, statsData, activityData] = await Promise.all([
-        apiCall("GET", `/shipments?${params.toString()}`),
-        apiCall("GET", "/shipments/stats"),
-        apiCall("GET", "/shipments/activity?limit=20"),
+        apiCall("GET", `/api/v1/shipments?${params.toString()}`),
+        apiCall("GET", "/api/v1/shipments/stats"),
+        apiCall("GET", "/api/v1/shipments/activity?limit=20"),
       ]);
 
       setShipments(shipmentsData.shipments || shipmentsData || []);

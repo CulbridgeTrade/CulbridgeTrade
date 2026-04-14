@@ -5,45 +5,28 @@
  */
 
 import { useState, useEffect, useRef, useCallback } from "react";
+import api from "./lib/api";
 
-// CONFIG
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000/v1';
-const WS_BASE = process.env.NEXT_PUBLIC_WS_BASE_URL || 'ws://localhost:3000/v1';
-
-// AUTH - Replace
 function getToken() { return localStorage.getItem("culbridge_access_token") || ""; }
 function getUserRole() { return localStorage.getItem("culbridge_user_role") || "compliance_officer"; }
 function getUserName() { return localStorage.getItem("culbridge_user_name") || "Team Member"; }
 
-// Permissions
-const can = {
-  override: role => role === "admin" || role === "founder",
-  manageRasff: role => role === "admin" || role === "founder",
-  exportAudit: role => role === "admin" || role === "founder",
-  seeFullHealth: role => role === "admin" || role === "founder",
-  seeFounderAttr: role => role === "founder",
-};
-
-// NAV
-const NAV_ITEMS = [
-  { id: "shipments", label: "Shipments", icon: "📦" },
-  { id: "rasff", label: "RASFF Alerts", icon: "🚨" },
-  { id: "health", label: "System Health", icon: "🩺" },
-  { id: "audit", label: "Audit Log", icon: "📋" },
-];
-
-// API CALL
+// API CALL - uses lib/api but allows custom paths
 async function apiCall(method, path, body) {
   const token = getToken();
   const headers = { Authorization: `Bearer ${token}`, "Content-Type": "application/json" };
   const config = { method, headers };
   if (body) config.body = JSON.stringify(body);
   
-  const res = await fetch(`${API_BASE}${path}`, config);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${path}`, config);
   if (!res.ok) {
     const data = await res.json().catch(() => ({}));
     throw new Error(data.message || `HTTP ${res.status}`);
   }
+  const ct = res.headers.get("content-type") || "";
+  if (ct.includes("pdf") || ct.includes("csv")) return await res.blob();
+  return await res.json();
+}
   const ct = res.headers.get("content-type") || "";
   if (ct.includes("pdf") || ct.includes("csv")) return await res.blob();
   return await res.json();

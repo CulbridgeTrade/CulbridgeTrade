@@ -5,11 +5,7 @@
  * Plug this component into your Next.js app.
  *
  * ENVIRONMENT VARIABLE REQUIRED:
- *   NEXT_PUBLIC_API_BASE_URL=http://localhost:3000/v1
- *
- * AUTH REQUIREMENT:
- *   Replace getToken() at the bottom of this file with your real JWT source.
- *   Every API call sends: Authorization: Bearer <token>
+ *   NEXT_PUBLIC_API_URL=https://culbridgetrade.onrender.com
  *
  * DEPENDENCIES:
  *   React (hooks: useState, useEffect, useRef, useCallback)
@@ -17,9 +13,7 @@
  */
 
 import { useState, useEffect, useRef, useCallback } from "react";
-
-// CONFIGURATION
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000/v1';
+import api from "../lib/api";
 
 // COLORS
 const C = {
@@ -653,24 +647,9 @@ function CulbridgeSubmissionForm() {
 
   const getToken = () => localStorage.getItem("culbridge_access_token") || "";
 
-  const apiCall = async (method, path, body) => {
-    const token = getToken();
-    const res = await fetch(`${API_BASE}${path}`, {
-      method,
-      headers: { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" },
-      body: body ? JSON.stringify(body) : undefined,
-    });
-    if (!res.ok) {
-      const err = await res.json().catch(() => ({ message: "API error" }));
-      throw new Error(err.message || "API error");
-    }
-    return res.json();
-  };
-
-  // Auto-save functionality
   const saveSubmission = useCallback(async () => {
     try {
-      await apiCall("POST", "/shipments/autosave", submission);
+      await api.post("/api/v1/shipments/autosave", submission);
       setLastSaved("just now");
     } catch (e) {
       console.error("Autosave failed:", e);
@@ -710,7 +689,7 @@ function CulbridgeSubmissionForm() {
 
   const fetchRequirements = async () => {
     try {
-      const result = await apiCall("GET", `/requirements?commodity=${submission.commodity}&destination=${submission.destination}`);
+      const result = await api.get(`/api/v1/requirements?commodity=${submission.commodity}&destination=${submission.destination}`);
       setRequirements(result);
     } catch (e) {
       console.error("Failed to fetch requirements:", e);
@@ -720,7 +699,7 @@ function CulbridgeSubmissionForm() {
   const runComplianceCheck = async () => {
     setLoading(true);
     try {
-      const result = await apiCall("POST", "/engine/evaluate", {
+      const result = await api.post("/api/v1/engine/evaluate", {
         commodity: submission.commodity,
         destination: submission.destination,
         documents: submission.documents,
@@ -738,7 +717,7 @@ function CulbridgeSubmissionForm() {
     setLoading(true);
     try {
       // Check for duplicate
-      const preSubmitCheck = await apiCall("POST", "/shipments/pre-submit-check", submission);
+      const preSubmitCheck = await api.post("/api/v1/shipments/pre-submit-check", submission);
       
       if (preSubmitCheck.duplicateDetected) {
         setPreviousSubmission(preSubmitCheck.previousSubmission);
@@ -754,7 +733,7 @@ function CulbridgeSubmissionForm() {
         return;
       }
 
-      const result = await apiCall("POST", "/shipments", submission);
+      const result = await api.post("/api/v1/shipments", submission);
       setSubmissionRef(result.referenceNumber);
       setSubmissionComplete(true);
     } catch (e) {

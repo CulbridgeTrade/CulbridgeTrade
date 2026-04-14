@@ -77,9 +77,24 @@ const limiter = rateLimit({
   max: 100
 });
 app.use(limiter);
+const allowedOrigins = [
+  "https://culbridge.cloud",
+  "https://www.culbridge.cloud",
+  "https://culbridge-trade.vercel.app",
+  "https://*.vercel.app"
+];
+
 app.use(cors({
-  origin: process.env.ALLOWED_ORIGINS || 'https://localhost:3000'
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+    return callback(new Error("CORS blocked: " + origin));
+  }
 }));
+app.use('/api/v1/health', (req, res, next) => next());
+app.use('/api/v1/rules', (req, res, next) => next());
+app.use('/api/v1/requirements', (req, res, next) => next());
+app.use('/api/v1/labs', (req, res, next) => next());
 app.use('/api', require('./middleware/auth').verifyToken);
 app.use(bodyParser.json({ limit: '10mb' }));
 app.use(express.static('public'));
@@ -92,13 +107,17 @@ app.use((err, req, res, next) => {
 
 // initDB will be called after listen
 
-app.get('/health', (req, res) => {
+// Health check moved under /api/v1 per contract
+app.get('/api/v1/health', (req, res) => {
   res.json({ status: 'ok', timestamp: Date.now() });
 });
 
 app.get('/', (req, res) => {
   res.json({ status: 'Culbridge API running', health: 'ok', timestamp: Date.now(), port: PORT });
 });
+
+// API v1 Routes
+app.use('/api/v1', require('./routes/api'));
 
 app.listen(PORT, '0.0.0.0', async () => {
   console.log(`SERVER READY on port ${PORT}`);

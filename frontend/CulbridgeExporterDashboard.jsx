@@ -6,19 +6,12 @@
  */
 
 import { useState, useEffect, useRef, useCallback } from "react";
+import api from "./lib/api";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000/v1';
-const WS_BASE = process.env.NEXT_PUBLIC_WS_BASE_URL || 'ws://localhost:3000/v1';
-
-// Replace with your auth
-localStorage.getItem('jwt_token');
-
+const getToken = () => localStorage.getItem("culbridge_access_token") || "";
 const getShipments = async (filters) => {
   const params = new URLSearchParams(filters).toString();
-  const res = await fetch(`${API_BASE}/shipments?${params}`, {
-    headers: { Authorization: `Bearer ${getToken()}` }
-  });
-  return res.json();
+  return api.get(`/api/v1/shipments?${params}`);
 };
 
 const withdrawShipment = async (shipmentId, reason) => {
