@@ -1,0 +1,85 @@
+{
+  "rules": [
+    {
+      "id": "EU-MRL-001",
+      "type": "threshold",
+      "priority": 100,
+      "scope": {
+        "product": ["all_agricultural"],
+        "origin": ["NG"],
+        "destination": ["EU"]
+      },
+      "condition": {
+        "field": "dichlorvos_residue",
+        "operator": ">",
+        "value": 0.01,
+        "unit": "mg/kg"
+      },
+      "action": "REJECT",
+      "reason": "Pesticide residue exceeds EU Maximum Residue Limit"
+    },
+    {
+      "id": "EU-CONTAM-002",
+      "type": "threshold",
+      "priority": 95,
+      "scope": {
+        "product": ["groundnuts", "beans", "spices", "seeds"],
+        "origin": ["NG"],
+        "destination": ["EU"]
+      },
+      "condition": {
+        "field": "aflatoxin_b1",
+        "operator": ">",
+        "value": 10,
+        "unit": "ug/kg"
+      },
+      "action": "REJECT",
+      "reason": "Aflatoxin contamination exceeds EU safety threshold"
+    },
+    {
+      "id": "EU-PHYT-003",
+      "type": "document",
+      "priority": 100,
+      "scope": {
+        "product": ["fresh_produce"],
+        "destination": ["EU"]
+      },
+      "condition": {
+        "field": "documents",
+        "operator": "NOT_CONTAINS",
+        "value": "phytosanitary_certificate"
+      },
+      "action": "REJECT",
+      "reason": "Missing mandatory phytosanitary certificate"
+    },
+    {
+      "id": "EU-DOC-CCI-004",
+      "type": "document",
+      "priority": 90,
+      "scope": {
+        "origin": ["NG"]
+      },
+      "condition": {
+        "field": "documents",
+        "operator": "NOT_CONTAINS",
+        "value": "cci"
+      },
+      "action": "REVIEW",
+      "reason": "Missing Clean Certificate of Inspection"
+    },
+    {
+      "id": "EU-EUDR-005",
+      "type": "conditional",
+      "priority": 100,
+      "scope": {
+        "product": ["cocoa", "rubber"]
+      },
+      "condition": {
+        "field": "geolocation_data",
+        "operator": "MISSING"
+      },
+      "action": "REJECT",
+      "reason": "EUDR requires farm-level geolocation data"
+    }
+  ]
+}
