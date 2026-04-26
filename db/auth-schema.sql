@@ -1,158 +1,194 @@
--- Culbridge Authentication Database Schema
--- User accounts, sessions, OTP verification
+-- =========================================================
+-- CULBRIDGE AUTH SYSTEM - POSTGRESQL PRODUCTION SCHEMA
+-- =========================================================
 
--- ============================================
--- Users table
--- ============================================
 
-CREATE TABLE IF NOT EXISTS Users (
+-- =========================================================
+-- USERS
+-- =========================================================
+CREATE TABLE IF NOT EXISTS users (
     id VARCHAR(50) PRIMARY KEY,
     email VARCHAR(255) UNIQUE NOT NULL,
-    password_hash VARCHAR(64) NOT NULL,
-    salt VARCHAR(32) NOT NULL,
-    role VARCHAR(20) DEFAULT 'EXPORTER' CHECK (role IN ('EXPORTER', 'AGENT', 'ADMIN', 'COMPLIANCE')),
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    last_login_at DATETIME,
-    status VARCHAR(20) DEFAULT 'ACTIVE' CHECK (status IN ('ACTIVE', 'SUSPENDED', 'DELETED')),
-    INDEX idx_email (email),
-    INDEX idx_role (role)
+    password_hash TEXT NOT NULL,
+
+    role VARCHAR(20) NOT NULL DEFAULT 'EXPORTER'
+        CHECK (role IN ('EXPORTER', 'AGENT', 'ADMIN', 'COMPLIANCE')),
+
+    status VARCHAR(20) NOT NULL DEFAULT 'ACTIVE'
+        CHECK (status IN ('ACTIVE', 'SUSPENDED', 'DELETED')),
+
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    last_login_at TIMESTAMP
 );
 
--- ============================================
--- Entities (Companies/Exporters)
--- ============================================
+CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
+CREATE INDEX IF NOT EXISTS idx_users_role ON users(role);
 
-CREATE TABLE IF NOT EXISTS Entities (
+
+
+-- =========================================================
+-- ENTITIES (COMPANIES / EXPORTERS)
+-- =========================================================
+CREATE TABLE IF NOT EXISTS entities (
     id VARCHAR(50) PRIMARY KEY,
-    user_id VARCHAR(50) NOT NULL,
+    user_id VARCHAR(50) NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+
     name VARCHAR(255) NOT NULL,
     tin VARCHAR(20) UNIQUE NOT NULL,
     address TEXT,
     rc_number VARCHAR(50),
-    tier VARCHAR(20) DEFAULT 'STANDARD' CHECK (tier IN ('STANDARD', 'PREMIUM', 'AEO')),
-    is_verified BOOLEAN DEFAULT 0,
-    aeo_status BOOLEAN DEFAULT 0,
+
+    tier VARCHAR(20) NOT NULL DEFAULT 'STANDARD'
+        CHECK (tier IN ('STANDARD', 'PREMIUM', 'AEO')),
+
+    is_verified BOOLEAN NOT NULL DEFAULT FALSE,
+    aeo_status BOOLEAN NOT NULL DEFAULT FALSE,
     aeo_expiry_date DATE,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES Users(id),
-    INDEX idx_user (user_id),
-    INDEX idx_tin (tin)
+
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
--- ============================================
--- Sessions table
--- ============================================
+CREATE INDEX IF NOT EXISTS idx_entities_user_id ON entities(user_id);
+CREATE INDEX IF NOT EXISTS idx_entities_tin ON entities(tin);
 
-CREATE TABLE IF NOT EXISTS Sessions (
+
+
+-- =========================================================
+-- SESSIONS (JWT / LOGIN TRACKING)
+-- =========================================================
+CREATE TABLE IF NOT EXISTS sessions (
     id VARCHAR(50) PRIMARY KEY,
-    user_id VARCHAR(50) NOT NULL,
-    token VARCHAR(64) NOT NULL,
-    token_hash VARCHAR(64) NOT NULL UNIQUE,
-    expires_at DATETIME NOT NULL,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    last_activity_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    user_id VARCHAR(50) NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+
+    token_hash TEXT NOT NULL UNIQUE,
+    expires_at TIMESTAMP NOT NULL,
+
     ip_address VARCHAR(45),
     user_agent TEXT,
-    FOREIGN KEY (user_id) REFERENCES Users(id),
-    INDEX idx_user (user_id),
-    INDEX idx_token_hash (token_hash),
-    INDEX idx_expires (expires_at)
+
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    last_activity_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
--- ============================================
--- OTP table
--- ============================================
+CREATE INDEX IF NOT EXISTS idx_sessions_user_id ON sessions(user_id);
+CREATE INDEX IF NOT EXISTS idx_sessions_token_hash ON sessions(token_hash);
+CREATE INDEX IF NOT EXISTS idx_sessions_expires_at ON sessions(expires_at);
 
-CREATE TABLE IF NOT EXISTS OTPs (
+
+
+-- =========================================================
+-- OTP VERIFICATION
+-- =========================================================
+CREATE TABLE IF NOT EXISTS otps (
     id VARCHAR(50) PRIMARY KEY,
     request_id VARCHAR(50) UNIQUE NOT NULL,
+
     phone VARCHAR(20) NOT NULL,
-    code VARCHAR(4) NOT NULL,
-    purpose VARCHAR(50) DEFAULT 'SIGNUP',
-    expires_at DATETIME NOT NULL,
-    used BOOLEAN DEFAULT 0,
-    verified_at DATETIME,
-    attempts INTEGER DEFAULT 0,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    INDEX idx_phone (phone),
-    INDEX idx_request (request_id),
-    INDEX idx_expires (expires_at)
+    code VARCHAR(10) NOT NULL,
+
+    purpose VARCHAR(50) NOT NULL DEFAULT 'SIGNUP',
+
+    expires_at TIMESTAMP NOT NULL,
+
+    used BOOLEAN NOT NULL DEFAULT FALSE,
+    verified_at TIMESTAMP,
+
+    attempts INTEGER NOT NULL DEFAULT 0,
+
+    created_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
--- ============================================
--- User Export Categories
--- ============================================
+CREATE INDEX IF NOT EXISTS idx_otps_phone ON otps(phone);
+CREATE INDEX IF NOT EXISTS idx_otps_request_id ON otps(request_id);
+CREATE INDEX IF NOT EXISTS idx_otps_expires_at ON otps(expires_at);
 
-CREATE TABLE IF NOT EXISTS UserExportCategories (
+
+
+-- =========================================================
+-- USER EXPORT CATEGORIES
+-- =========================================================
+CREATE TABLE IF NOT EXISTS user_export_categories (
     id VARCHAR(50) PRIMARY KEY,
-    user_id VARCHAR(50) NOT NULL,
+    user_id VARCHAR(50) NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+
     category VARCHAR(50) NOT NULL,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES Users(id),
-    UNIQUE(user_id, category),
-    INDEX idx_user (user_id)
+
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+
+    UNIQUE(user_id, category)
 );
 
--- ============================================
--- Authentication Logs (Audit)
--- ============================================
+CREATE INDEX IF NOT EXISTS idx_user_export_categories_user_id
+ON user_export_categories(user_id);
 
-CREATE TABLE IF NOT EXISTS AuthLogs (
+
+
+-- =========================================================
+-- AUTH AUDIT LOGS
+-- =========================================================
+CREATE TABLE IF NOT EXISTS auth_logs (
     id VARCHAR(50) PRIMARY KEY,
-    user_id VARCHAR(50),
+    user_id VARCHAR(50) REFERENCES users(id) ON DELETE SET NULL,
+
     event_type VARCHAR(50) NOT NULL,
+
     ip_address VARCHAR(45),
     user_agent TEXT,
-    details JSON,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    INDEX idx_user (user_id),
-    INDEX idx_event (event_type),
-    INDEX idx_created (created_at)
+
+    details JSONB,
+
+    created_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
--- ============================================
--- Sample Users (for testing)
--- ============================================
+CREATE INDEX IF NOT EXISTS idx_auth_logs_user_id ON auth_logs(user_id);
+CREATE INDEX IF NOT EXISTS idx_auth_logs_event_type ON auth_logs(event_type);
+CREATE INDEX IF NOT EXISTS idx_auth_logs_created_at ON auth_logs(created_at);
 
-INSERT OR IGNORE INTO Users (id, email, password_hash, salt, role, status)
-VALUES 
-('USER-001', 'admin@culbridge.com', 'a1b2c3d4e5f6789012345678901234567890123456789012345678901234abcd', 'salt001', 'ADMIN', 'ACTIVE'),
-('USER-002', 'exporter@acme.com', 'b2c3d4e5f6789012345678901234567890123456789012345678901234abcd', 'salt002', 'EXPORTER', 'ACTIVE');
 
-INSERT OR IGNORE INTO Entities (id, user_id, name, tin, address, tier, is_verified, aeo_status)
-VALUES 
-('ENT-001', 'USER-001', 'Culbridge Limited', '01234567-0001', 'Lagos, Nigeria', 'AEO', 1, 1),
-('ENT-002', 'USER-002', 'Acme Export Ltd', '01234568-0002', 'Port Harcourt, Nigeria', 'STANDARD', 1, 0);
 
--- ============================================
--- Login attempt rate limiting
--- ============================================
-
-CREATE TABLE IF NOT EXISTS LoginAttempts (
+-- =========================================================
+-- LOGIN ATTEMPTS (RATE LIMITING)
+-- =========================================================
+CREATE TABLE IF NOT EXISTS login_attempts (
     id VARCHAR(50) PRIMARY KEY,
+
     email VARCHAR(255) NOT NULL,
     ip_address VARCHAR(45) NOT NULL,
-    attempts INTEGER DEFAULT 1,
-    locked_until DATETIME,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    INDEX idx_email (email),
-    INDEX idx_ip (ip_address)
+
+    attempts INTEGER NOT NULL DEFAULT 1,
+    locked_until TIMESTAMP,
+
+    created_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
--- ============================================
--- Password reset tokens
--- ============================================
+CREATE INDEX IF NOT EXISTS idx_login_attempts_email ON login_attempts(email);
+CREATE INDEX IF NOT EXISTS idx_login_attempts_ip ON login_attempts(ip_address);
 
-CREATE TABLE IF NOT EXISTS PasswordResetTokens (
+
+
+-- =========================================================
+-- PASSWORD RESET TOKENS
+-- =========================================================
+CREATE TABLE IF NOT EXISTS password_reset_tokens (
     id VARCHAR(50) PRIMARY KEY,
-    user_id VARCHAR(50) NOT NULL,
-    token VARCHAR(64) NOT NULL UNIQUE,
-    expires_at DATETIME NOT NULL,
-    used BOOLEAN DEFAULT 0,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES Users(id),
-    INDEX idx_user (user_id),
-    INDEX idx_token (token)
+    user_id VARCHAR(50) NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+
+    token TEXT NOT NULL UNIQUE,
+    expires_at TIMESTAMP NOT NULL,
+
+    used BOOLEAN NOT NULL DEFAULT FALSE,
+
+    created_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
+
+CREATE INDEX IF NOT EXISTS idx_password_reset_user_id ON password_reset_tokens(user_id);
+CREATE INDEX IF NOT EXISTS idx_password_reset_token ON password_reset_tokens(token);
+
+
+
+-- =========================================================
+-- OPTIONAL: CLEANUP TRIGGER (UPDATED_AT)
+-- =========================================================
+-- (You can add trigger later if needed)
