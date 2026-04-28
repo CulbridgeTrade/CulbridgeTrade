@@ -85,13 +85,7 @@ class ShipmentEvaluator {
   /**
    * Get current shipment data
    */
-  async getShipment(shipmentId) {
-    const shipment = await db.get(`
-      SELECT s.*, e.name as exporter_name, e.verified as exporter_verified
-      FROM Shipments s
-      LEFT JOIN Entities e ON s.exporter_id = e.id
-      WHERE s.id = ?
-    `, [shipmentId]);
+async getShipment(shipmentId) {\n    const shipment = await db.get(`\n      SELECT s.*, e.name as exporter_name, e.verified as exporter_verified\n      FROM Shipments s\n      LEFT JOIN Entities e ON s.exporter_id = e.id\n      WHERE s.id = ?\n    `, [shipmentId]);
 
     if (!shipment) return null;
 
@@ -99,7 +93,8 @@ class ShipmentEvaluator {
     return {
       ...shipment,
       commodity: shipment.commodity_data ? JSON.parse(shipment.commodity_data) : {},
-      destination: shipment.destination_data ? JSON.parse(shipment.destination_data) : {}
+      destination: shipment.destination_data ? JSON.parse(shipment.destination_data) : {},
+      labResults: shipment.lab_results ? JSON.parse(shipment.lab_results) : []
     };
   }
 
@@ -197,72 +192,86 @@ class ShipmentEvaluator {
    * Evaluate compliance
    */
   async evaluateCompliance(shipment) {
-    const flags = [];
-    let status = 'PASS';
+const ruleResults: RuleResult[] = [];
+    let status = 'PASS' as ComplianceStatus;
 
-    // Check HS Code
-    if (!shipment.commodity?.hsCode) {
-      flags.push({
-        code: 'HS_CODE_MISSING',
-        severity: 'BLOCKER',
-        message: 'HS Code is required',
-        actionRequired: true
+    // Rule 1: HS Code missing
+    const hsRule: RuleResult = {
+      ruleId: 'HS_CODE_MISSING',
+      status: shipment.commodity?.hsCode ? 'PASS' : 'FAIL',
+      inputSnapshot: { hsCode: shipment.commodity?.hsCode, description: shipment.commodity?.description },
+      message: shipment.commodity?.hsCode ? undefined : 'HS Code is required',
+      evaluatedAt: new Date().toISOString()
+    };
+    ruleResults.push(hsRule);
+    if (hsRule.status === 'FAIL') status = 'BLOCKER';
+
+    // Rule 2: Exporter missing
+    const exporterRule: RuleResult = {
+      ruleId: 'EXPORTER_MISSING',
+      status: shipment.exporter_id ? 'PASS' : 'FAIL',
+      inputSnapshot: { exporter_id: shipment.exporter_id },
+      message: shipment.exporter_id ? undefined : 'Exporter is required',
+      evaluatedAt: new Date().toISOString()
+    };
+    ruleResults.push(exporterRule);
+    if (exporterRule.status === 'FAIL') status = 'BLOCKER';
+
+    // Rule 3: Destination missing
+    const destinationRule: RuleResult = {
+      ruleId: 'DESTINATION_MISSING',
+      status: shipment.destination?.country ? 'PASS' : 'FAIL',
+      inputSnapshot: { destination: shipment.destination },
+      message: shipment.destination?.country ? undefined : 'Destination country is required',
+      evaluatedAt: new Date().toISOString()
+    };
+    ruleResults.push(destinationRule);
+    if (destinationRule.status === 'FAIL') status = 'BLOCKER';
+
+    // Rule 4: EUDR traceability for EU
+    const eudrRule: RuleResult = {
+      ruleId: 'EUDR_TRACEABILITY_MISSING',
+      status: !(shipment.destination?.country === 'EU' || shipment.destination?.country === 'NL') || shipment.eudr_compliant ? 'PASS' : 'FAIL',
+      inputSnapshot: { destination: shipment.destination, eudr_compliant: shipment.eudr_compliant },
+      message: shipment.eudr_compliant ? undefined : 'EUDR traceability data required for EU exports',
+      evaluatedAt: new Date().toISOString()
+    };
+    ruleResults.push(eudrRule);
+    if (eudrRule.status === 'FAIL') status = 'BLOCKER';
+
+    // Rule 5: Description too short (WARNING)
+    const descriptionRule = {
+      ruleId: 'DESCRIPTION_TOO_SHORT',
+      status: !(shipment.commodity?.description && shipment.commodity.description.length < 20) ? 'PASS' : 'WARNING',
+      inputSnapshot: { description: shipment.commodity?.description },
+      message: shipment.commodity?.description && shipment.commodity.description.length < 20 ? 'Product description should be more detailed' : undefined,
+      evaluatedAt: new Date().toISOString()
+    };
+    ruleResults.push(descriptionRule);
+    if (descriptionRule.status === 'WARNING') status = 'WARNING';
+
+    // Phase 1: Lab & MRL rules
+    const Access2Markets = require('./access2markets');
+    const documentsUploaded = await this.evaluateDocuments(shipment.id, shipment);
+    if (shipment.labResults && shipment.labResults.length > 0) {
+      const labRules = Access2Markets.validate({
+        hsCode: shipment.commodity.hsCode,
+        labResults: shipment.labResults,
+        documents: documentsUploaded.uploaded.map(d => d.type),
+        commodity: shipment.category
       });
-      status = 'BLOCKER';
-    }
-
-    // Check documents (will be added from documents evaluation)
-    // Check entity
-    if (!shipment.exporter_id) {
-      flags.push({
-        code: 'EXPORTER_MISSING',
-        severity: 'BLOCKER',
-        message: 'Exporter is required',
-        actionRequired: true
-      });
-      if (status !== 'BLOCKER') status = 'BLOCKER';
-    }
-
-    // Check destination
-    if (!shipment.destination?.country) {
-      flags.push({
-        code: 'DESTINATION_MISSING',
-        severity: 'BLOCKER',
-        message: 'Destination country is required',
-        actionRequired: true
-      });
-      if (status !== 'BLOCKER') status = 'BLOCKER';
-    }
-
-    // Check EUDR for EU destinations
-    if (shipment.destination?.country === 'EU' || shipment.destination?.country === 'NL') {
-      if (!shipment.eudr_compliant) {
-        flags.push({
-          code: 'EUDR_TRACEABILITY_MISSING',
-          severity: 'BLOCKER',
-          message: 'EUDR traceability data required for EU exports',
-          actionRequired: true
-        });
-        if (status !== 'BLOCKER') status = 'BLOCKER';
-      }
-    }
-
-    // Add WARNING for incomplete commodity description
-    if (shipment.commodity?.description && shipment.commodity.description.length < 20) {
-      flags.push({
-        code: 'DESCRIPTION_TOO_SHORT',
-        severity: 'WARNING',
-        message: 'Product description should be more detailed',
-        actionRequired: false
-      });
-      if (status === 'PASS') status = 'WARNING';
+      ruleResults.push(...labRules);
+      const labBlockers = labRules.filter(r => r.status === 'BLOCKER');
+      if (labBlockers.length > 0) status = 'BLOCKER';
     }
 
     return {
       status,
-      flags
+      evaluatedAt: new Date().toISOString(),
+      ruleResults
     };
   }
+
 
   /**
    * Calculate fees
@@ -375,8 +384,7 @@ class ShipmentEvaluator {
         missing: results.documents.missing
       },
 
-      compliance: {
-        status: results.compliance.status,
+
         flags: results.compliance.flags
       },
 
@@ -438,6 +446,7 @@ class ShipmentEvaluator {
         status = ?,
         commodity_data = ?,
         destination_data = ?,
+        lab_results = ?,
         compliance_status = ?,
         compliance_flags = ?,
         submission_ready = ?,
@@ -449,12 +458,30 @@ class ShipmentEvaluator {
       finalStatus,
       JSON.stringify(fullShipment.commodity),
       JSON.stringify(fullShipment.destination),
+      JSON.stringify(fullShipment.labResults || []),
       fullShipment.compliance.status,
-      JSON.stringify(fullShipment.compliance.flags),
+      JSON.stringify(fullShipment.compliance.ruleResults || fullShipment.compliance.flags),
       fullShipment.submission.ready ? 1 : 0,
       JSON.stringify(fullShipment.submission.errors),
       shipmentId
     ]);
+
+    // Phase 1: Log RuleResults to evaluation_events
+    if (fullShipment.compliance && fullShipment.compliance.ruleResults) {
+      for (const rule of fullShipment.compliance.ruleResults) {
+        await db.run(`
+          INSERT INTO evaluation_events (shipment_id, rule_id, status, input_snapshot, message, evaluated_at)
+          VALUES (?, ?, ?, ?, ?, ?)
+        `, [
+          shipmentId,
+          rule.ruleId,
+          rule.status,
+          JSON.stringify(rule.inputSnapshot),
+          rule.message,
+          rule.evaluatedAt
+        ]);
+      }
+    }
   }
 }
 

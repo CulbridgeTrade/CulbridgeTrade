@@ -1,0 +1,73 @@
+[
+  {
+    "id": "THRESH_SESAME_NG-NL_AFLB1",
+    "version": "1.0.0",
+    "commodityScope": ["sesame"],
+    "corridorScope": ["NG-NL"],
+    "hazard": "aflatoxinB1",
+    "maxAllowed": 2.0,
+    "unit": "μg/kg",
+    "isZeroTolerance": false,
+    "condition": {
+      "field": "labResults[?(@.testType=='aflatoxinB1')].value",
+      "operator": ">",
+      "value": 2.0
+    },
+    "severity": "BLOCKER",
+    "source": {
+      "regulation": "EU 2023/915",
+      "reference": "Article 4"
+    }
+  },
+  {
+    "id": "THRESH_SESAME_NG-NL_AFLTOTAL",
+    "version": "1.0.0",
+    "commodityScope": ["sesame"],
+    "corridorScope": ["NG-NL"],
+    "hazard": "aflatoxinTotal",
+    "maxAllowed": 4.0,
+    "unit": "μg/kg",
+    "condition": {
+      "field": "labResults[?(@.testType=='aflatoxinTotal')].value",
+      "operator": ">",
+      "value": 4.0
+    },
+    "severity": "BLOCKER"
+  },
+  {
+    "id": "THRESH_COCOA_NG-NL_CADMIUM",
+    "version": "1.0.0",
+    "commodityScope": ["cocoa"],
+    "corridorScope": ["NG-NL"],
+    "hazard": "cadmium",
+    "maxAllowed": 0.5,
+    "unit": "mg/kg",
+    "condition": {
+      "field": "labResults[?(@.testType=='cadmium')].value",
+      "operator": ">",
+      "value": 0.5
+    },
+    "severity": "BLOCKER"
+  },
+  {
+    "id": "THRESH_SESAME_NG-NL_SALMONELLA",
+    "version": "1.0.0",
+    "commodityScope": ["sesame"],
+    "corridorScope": ["NG-NL"],
+    "hazard": "salmonella",
+    "maxAllowed": 0,
+    "unit": "cfu/25g",
+    "isZeroTolerance": true,
+    "severity": "BLOCKER"
+  },
+  {
+    "id": "THRESH_GROUNDNUTS_NG-NL_AFLB1",
+    "version": "1.0.0",
+    "commodityScope": ["groundnuts"],
+    "corridorScope": ["NG-NL"],
+    "hazard": "aflatoxinB1",
+    "maxAllowed": 8.0,
+    "unit": "μg/kg",
+    "severity": "BLOCKER"
+  }
+]

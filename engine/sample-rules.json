@@ -1,0 +1,70 @@
+{
+  "rules": [
+    {
+      "id": "EU-MRL-001",
+      "type": "threshold",
+      "priority": 100,
+      "scope": {
+        "product": ["dried_beans", "sesame", "cocoa"],
+        "origin": ["NG"],
+        "destination": ["EU", "NL", "DE"]
+      },
+      "condition": {
+        "field": "dichlorvos_residue",
+        "operator": ">",
+        "value": 0.01,
+        "unit": "mg/kg"
+      },
+      "action": "REJECT",
+      "reason": "Exceeds EU pesticide threshold"
+    },
+    {
+      "id": "LAB-REPORT-REQUIRED",
+      "type": "document",
+      "priority": 90,
+      "scope": {
+        "product": ["sesame", "cocoa"],
+        "destination": ["NL", "DE"]
+      },
+      "condition": {
+        "field": "documents",
+        "operator": "NOT_IN",
+        "value": ["LAB_REPORT"]
+      },
+      "action": "REVIEW",
+      "reason": "Lab report required for import control"
+    },
+    {
+      "id": "AFLATOXIN-B1-LIMIT",
+      "type": "threshold",
+      "priority": 95,
+      "scope": {
+        "product": ["sesame"],
+        "origin": ["NG"],
+        "destination": ["EU"]
+      },
+      "condition": {
+        "field": "aflatoxinB1",
+        "operator": ">",
+        "value": 2.0,
+        "unit": "μg/kg"
+      },
+      "action": "REJECT",
+      "reason": "Aflatoxin B1 exceeds EU MRL of 2.0 μg/kg"
+    },
+    {
+      "id": "COO-REQUIRED",
+      "type": "document",
+      "priority": 80,
+      "scope": {},
+      "condition": {
+        "field": "documents",
+        "operator": "NOT_IN",
+        "value": ["COO"]
+      },
+      "action": "REVIEW",
+      "reason": "Certificate of Origin mandatory for all exports"
+    }
+  ]
+}
+

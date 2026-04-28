@@ -22,18 +22,17 @@ export interface LabEntity {
 }
 
 /**
- * Lab Result with full traceability
+ * Lab Result - V1.1 SPEC (canonical for all shipments)
  */
-export interface LabResult {
-  substance: string;            // e.g., "aflatoxinB1", "ethylene_oxide"
-  value: number;
-  unit: string;                 // normalized: "mg/kg", "μg/kg"
-  labId: string;                // reference to LabEntity.id
+export type LabResult = {
+  testType: string;            // e.g. "salmonella", "aflatoxin_b1"
+  result: "PASS" | "FAIL" | "ABSENT" | "PRESENT";
+  value?: number;              // optional numeric measurement
+  unit?: string;               // e.g. µg/kg, ppm
+  accredited: boolean;         // ISO/IEC 17025 check
+  labName?: string;
   testDate: string;
-  method?: string;             // e.g., "HPLC", "GC-MS"
-  reportHash: string;          // SHA256 hash of original report
-  reportUrl?: string;          // storage reference
-}
+};
 
 /**
  * Shipment with lab integration
@@ -42,9 +41,7 @@ export interface ShipmentWithLab {
   id: string;
   product: string;              // commodity
   corridor: string;             // origin → destination
-  labResults: {
-    [substance: string]: LabResult;
-  };
+  labResults: LabResult[];
   status: 'DRAFT' | 'VALIDATING' | 'READY' | 'REJECTED';
 }
 
@@ -63,7 +60,7 @@ export interface LabVerificationResult {
 /**
  * Required fields for any lab result
  */
-export const REQUIRED_LAB_FIELDS = ['labId', 'value', 'unit', 'testDate', 'reportHash'];
+export const REQUIRED_LAB_FIELDS = ['testType', 'result', 'testDate', 'accredited'] as (keyof LabResult)[];
 
 /**
  * Check if all required lab data fields are present
@@ -86,7 +83,7 @@ export function evaluateLabResult(result: LabResult, lab: LabEntity | null): Lab
       valid: false,
       error: {
         code: 'LAB_NOT_FOUND',
-        message: `Lab "${result.labId}" not found in registry`
+        message: `Lab validation failed for test "${result.testType}" - lab not found in registry`
       }
     };
   }

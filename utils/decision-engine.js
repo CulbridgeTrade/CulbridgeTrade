@@ -1221,15 +1221,8 @@ async function runValidationTest(shipments) {
   };
 }
 
-// Initialize on load
-initializeCalibration();
-
-// Initialize new services
-accuracyMonitor.initialize();
-fixOptimizer.initialize();
-adversarialDetector.initialize();
-humanLayer.initialize();
-console.log('Decision Engine: All services initialized');
+// Services initialization moved to server.js bootstrap (no import-time side effects)
+initializeCalibration(); // Local - safe
 
 module.exports = {
   // Core

@@ -1,39 +1,26 @@
 /**
- * Decision Accuracy Monitor Service
- * 
- * Purpose: Measure real-world correctness of the decision engine.
- * Tracks false positives, false negatives, precision, recall, and economic accuracy.
- * Must be API-accessible and auditable.
- * 
- * Integration: Decision Engine, Deterministic Engine
+ * Decision Accuracy Monitor Service - REFACTORED for safe initialization
+ * No import-time side effects
+ * FS operations only during explicit async initialize()
  */
 
 const fs = require('fs');
 const path = require('path');
 
-const DATA_DIR = process.env.DATA_DIR || path.join(process.env.RENDER_DISK_PATH || '/tmp', 'culbridge', 'data');
-if (!fs.existsSync(DATA_DIR)) {
-  fs.mkdirSync(DATA_DIR, { recursive: true });
-}
-
-// ==================== CONFIGURATION ====================
+const DATA_DIR = process.env.DATA_DIR || "/tmp/data";
 
 const config = {
-  // Thresholds from spec
-  fnrThreshold: 0.1,           // Alert if >10%
-  lossErrorThreshold: 0.3,       // Alert if >30%
+  fnrThreshold: 0.1,
+  lossErrorThreshold: 0.3,
   precisionTarget: 0.7,
   minSampleSize: 50
 };
 
-// ==================== IN-MEMORY STORAGE ====================
-
 let outcomes = [];
 let predictions = [];
 
-// ==================== SAMPLE DATA ====================
-
 const sampleOutcomes = [
+  // ... same sample data as original
   { shipment_id: 'COCOA-NG-001', predicted_decision: 'SHIP', actual_outcome: 'cleared', predicted_loss_usd: 500, actual_loss_usd: 0, confidence: 0.85, sample_size: 10 },
   { shipment_id: 'COCOA-NG-002', predicted_decision: 'SHIP', actual_outcome: 'cleared', predicted_loss_usd: 1200, actual_loss_usd: 3000, confidence: 0.75, sample_size: 10 },
   { shipment_id: 'COCOA-GH-001', predicted_decision: 'SHIP', actual_outcome: 'cleared', predicted_loss_usd: 200, actual_loss_usd: 0, confidence: 0.92, sample_size: 10 },
@@ -46,22 +33,27 @@ const sampleOutcomes = [
   { shipment_id: 'BEANS-NG-001', predicted_decision: 'SHIP', actual_outcome: 'cleared', predicted_loss_usd: 1500, actual_loss_usd: 0, confidence: 0.78, sample_size: 10 }
 ];
 
-// ==================== CORE FUNCTIONS ====================
+async function ensureDir(dir) {
+  try {
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
+  } catch (error) {
+    console.warn(`Data dir creation warning (may exist): ${error.message}`);
+  }
+}
 
-/**
- * Initialize service
- */
-function initialize() {
+async function initialize() {
   console.log('Decision Accuracy Monitor initializing...');
-  loadData();
+  
+  await ensureDir(DATA_DIR);
+  await loadData();
+  
   console.log(`Accuracy Monitor: ${outcomes.length} outcomes loaded`);
   return true;
 }
 
-/**
- * Load data from storage
- */
-function loadData() {
+async function loadData() {
   const dataPath = path.join(DATA_DIR, 'ground_truth.json');
   try {
     if (fs.existsSync(dataPath)) {
@@ -69,27 +61,22 @@ function loadData() {
       outcomes = data.outcomes || [];
     } else {
       outcomes = sampleOutcomes;
-      saveData();
+      await saveData();
     }
   } catch (error) {
     console.log('Loading sample accuracy data...');
     outcomes = sampleOutcomes;
-    saveData();
+    await saveData();
   }
 }
 
-/**
- * Save data to storage
- */
-function saveData() {
+async function saveData() {
   const dataPath = path.join(DATA_DIR, 'ground_truth.json');
   fs.writeFileSync(dataPath, JSON.stringify({ outcomes }, null, 2));
 }
 
-/**
- * Attach actual outcome (ground truth) - called when shipment completes
- */
 function attachOutcome(shipmentId, actualOutcome, actualLoss, predictedDecision = null, predictedLoss = null, confidence = null, sampleSize = null) {
+  // ... same as original
   const existing = outcomes.find(o => o.shipment_id === shipmentId);
   
   if (existing) {
@@ -116,10 +103,8 @@ function attachOutcome(shipmentId, actualOutcome, actualLoss, predictedDecision 
   return { success: true, shipment_id: shipmentId };
 }
 
-/**
- * Record prediction snapshot
- */
 function recordPrediction(shipmentData, prediction) {
+  // ... same as original
   const snapshot = {
     shipment_id: shipmentData.shipment_id || shipmentData.id,
     predicted_decision: prediction.decision,
@@ -128,7 +113,6 @@ function recordPrediction(shipmentData, prediction) {
     timestamp: new Date().toISOString()
   };
   
-  // Store in outcomes as pending actual
   const existing = outcomes.find(o => o.shipment_id === snapshot.shipment_id);
   if (!existing) {
     outcomes.push({
@@ -142,10 +126,8 @@ function recordPrediction(shipmentData, prediction) {
   return snapshot;
 }
 
-/**
- * Compute accuracy metrics for a period
- */
 function computeAccuracyMetrics(periodStart = null, periodEnd = null) {
+  // ... exact same as original
   let rows = outcomes.filter(o => o.actual_outcome !== null);
   
   if (periodStart) {
@@ -198,7 +180,6 @@ function computeAccuracyMetrics(periodStart = null, periodEnd = null) {
     false_negative_rate: Math.round(falseNegativeRate * 100) / 100,
     avg_economic_error: Math.round(avgEconomicError * 100) / 100,
     sample_size: sampleSize,
-    // Detailed breakdown
     true_positives: truePositives,
     false_positives: falsePositives,
     false_negatives: falseNegatives,
@@ -206,13 +187,10 @@ function computeAccuracyMetrics(periodStart = null, periodEnd = null) {
   };
 }
 
-/**
- * Get accuracy metrics (for API)
- */
 function getAccuracy(periodStart = null, periodEnd = null) {
+  // ... same as original
   const metrics = computeAccuracyMetrics(periodStart, periodEnd);
   
-  // Add health status based on thresholds
   let health = 'HEALTHY';
   if (metrics.false_negative_rate > config.fnrThreshold) {
     health = 'DEGRADED';
@@ -241,10 +219,8 @@ function getAccuracy(periodStart = null, periodEnd = null) {
   };
 }
 
-/**
- * Get all outcomes
- */
 function getOutcomes(filters = {}) {
+  // ... same as original
   let result = [...outcomes];
   
   if (filters.actual_outcome) {
@@ -260,17 +236,13 @@ function getOutcomes(filters = {}) {
   return result;
 }
 
-/**
- * Get configuration
- */
 function getConfig() {
+  // ... same
   return {
     ...config,
     outcomes_count: outcomes.length
   };
 }
-
-// ==================== EXPORTS ====================
 
 module.exports = {
   initialize,

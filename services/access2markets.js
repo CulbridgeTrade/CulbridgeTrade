@@ -318,92 +318,87 @@ function getSpecialConditions(hsCode) {
  * Validate shipment against Access2Markets rules
  * Integration point: deterministic_engine.validate()
  */
-function validate(shipmentData) {
-  const { hsCode, labResults, documents, specialConditions: shipmentConditions } = shipmentData;
-  
-  const validationResult = {
-    passed: true,
-    violations: [],
-    warnings: [],
-    requiredDocuments: getRequiredDocuments(hsCode),
-    specialConditions: getSpecialConditions(hsCode)
+/**
+ * LabResult type (Phase 1)
+ */
+const LabResult = {
+  testType: '',
+  result: 'PASS' | 'FAIL' | 'ABSENT' | 'PRESENT',
+  value: 0,
+  unit: '',
+  accredited: false,
+  labName: '',
+  testDate: ''
+};
+
+/**
+ * RuleResult type (Phase 1)
+ */
+const RuleResult = {
+  ruleId: '',
+  status: 'PASS' | 'WARNING' | 'BLOCKER',
+  inputSnapshot: {},
+  message: '',
+  evaluatedAt: ''
+};
+
+function validate({ hsCode, labResults, documents = [], commodity }) {
+  const ruleResults = [];
+
+  // Doc check rule
+  const requiredDocs = getRequiredDocuments(hsCode);
+  const missingDocs = requiredDocs.filter(doc => !documents.includes(doc));
+  const docRule = {
+    ruleId: 'DOC_MISSING',
+    status: missingDocs.length === 0 ? 'PASS' : 'BLOCKER',
+    inputSnapshot: { hsCode, required: requiredDocs, found: documents, missing },
+    message: missingDocs.length > 0 ? `Missing: ${missingDocs.join(', ')}` : undefined,
+    evaluatedAt: new Date().toISOString()
   };
-  
-  // Check MRL compliance
-  if (labResults && labResults.pesticides) {
-    for (const [pesticide, value] of Object.entries(labResults.pesticides)) {
-      const mrl = getMRL(hsCode, pesticide);
-      if (mrl && value > mrl.mrlLimit) {
-        validationResult.passed = false;
-        validationResult.violations.push({
-          type: 'MRL_EXCEEDED',
-          pesticide,
-          found: value,
-          limit: mrl.mrlLimit,
-          unit: mrl.unit,
-          severity: 'HARD'
+  ruleResults.push(docRule);
+
+  // Lab MRL checks (array)
+  if (labResults && Array.isArray(labResults)) {
+    for (const lab of labResults) {
+      const mrl = getMRL(hsCode, lab.testType);
+      if (mrl && lab.value && lab.value > mrl.mrlLimit) {
+        ruleResults.push({
+          ruleId: `MRL_${lab.testType.toUpperCase()}`,
+          status: 'BLOCKER',
+          inputSnapshot: { testType: lab.testType, value: lab.value, unit: lab.unit, limit: mrl.mrlLimit },
+          message: `${lab.testType} exceeds MRL (${lab.value}${lab.unit} > ${mrl.mrlLimit}${mrl.unit})`,
+          evaluatedAt: new Date().toISOString()
         });
       }
+      // Accredited lab check
+      const accreditedRule = {
+        ruleId: 'LAB_UNACCREDITED',
+        status: lab.accredited ? 'PASS' : 'WARNING',
+        inputSnapshot: { labName: lab.labName, accredited: lab.accredited, testDate: lab.testDate },
+        message: lab.accredited ? undefined : 'Lab must be accredited (ISO 17025)',
+        evaluatedAt: new Date().toISOString()
+      };
+      ruleResults.push(accreditedRule);
     }
   }
-  
-  // Check required documents
-  if (documents) {
-    const missingDocs = validationResult.requiredDocuments.filter(
-      doc => !documents.includes(doc)
-    );
-    
-    if (missingDocs.length > 0) {
-      validationResult.passed = false;
-      validationResult.violations.push({
-        type: 'MISSING_DOCUMENTS',
-        missing: missingDocs,
-        severity: 'HARD'
+
+  // Special conditions (commodity specific)
+  const conditions = getSpecialConditions(hsCode);
+  if (conditions) {
+    // Moisture check (assume in labResults or specialConditions)
+    const moistureLab = labResults.find(l => l.testType === 'moisture');
+    if (conditions.maxMoistureContent && moistureLab && moistureLab.value > conditions.maxMoistureContent) {
+      ruleResults.push({
+        ruleId: 'MOISTURE_HIGH',
+        status: 'WARNING',
+        inputSnapshot: { value: moistureLab.value, limit: conditions.maxMoistureContent },
+        message: `Moisture exceeds limit`,
+        evaluatedAt: new Date().toISOString()
       });
     }
   }
-  
-  // Check special conditions
-  if (shipmentConditions) {
-    const conditions = getSpecialConditions(hsCode);
-    if (conditions) {
-      if (conditions.maxAflatoxinB1 && labResults.aflatoxinB1 > conditions.maxAflatoxinB1) {
-        validationResult.passed = false;
-        validationResult.violations.push({
-          type: 'AFLATOXIN_EXCEEDED',
-          found: labResults.aflatoxinB1,
-          limit: conditions.maxAflatoxinB1,
-          severity: 'HARD'
-        });
-      }
-      
-      if (conditions.maxTotalAflatoxins && labResults.totalAflatoxins > conditions.maxTotalAflatoxins) {
-        validationResult.passed = false;
-        validationResult.violations.push({
-          type: 'TOTAL_AFLATOXINS_EXCEEDED',
-          found: labResults.totalAflatoxins,
-          limit: conditions.maxTotalAflatoxins,
-          severity: 'HARD'
-        });
-      }
-      
-      if (conditions.maxMoistureContent && shipmentConditions.moistureContent > conditions.maxMoistureContent) {
-        validationResult.warnings.push({
-          type: 'MOISTURE_HIGH',
-          found: shipmentConditions.moistureContent,
-          limit: conditions.maxMoistureContent
-        });
-      }
-      
-      if (conditions.requiresPreShipmentInspection && !shipmentConditions.preShipmentInspection) {
-        validationResult.warnings.push({
-          type: 'PRE_SHIPMENT_INSPECTION_REQUIRED'
-        });
-      }
-    }
-  }
-  
-  return validationResult;
+
+  return ruleResults;
 }
 
 /**

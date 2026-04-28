@@ -6,6 +6,7 @@
  */
 
 import { EngineOutput } from './engine-output';
+import type { LabResult } from './lab';
 
 /**
  * Auditable field wrapper - every critical value gets a hash and version
@@ -45,16 +46,8 @@ export interface AuditableShipment {
     corridorCode: string;
   }>;
   
-  // Lab results (auditable per substance)
-  labResults: Record<string, AuditableField<{
-    value: number;
-    unit: string;
-    labId: string;
-    labVersion: string;
-    reportHash: string;
-    testDate: string;
-    substanceId: string;     // canonical substance ID
-  }>>;
+  // Lab results (V1.1 - structured array, each wrapped) - Migration: convert Record keys to testType
+  labResults: AuditableField<LabResult>[];
   
   // Documents (auditable per document type)
   documents: Record<string, AuditableField<{

@@ -1,0 +1,81 @@
+[
+  {
+    "product_id": "ginger",
+    "canonical_name": "Ginger",
+    "botanical_name": "Zingiber officinale",
+    "hs_code": "0910",
+    "category": "spices",
+    "aliases": ["fresh ginger", "dry ginger"],
+    "translations": {
+      "en": "Ginger",
+      "de": "Ingwer",
+      "nl": "Gember"
+    }
+  },
+  {
+    "product_id": "sesame",
+    "canonical_name": "Sesame seeds",
+    "botanical_name": "Sesamum indicum",
+    "hs_code": "1207",
+    "category": "seeds",
+    "aliases": ["sesame seeds", "sesamum"],
+    "translations": {
+      "en": "Sesame",
+      "de": "Sesam",
+      "nl": "Sezam"
+    }
+  },
+  {
+    "product_id": "cocoa",
+    "canonical_name": "Cocoa beans",
+    "botanical_name": "Theobroma cacao",
+    "hs_code": "1801",
+    "category": "cocoa",
+    "aliases": ["cocoa beans", "raw cocoa"],
+    "translations": {
+      "en": "Cocoa",
+      "de": "Kakao",
+      "nl": "Cacao"
+    }
+  },
+  {
+    "product_id": "groundnuts",
+    "canonical_name": "Groundnuts",
+    "botanical_name": "Arachis hypogaea",
+    "hs_code": "1202",
+    "category": "nuts",
+    "aliases": ["peanuts", "ground nuts"],
+    "translations": {
+      "en": "Groundnuts",
+      "de": "Erdnüsse",
+      "nl": "Pinda's"
+    }
+  },
+  {
+    "product_id": "cashew",
+    "canonical_name": "Cashew nuts",
+    "botanical_name": "Anacardium occidentale",
+    "hs_code": "0802",
+    "category": "nuts",
+    "aliases": ["cashew nuts"],
+    "translations": {
+      "en": "Cashew",
+      "de": "Cashew",
+      "nl": "Cashew"
+    }
+  },
+  {
+    "product_id": "beans",
+    "canonical_name": "Dried beans",
+    "botanical_name": "Phaseolus vulgaris",
+    "hs_code": "0713",
+    "category": "beans",
+    "aliases": ["dried beans"],
+    "translations": {
+      "en": "Beans",
+      "de": "Bohnen",
+      "nl": "Bonen"
+    }
+  }
+]
+

@@ -27,6 +27,24 @@ export const COMPLIANCE_STATUS = {
 export type ShipmentStatus = typeof SHIPMENT_STATUS[keyof typeof SHIPMENT_STATUS];
 export type ComplianceStatus = typeof COMPLIANCE_STATUS[keyof typeof COMPLIANCE_STATUS];
 
+export type LabResult = {
+  testType: string;            // e.g. "salmonella", "aflatoxin_b1"
+  result: "PASS" | "FAIL" | "ABSENT" | "PRESENT";
+  value?: number;              // optional numeric measurement
+  unit?: string;               // e.g. µg/kg, ppm
+  accredited: boolean;         // ISO/IEC 17025 check
+  labName?: string;
+  testDate: string;
+};
+
+export type RuleResult = {
+  ruleId: string;              // e.g. "AFB_LIMIT_EU"
+  status: "PASS" | "FAIL" | "WARNING";
+  inputSnapshot: any;          // data used in evaluation
+  message?: string;
+  evaluatedAt: string;
+};
+
 /**
  * Document type
  */
@@ -58,7 +76,7 @@ export interface Shipment {
   };
   
   // Lab results - dynamic key-value for any substance
-  labResults: Record<string, number | string | boolean>;
+  labResults: LabResult[];
   
   // Documents
   documents: {
@@ -125,7 +143,7 @@ export interface CreateShipmentInput {
  * Shipment evaluation payload
  */
 export interface EvaluateShipmentInput {
-  labResults?: Record<string, number | string | boolean>;
+  labResults?: LabResult[];
   documents?: string[];
   traceability?: Partial<Shipment['traceability']>;
 }
@@ -164,7 +182,7 @@ export function createEmptyShipment(id: string): Shipment {
     id,
     status: 'DRAFT',
     commodity: { description: '', hsCode: '', confidence: 0 },
-    labResults: {},
+    labResults: [],
     documents: { required: [], uploaded: [], missing: [] },
     traceability: { originChainComplete: false },
     compliance: { status: 'UNKNOWN', blockers: [], warnings: [], evaluatedAt: '', evaluatedBy: 'system' },

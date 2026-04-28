@@ -25,8 +25,7 @@ const rasffIngestion = require('../services/rasff-ingestion');
 const eudrCompliance = require('../services/eudr-compliance');
 const nvwaSimulator = require('./nvwa-simulator');
 const dynamicThresholds = require('./dynamic-threshold-engine');
-const fs = require('fs');
-const path = require('path');
+const { RuleResult } = require('./evaluation-pipeline');\nconst db = require('../utils/db');
 
 // ==================== CORE FUNCTIONS ====================
 
@@ -93,44 +92,7 @@ async function validate(shipmentData) {
     results.complianceFlags.riskScore = thresholdResult.riskProfile.computedRiskScore;
     
     // Evaluate lab results against adjusted thresholds
-    if (shipmentData.labResults) {
-      const labViolations = [];
-      for (const [hazard, value] of Object.entries(shipmentData.labResults)) {
-        if (thresholdResult.adjustedThresholds[hazard]) {
-          const evaluation = dynamicThresholds.evaluateLabResult(
-            { value },
-            thresholdResult.adjustedThresholds[hazard],
-            hazard
-          );
-          
-          // Log to threshold audit
-          dynamicThresholds.logThresholdAudit(
-            results.shipmentId,
-            `THRESHOLD_${hazard}`,
-            evaluation
-          );
-          
-          if (!evaluation.passed) {
-            labViolations.push({
-              hazard,
-              ...evaluation
-            });
-          }
-        }
-      }
-      
-      if (labViolations.length > 0) {
-        results.blocked = true;
-        results.blockReasons.push(...labViolations.map(v => ({
-          stage: 'DYNAMIC_THRESHOLD',
-          type: 'LAB_VIOLATION',
-          hazard: v.hazard,
-          message: v.message,
-          details: v.details,
-          severity: 'HARD'
-        })));
-      }
-    }
+    // Phase 1: Structured LabResult[] handling\n    const labSnapshot = shipmentData.labResults || [];\n    const labResults = Array.isArray(labSnapshot) ? labSnapshot : [];\n    \n    const labViolations = [];\n    const labRuleResults = [];\n    labResults.forEach((lab, index) => {\n      const hazard = lab.testType || `hazard_${index}`;\n      if (thresholdResult.adjustedThresholds[hazard]) {\n        const evaluation = dynamicThresholds.evaluateLabResult(\n          { value: lab.value },\n          thresholdResult.adjustedThresholds[hazard],\n          hazard\n        );\n        \n        const ruleResult = new RuleResult(\n          `LAB_TH_${hazard}`,\n          evaluation.passed ? 'PASS' : 'BLOCKER',\n          { lab, evaluation },\n          evaluation.message || ''\n        );\n        labRuleResults.push(ruleResult);\n        // Auto-logs to DB\n        \n        if (!evaluation.passed) {\n          labViolations.push({ hazard, ...evaluation, lab });\n        }\n      }\n    });\n    \n    results.ruleResults = labRuleResults;\n    if (labViolations.length > 0) {\n      results.blocked = true;\n      results.blockReasons.push(...labViolations.map(v => ({\n        stage: 'LAB',\n        type: 'LAB_VIOLATION',\n        ...v,\n        severity: 'HARD'\n      })));\n    }
     
     console.log(`  → Risk-adjusted thresholds computed`);
     console.log(`  Risk Score: ${thresholdResult.riskProfile.computedRiskScore}`);

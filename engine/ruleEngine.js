@@ -2,6 +2,7 @@ const fs = require('fs').promises;
 const path = require('path');
 const crypto = require('crypto');
 const { all, get, run } = require('../utils/db');
+const db = require('../utils/db');
 
 const ruleFiles = [
   'rules-v1.2-cocoa-nl.json', 'rules-v1.3-cocoa-de.json', 'rules-v1.2-sesame.json'
@@ -159,6 +160,75 @@ class RuleEngine {
     if (shipment.documents.length === 0) confidence -= 10;
     const level = confidence >= 80 ? 'HIGH' : confidence >= 60 ? 'MEDIUM' : 'LOW';
     return level;
+  }
+
+  /**
+   * Phase 1: runRules → RuleResult[] for evaluation pipeline
+   * Compatible with existing evaluate() method
+   */
+  async runRules(shipmentId, shipment) {
+    const ruleResults = [];
+    
+    try {
+      const allRules = await this.loadRules();
+      const applicableRules = this.filterApplicableRules(shipment, allRules);
+      
+      // Execute all rule types → RuleResult
+      const hardGateResult = await this.executeHardGates(shipmentId, shipment, applicableRules);
+      if (hardGateResult) {
+        const result = {
+          ruleId: 'HARD_GATES',
+          status: hardGateResult.status === 'BLOCKED' ? 'BLOCKER' : 'PASS',
+          inputSnapshot: hardGateResult,
+          message: `Hard gates: ${hardGateResult.blockers?.length || 0} blockers`
+        };
+        await this._logRuleResult(shipmentId, result);
+        ruleResults.push(result);
+        return ruleResults;
+      }
+
+      const penaltyResult = await this.executePenalties(shipmentId, shipment, applicableRules);
+      const trustResult = await this.executeTrustSignals(shipmentId, shipment, applicableRules);
+      
+      const finalScore = Math.max(0, Math.min(100, penaltyResult.score + trustResult.scoreBonus));
+      const status = this.computeStatus(finalScore);
+
+      const result = {
+        ruleId: 'SCORING_ENGINE',
+        status: status === 'BLOCKED' ? 'BLOCKER' : status === 'WARNING' ? 'WARNING' : 'PASS',
+        inputSnapshot: {
+          score: finalScore,
+          confidence_level: this.computeConfidence(shipment),
+          critical_issues: penaltyResult.critical_issues,
+          warnings: penaltyResult.warnings,
+          verified: trustResult.verified
+        },
+        message: `Final score: ${Math.round(finalScore)}/${100}`
+      };
+      
+      await this._logRuleResult(shipmentId, result);
+      ruleResults.push(result);
+      
+      return ruleResults;
+      
+    } catch (error) {
+      const errorResult = {
+        ruleId: 'RULE_ENGINE_ERROR',
+        status: 'BLOCKER',
+        inputSnapshot: { error: error.message, shipment },
+        message: `Pipeline error: ${error.message}`
+      };
+      await this._logRuleResult(shipmentId, errorResult);
+      ruleResults.push(errorResult);
+      return ruleResults;
+    }
+  }
+
+  async _logRuleResult(shipmentId, result) {
+    await db.run(`
+      INSERT INTO evaluation_events (shipment_id, rule_id, status, input_snapshot, message, evaluated_at)
+      VALUES (?, ?, ?, ?, ?, datetime('now'))
+    `, [shipmentId, result.ruleId, result.status, JSON.stringify(result.inputSnapshot), result.message]);
   }
 
   async saveEvaluation(shipmentId, evalData) {
